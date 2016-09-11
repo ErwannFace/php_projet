@@ -46,7 +46,7 @@ Pendant une heure, par groupes de 4 vous devrez travailler que sur le code PHP, 
 ## 11h30 : Analyse des résultats
 Discussion avec l'ensemble du groupe dans la salle aveugle. 
 
-## 12h15 : Plannification des taches 
+## 12h15 : Définition d'un trello "template"
 ## 13h30 : Repartition des taches par groupes
 ## 13h45 : Pomodoro
 ## 14h15 : Pomodoro

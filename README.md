@@ -34,7 +34,7 @@ Attention, un organisme de l'état ne prend jamais une décision seule et souhai
 La rigueur sur la documentation sera de mise. 
 
 # Lundi 12 Septembre
-## 9h30 : Présentation du projet - temps libre pour les entretiens.
+## 9h30 : Présentation du projet
 Pendant une heure, par groupes de 4 vous devrez travailler que sur le code PHP, la partie back. Vous ne devrez absolument pas vous concentrer sur la partie front:
 
 * comprendre le besoin du client 
@@ -53,8 +53,8 @@ Discussion avec l'ensemble du groupe dans la salle aveugle.
 ## 14h45 : SCRUM
 ## 15h00 : Pause
 ## 15h30 : Pair programming pomodoro
-## 16h15 : Pair programming pomodoro
-## 16h45 : Fusion GIT + Bug Fix
+## 16h00 : Pair programming pomodoro
+## 16h30 : Fusion GIT + Bug Fix
 
 # Mardi 13 Septembre
 ## 9h30 : Présentation des résultats

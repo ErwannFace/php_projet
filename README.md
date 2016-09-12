@@ -49,10 +49,10 @@ Discussion avec l'ensemble du groupe dans la salle aveugle.
 ## 12h15 : Définition d'un trello "template"
 ## 13h30 : Repartition des taches par groupes
 ## 13h45 : Pomodoro
-## 14h15 : Pomodoro
+## 14h15 : Pair programming pomodoro
 ## 14h45 : SCRUM
 ## 15h00 : Pause
-## 15h30 : Pair programming pomodoro
+## 15h30 : Pomodoro
 ## 16h00 : Pair programming pomodoro
 ## 16h30 : Fusion GIT + Bug Fix
 

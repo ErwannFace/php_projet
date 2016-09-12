@@ -2,9 +2,11 @@
 
 Un organisme de l'état vous demande de réaliser un site web dans le cadre d'une campagne pour la mixité. L'idée est de réaliser un site avec une rapide ressemblance à Pinterest. C'est à dire, une application où sont affichées de nombreux médias, facilement affichables et accessibles.
 
-L'objectif de l'application sera d'être modulable et responsive, afin qu'ils puissent l'utiliser sur de nombreuses thématiques. Si votre solution leurs plait, il se pourrait qu'ils utilisent cette application régionalement en "kit à installer" et faciliter le travail de nombreux autres employés.
+L'objectif de l'application sera d'être modulable et responsive, afin qu'ils puissent l'utiliser sur de nombreuses thématiques. Pas uniquement la mixité. Si votre solution leurs plait, il se pourrait qu'ils utilisent cette application régionalement en "kit à installer" et faciliter le travail de nombreux autres employés.
 
 Cette application de type SPA contiendra un grand dashboard, dans lequel, les utilisateurs connectés pourront rajouter du contenu à leur guise. Les contenus seront représentés sous forme de blocs, et sera facilement reconnaissable grâce à une vignette. Chaque bloc sera modifiable en largeur et longueur afin de pouvoir personnaliser la page du dashboard. 
+
+La pluspart des utilisateurs ne seront pas connectés.
 
 Si un utilisateur connecté ou non connecté clique sur un bloc, celui-ci s'agrandit afin de prendre toute la taille de la page et afficher les médias. 
 
@@ -16,6 +18,8 @@ La partie d'administration doit être très intuitive. Afin d'avoir un meilleur 
 
 Ils ne savent pas encore s'ils souhaiteraient que ce site permette la gestion de plusieurs SPA.
 Face à cette incertitude, il peut être interessant de prévoir une hiérarchie dans les groupes d'utilisateurs ainsi qu'au compte super user. 
+
+Cette application sera livrée au client avec un compte super utilisateur déjà présent dans la base de données.  Ce dernier sera le seul membre authorisé à créer des utilisateurs. Il sera possible pour chaque utilisateur de leurs assigner des droits.
 
 Un des droits devra également concerner la configuration de la SPA:
 

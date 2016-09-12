@@ -2,9 +2,11 @@
 
 Un organisme de l'état vous demande de réaliser un site web dans le cadre d'une campagne pour la mixité. L'idée est de réaliser un site avec une rapide ressemblance à Pinterest. C'est à dire, une application où sont affichées de nombreux médias, facilement affichables et accessibles.
 
-L'objectif de l'application sera d'être modulable et responsive, afin qu'ils puissent l'utiliser sur de nombreuses thématiques. Si votre solution leurs plait, il se pourrait qu'ils utilisent cette application régionalement en "kit à installer" et faciliter le travail de nombreux autres employés.
+L'objectif de l'application sera d'être modulable et responsive, afin qu'ils puissent l'utiliser sur de nombreuses thématiques. Pas uniquement la mixité. Si votre solution leurs plait, il se pourrait qu'ils utilisent cette application régionalement en "kit à installer" et faciliter le travail de nombreux autres employés.
 
 Cette application de type SPA contiendra un grand dashboard, dans lequel, les utilisateurs connectés pourront rajouter du contenu à leur guise. Les contenus seront représentés sous forme de blocs, et sera facilement reconnaissable grâce à une vignette. Chaque bloc sera modifiable en largeur et longueur afin de pouvoir personnaliser la page du dashboard. 
+
+La pluspart des utilisateurs ne seront pas connectés.
 
 Si un utilisateur connecté ou non connecté clique sur un bloc, celui-ci s'agrandit afin de prendre toute la taille de la page et afficher les médias. 
 
@@ -16,6 +18,8 @@ La partie d'administration doit être très intuitive. Afin d'avoir un meilleur 
 
 Ils ne savent pas encore s'ils souhaiteraient que ce site permette la gestion de plusieurs SPA.
 Face à cette incertitude, il peut être interessant de prévoir une hiérarchie dans les groupes d'utilisateurs ainsi qu'au compte super user. 
+
+Cette application sera livrée au client avec un compte super utilisateur déjà présent dans la base de données.  Ce dernier sera le seul membre authorisé à créer des utilisateurs. Il sera possible pour chaque utilisateur de leurs assigner des droits.
 
 Un des droits devra également concerner la configuration de la SPA:
 
@@ -70,32 +74,50 @@ Pendant une heure, par groupes de 4 vous devrez travailler que sur le code PHP, 
    Antoine
    Annie Line
    Juliette
-   Thomas
    JP
 
 **Seuls absents normallement**
 
    Miguel
    Aissatou
-   Youness
-   Hassan
+   Youness (rejoindra l'équipe d'Abdul)
+   Hassan (rejoindra l'équipe de Nabil)
    
 ## 11h15 : Modelisation de l'application
-## 12h15 : Analyse des résultats
+
+## 13h30 :Analyse des résultats
 Discussion avec l'ensemble du groupe dans la salle aveugle. 
 
-## 13h30 : Définition d'un trello "template"
 ## 14h00 : Intervention exterieure
 
-## 15h00 : Pause
-## 15h15 : Repartition des taches par groupes
-## 15h30 : Pomodoro
-## 16h : Pair programming pomodoro
-## 16h30 : Pair programming pomodoro
-## 17h00 : Fusion GIT + Bug Fix
-## 17h15 : SCRUM
+## 15h30 : Pause
+## 15h45 : Création du BPML
+## 16h30 : Mise en commun des scénarios
+## 17h : Définition d'un trello "template"
+## 17h15 : Repartition des taches par groupes
 
 # Mardi 13 Septembre
-## 9h30 : Présentation des résultats
-Les équipes présentent ce qu'elles ont réussi à faire. 
+## 9h30 : Rappel du SCRUM de la veille
+
+* Répartition des taches en méthode scrum
+* Conseil : Etant donné que vous avez du vous répartir des fonctions entre vous à faire. Vous pouvez aussi écrire vos tests unitaires au préalable.
+
+## 9h45 : Pomodoro
+## 10h15 : Pomodoro (pair programming ?)
+## 10h45 : Bilan SCRUM
+## 11h : Pause
+## 11h30 : Pomodoro
+## 12h : Pomodoro (pair programming ?)
+## 12h30 : Pause
+
+## 13h30 : Fusion GIT + Bug Fix
+## 14h : SCRUM
+## 14h20 : Pomodoro
+## 14h50 : Pomodoro (pair programming ?)
+## 15h20 : Pause
+## 15h50 : Pomodoro
+## 16h20 : Fusion GIT + Bug Fix
+## 17h : Présentation du travail
+Chaque équipe, représenté par son chef de projet, présente le code réalisé. 
+
 

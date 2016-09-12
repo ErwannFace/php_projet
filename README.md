@@ -70,32 +70,46 @@ Pendant une heure, par groupes de 4 vous devrez travailler que sur le code PHP, 
    Antoine
    Annie Line
    Juliette
-   Thomas
    JP
 
 **Seuls absents normallement**
 
    Miguel
    Aissatou
-   Youness
-   Hassan
+   Youness (rejoindra l'équipe d'Abdul)
+   Hassan (rejoindra l'équipe de Nabil)
    
 ## 11h15 : Modelisation de l'application
-## 12h15 : Analyse des résultats
+
+## 13h30 :Analyse des résultats
 Discussion avec l'ensemble du groupe dans la salle aveugle. 
 
-## 13h30 : Définition d'un trello "template"
 ## 14h00 : Intervention exterieure
 
-## 15h00 : Pause
-## 15h15 : Repartition des taches par groupes
-## 15h30 : Pomodoro
-## 16h : Pair programming pomodoro
-## 16h30 : Pair programming pomodoro
-## 17h00 : Fusion GIT + Bug Fix
-## 17h15 : SCRUM
+## 15h30 : Pause
+## 15h45 : Création du BPML
+## 16h30 : Mise en commun des scénarios
+## 17h : Définition d'un trello "template"
+## 17h15 : Repartition des taches par groupes
 
 # Mardi 13 Septembre
-## 9h30 : Présentation des résultats
-Les équipes présentent ce qu'elles ont réussi à faire. 
+## 9h30 : Rappel du SCRUM de la veille
+## 9h45 : Pomodoro
+## 10h15 : Pomodoro (pair programming ?)
+## 10h45 : Bilan SCRUM
+## 11h : Pause
+## 11h30 : Pomodoro
+## 12h : Pomodoro (pair programming ?)
+## 12h30 : Pause
+
+## 13h30 : Fusion GIT + Bug Fix
+## 14h : SCRUM
+## 14h20 : Pomodoro
+## 14h50 : Pomodoro (pair programming ?)
+## 15h20 : Pause
+## 15h50 : Pomodoro
+## 16h20 : Fusion GIT + Bug Fix
+## 17h : Présentation du travail
+Chaque équipe, représenté par son chef de projet, présente le code réalisé. 
+
 

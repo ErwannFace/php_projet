@@ -42,19 +42,58 @@ Pendant une heure, par groupes de 4 vous devrez travailler que sur le code PHP, 
 * modéliser la base de données
 
 ## 10h30 : Définition des groupes et début de l'exercice
+### Chef de projet : Latyfa
 
-## 11h30 : Analyse des résultats
+   Ronald
+   Floryan
+   Solène
+   Julien M
+   Carole
+
+### Chef de projet : Abdul
+
+   Rebecca
+   Valentin
+   Jonhattan
+   Gael
+
+### Chef de projet : Thomas
+
+   Lise
+   Patrice
+   Ghaffar
+   Stéphane
+   Julien V
+
+### Chef de projet : Nabil
+
+   Antoine
+   Annie Line
+   Juliette
+   Thomas
+   JP
+
+**Seuls absents normallement**
+
+   Miguel
+   Aissatou
+   Youness
+   Hassan
+   
+## 11h15 : Modelisation de l'application
+## 12h15 : Analyse des résultats
 Discussion avec l'ensemble du groupe dans la salle aveugle. 
 
-## 12h15 : Définition d'un trello "template"
-## 13h30 : Repartition des taches par groupes
-## 13h45 : Pomodoro
-## 14h15 : Pair programming pomodoro
-## 14h45 : SCRUM
+## 13h30 : Définition d'un trello "template"
+## 14h00 : Intervention exterieure
+
 ## 15h00 : Pause
+## 15h15 : Repartition des taches par groupes
 ## 15h30 : Pomodoro
-## 16h00 : Pair programming pomodoro
-## 16h30 : Fusion GIT + Bug Fix
+## 16h : Pair programming pomodoro
+## 16h30 : Pair programming pomodoro
+## 17h00 : Fusion GIT + Bug Fix
+## 17h15 : SCRUM
 
 # Mardi 13 Septembre
 ## 9h30 : Présentation des résultats

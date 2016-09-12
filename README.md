@@ -98,6 +98,10 @@ Discussion avec l'ensemble du groupe dans la salle aveugle.
 
 # Mardi 13 Septembre
 ## 9h30 : Rappel du SCRUM de la veille
+
+* Répartition des taches en méthode scrum
+* Conseil : Etant donné que vous avez du vous répartir des fonctions entre vous à faire. Vous pouvez aussi écrire vos tests unitaires au préalable.
+
 ## 9h45 : Pomodoro
 ## 10h15 : Pomodoro (pair programming ?)
 ## 10h45 : Bilan SCRUM

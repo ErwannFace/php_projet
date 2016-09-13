@@ -1,0 +1,147 @@
+Storage 
+{
+	{ Format 1.33 }
+	{ GeneratedFrom TUCD-version-2.20 }
+	{ WrittenBy pcapprenant12 }
+	{ WrittenOn "" }
+}
+
+Document 
+{
+	{ Type "Use Case Diagram" }
+	{ Name untitled.ucd }
+	{ Author pcapprenant12 }
+	{ CreatedOn "" }
+	{ Annotation "" }
+}
+
+Page 
+{
+	{ PageOrientation Portrait }
+	{ PageSize A4 }
+	{ ShowHeaders False }
+	{ ShowFooters False }
+	{ ShowNumbers False }
+}
+
+Scale 
+{
+	{ ScaleValue 1 }
+}
+
+# GRAPH NODES
+
+UCDActorNode 1
+{
+	{ Name "Visiteur\r" }
+	{ Annotation "" }
+	{ Parent 0 }
+	{ Index "" }
+}
+
+UCDActorNode 2
+{
+	{ Name "Utilisateur\r" }
+	{ Annotation "" }
+	{ Parent 0 }
+	{ Index "" }
+}
+
+UCDActorNode 3
+{
+	{ Name "Administrateur\r" }
+	{ Annotation "" }
+	{ Parent 0 }
+	{ Index "" }
+}
+
+UCDActorNode 4
+{
+	{ Name "Super Administrateur\r" }
+	{ Annotation "" }
+	{ Parent 0 }
+	{ Index "" }
+}
+
+# GRAPH EDGES
+
+# VIEWS AND GRAPHICAL SHAPES
+
+View 5
+{
+	{ Index "0" }
+	{ Parent 0 }
+}
+
+StickMan 6
+{
+	{ View 5 }
+	{ Subject 1 }
+	{ Position 130 130 }
+	{ Size 40 70 }
+	{ Color "black" }
+	{ LineWidth 1 }
+	{ LineStyle Solid }
+	{ FillStyle Unfilled }
+	{ FillColor "white" }
+	{ FixedName False }
+	{ Font "-*-courier-medium-r-normal--10*" }
+	{ TextAlignment Center }
+	{ TextColor "black" }
+	{ NameUnderlined False }
+}
+
+StickMan 7
+{
+	{ View 5 }
+	{ Subject 2 }
+	{ Position 130 240 }
+	{ Size 40 70 }
+	{ Color "black" }
+	{ LineWidth 1 }
+	{ LineStyle Solid }
+	{ FillStyle Unfilled }
+	{ FillColor "white" }
+	{ FixedName False }
+	{ Font "-*-courier-medium-r-normal--10*" }
+	{ TextAlignment Center }
+	{ TextColor "black" }
+	{ NameUnderlined False }
+}
+
+StickMan 8
+{
+	{ View 5 }
+	{ Subject 3 }
+	{ Position 130 350 }
+	{ Size 40 70 }
+	{ Color "black" }
+	{ LineWidth 1 }
+	{ LineStyle Solid }
+	{ FillStyle Unfilled }
+	{ FillColor "white" }
+	{ FixedName False }
+	{ Font "-*-courier-medium-r-normal--10*" }
+	{ TextAlignment Center }
+	{ TextColor "black" }
+	{ NameUnderlined False }
+}
+
+StickMan 9
+{
+	{ View 5 }
+	{ Subject 4 }
+	{ Position 130 470 }
+	{ Size 40 70 }
+	{ Color "black" }
+	{ LineWidth 1 }
+	{ LineStyle Solid }
+	{ FillStyle Unfilled }
+	{ FillColor "white" }
+	{ FixedName False }
+	{ Font "-*-courier-medium-r-normal--10*" }
+	{ TextAlignment Center }
+	{ TextColor "black" }
+	{ NameUnderlined False }
+}
+

@@ -1,0 +1,62 @@
+Étant  donné que je suis visiteur 
+ET je filtre les bloc par  la date
+ET aucun bloc existe
+Alors je suis redirigé vers la page Accueil
+Et le message d’erreur « Aucun résultat trouvé » est affiché
+
+Étant  donné que je suis visiteur 
+ET un bloc existe 
+Alors je suis redirigé vers la page Accueil
+Et un résultat est retourné
+
+Étant  donné que je suis visiteur 
+ET je filtre les bloc par  titre
+ET le titre est inexistant
+Alors je suis redirigé vers la page Accueil
+Et le message d’erreur « Aucun résultat trouvé » est affiché
+
+Étant  donné que je suis visiteur 
+ET je filtre les bloc par titre
+ET le titre existe
+Alors je suis redirigé vers la page Accueil
+Et un résultat est retourné
+
+Étant  donné que je suis visiteur 
+ET je filtre les bloc par media
+ET le media est inexistant
+Alors je suis redirigé vers la page Accueil
+Et le message d’erreur « Aucun résultat trouvé » est affiché
+
+Étant  donné que je suis visiteur 
+ET je filtre les bloc par media
+ET le media existe
+Alors je suis redirigé vers la page Accueil
+Et un résultat est retourné
+
+
+
+
+
+Étant  donné que je suis visiteur
+ET  je clique sur se connecter
+Alors une modal box est affichée
+
+Étant  donné que je suis visiteur
+ET je rempli les champs de la modal box connexion et je valide
+ET mon mot de passe et mon pseudo sont valides
+Alors je suis redirigé vers la page Accueil
+ET un lien logout est affiché sur la nav bar
+
+Étant  donné que je suis visiteur
+ET je rempli les champs de la modal box connexion et je valide
+ET mon mot de passe et ou mon pseudo ne sont pas valides
+Alors le message d’erreur « passe et ou pseudo non valides » est affiché
+ET la modal box reste affichée
+
+Étant  donné que je suis visiteur
+ET je rempli les champs de la modal box connexion et je valide
+ET mon mot de passe et ou mon pseudo ne sont pas valides
+ET le nombre des essais est égal a 3
+Alors  je suis redirigé vers la page Accueil
+ET le message d’erreur « la connexion au site est bloquée pendant 15mn» est affiché
+ET le lien de connexion est non actif

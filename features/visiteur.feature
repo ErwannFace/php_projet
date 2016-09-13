@@ -2,9 +2,9 @@
 Fonctionnalité: Opérations d’un visiteur
 
 	Contexte:
-		Étant donné que un bloc existe avec comme date "1er janvier 1970"
-		Et un bloc existe avec comme titre "Réunion publique"
-		Et un bloc existe avec comme type de media "img+snd"
+		Étant donné que un bloc existe avec la valeur "1er janvier 1970" pour le champ "date"
+		Et un bloc existe avec la valeur "Réunion publique" pour le champ "titre"
+		Et un bloc existe avec la valeur "img+snd" pour le champ "type de media"
 
 	Scénario: Un Visiteur cherche des blocs publiés à une date donnée, et aucun bloc ne remplit ce critère
 	Étant donné que je suis visiteur
@@ -44,22 +44,46 @@ Fonctionnalité: Opérations d’un visiteur
 
 	Scénario: Un Visiteur demande à se connecter avec des identifiants valides
 	Étant donné que je suis visiteur
-	Quand je me connecte
+	Quand je me connecte avec comme pseudo "pseudo" et comme mot de passe "passwd"
 		Et mon couple pseudo/mot de passe est valide
-	Alors je suis connecté
+	Alors je suis connecté en tant que "id"
 
 	Scénario: Un Visiteur demande à se connecter avec des identifiants invalides, et a fait moins de 3 essais
 	Étant donné que je suis visiteur
-	Quand je me connecte
+	Quand je me connecte avec comme pseudo "pseudo" et comme mot de passe "passwd"
 		Et mon couple pseudo/mot de passe est invalide
 		Et j’ai fait moins de 3 essais
 	Alors un message d’erreur est affiché "texte du message"
-		Et un nouveau couple pseudo/mot de passe est demandé
+		Et mon nombre d’essais est augmenté de un
+		Et un nouveau couple d’identifiants est demandé
 
 	Scénario: Un Visiteur demande à se connecter avec des identifiants invalides, et a déjà fait 3 essais
 	Étant donné que je suis visiteur
-	Quand je me connecte
+	Quand je me connecte avec comme pseudo "pseudo" et comme mot de passe "passwd"
 		Et mon couple pseudo/mot de passe est invalide
 		Et j’ai fait au moins 3 essais
 	Alors un message d’erreur est affiché "texte du message"
-		Et le compte associé au pseudo est bloqué
+		Et le compte associé au pseudo est bloqué "id"
+
+	Scénario: Un Visiteur demande à se connecter avec des identifiants valides
+	Étant donné que je suis visiteur
+	Quand je me connecte avec comme e-mail "e-mail" et comme mot de passe "passwd"
+		Et mon couple e-mail/mot de passe est valide
+	Alors je suis connecté en tant que "id"
+
+	Scénario: Un Visiteur demande à se connecter avec des identifiants invalides, et a fait moins de 3 essais
+	Étant donné que je suis visiteur
+	Quand je me connecte avec comme e-mail "e-mail" et comme mot de passe "passwd"
+		Et mon couple e-mail/mot de passe est invalide
+		Et j’ai fait moins de 3 essais
+	Alors un message d’erreur est affiché "texte du message"
+		Et mon nombre d’essais est augmenté de un
+		Et un nouveau couple d’identifiants est demandé
+
+	Scénario: Un Visiteur demande à se connecter avec des identifiants invalides, et a déjà fait 3 essais
+	Étant donné que je suis visiteur
+	Quand je me connecte avec comme e-mail "e-mail" et comme mot de passe "passwd"
+		Et mon couple e-mail/mot de passe est invalide
+		Et j’ai fait au moins 3 essais
+	Alors un message d’erreur est affiché "texte du message"
+		Et le compte associé au e-mail est bloqué "id"

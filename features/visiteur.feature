@@ -87,3 +87,29 @@ Fonctionnalité: Opérations d’un visiteur
 		Et j’ai fait au moins 3 essais
 	Alors un message d’erreur est affiché "texte du message"
 		Et le compte associé au e-mail est bloqué "id"
+
+	Scénario: Un Visiteur demande la génération d’un nouveau mot de passe, et fournit un pseudo valide
+	Étant donné que je suis visiteur
+	Quand je demande la génération d’un nouveau mot de passe pour l’utilisateur avec le pseudo "pseudo"
+		Et mon pseudo est correct
+	Alors un e-mail est envoyé à "e-mail"
+
+	Scénario: Un Visiteur demande la génération d’un nouveau mot de passe, et fournit un pseudo valide
+	Étant donné que je suis visiteur
+	Quand je demande la génération d’un nouveau mot de passe pour l’utilisateur avec le pseudo "pseudo"
+		Et mon pseudo est incorrect
+	Alors un message d’erreur est affiché "texte du message"
+		Et un nouveau pseudo est demandé
+
+	Scénario: Un Visiteur demande la génération d’un nouveau mot de passe, et fournit un e-mail valide
+	Étant donné que je suis visiteur
+	Quand je demande la génération d’un nouveau mot de passe pour l’utilisateur avec l’e-mail "e-mail"
+		Et mon e-mail est correct
+	Alors un e-mail est envoyé à "e-mail"
+
+	Scénario: Un Visiteur demande la génération d’un nouveau mot de passe, et fournit un e-mail valide
+	Étant donné que je suis visiteur
+	Quand je demande la génération d’un nouveau mot de passe pour l’utilisateur avec l’e-mail "e-mail"
+		Et mon e-mail est incorrect
+	Alors un message d’erreur est affiché "texte du message"
+		Et un nouvel e-mail est demandé

@@ -1,88 +1,57 @@
 == Filtrer la page d'accueil ==
 
-ÉTANT DONNÉ QUE: je suis visiteur 
-QUAND: je filtre les bloc par  la date
-		ET: aucun bloc existe
-ALORS : je suis redirigé vers la page Accueil
-		ET: le message d’erreur « Aucun résultat trouvé » est affiché
+Contexte:
+	Étant donné que un bloc existe avec comme date "1er janvier 1970"
+	Et un bloc existe avec comme titre "Réunion publique"
+	Et un bloc existe avec comme type de media "img+snd"
 
 ÉTANT DONNÉ QUE: je suis visiteur
-QUAND: je filtre les bloc par  la date
-		ET: un bloc existe 
-ALORS : je suis redirigé vers la page Accueil
-		ET: un résultat est retourné
+QUAND: je filtre les bloc par "date" avec la valeur "22 décembre 1972"
+	ET: aucun bloc existe
+ALORS: un message d’erreur est affiché "texte du message"
+
+ÉTANT DONNÉ QUE: je suis visiteur
+QUAND: je filtre les bloc par "date" avec la valeur "1er janvier 1970"
+	ET: un bloc existe 
+ALORS: un sous-ensemble des blocs est retourné
 
 ÉTANT DONNÉ QUE: je suis visiteur 
-QUAND: je filtre les bloc par  titre
-		ET: le titre est inexistant
-ALORS : je suis redirigé vers la page Accueil
-		ET: le message d’erreur « Aucun résultat trouvé » est affiché
+QUAND: je filtre les bloc par "titre" avec la valeur "Conseil d’Administration"
+	ET: aucun bloc existe
+ALORS: un message d’erreur est affiché "texte du message"
 
 ÉTANT DONNÉ QUE: je suis visiteur 
-QUAND: je filtre les bloc par titre
-		ET: le titre existe
-ALORS: je suis redirigé vers la page Accueil
-		ET: un résultat est retourné
+QUAND: je filtre les bloc par "titre" avec la valeur "Réunion publique"
+	ET: un bloc existe
+ALORS: un sous-ensemble des blocs est retourné
 
 ÉTANT DONNÉ QUE: je suis visiteur 
-QUAND: je filtre les bloc par media
-		ET: le media est inexistant
-ALORS: je suis redirigé vers la page Accueil
-		ET: le message d’erreur « Aucun résultat trouvé » est affiché
+QUAND: je filtre les bloc par "type de media" avec la valeur "vid"
+	ET: aucun bloc existe
+ALORS: un message d’erreur est affiché "texte du message"
 
 ÉTANT DONNÉ QUE: je suis visiteur 
-QUAND: je filtre les bloc par media
-		ET: le media existe
-ALORS: je suis redirigé vers la page Accueil
-		ET: un résultat est retourné
-
+QUAND: je filtre les bloc par "type de media" avec la valeur "img+snd"
+	ET: un bloc existe
+ALORS: un sous-ensemble des blocs est retourné
 
 == Connexion ==
 
+ÉTANT DONNÉ QUE: je suis visiteur
+QUAND: je me connecte
+	ET: mon couple pseudo/mot de passe est valide
+ALORS: je suis connecté
 
 ÉTANT DONNÉ QUE: je suis visiteur
-QUAND: je clique sur se connecter
-ALORS: une modal box est affichée
+QUAND: je me connecte
+	ET: mon couple pseudo/mot de passe est invalide
+	ET: j’ai fait moins de 3 essais
+ALORS: un message d’erreur est affiché "texte du message"
+	ET: un nouveau couple pseudo/mot de passe est demandé
 
 ÉTANT DONNÉ QUE: je suis visiteur
-QUAND: je rempli les champs de la modal box connexion 
-		ET: je valide
-		ET: mon mot de passe est valide
-		ET: mon pseudo est valide
-ALORS: je suis redirigé vers la page Accueil
-		ET: un lien logout est affiché sur la nav bar
-
-ÉTANT DONNÉ QUE: je suis visiteur
-QUAND: je rempli les champs de la modal box connexion
-		ET: je valide
-		ET: mon mot de passe est pas valide
-		ET: mon pseudo est pas valide
-Alors le message d’erreur « passe et ou pseudo non valides » est affiché
-ET la modal box reste affichée
-
-ÉTANT DONNÉ QUE: je suis visiteur
-QUAND: je rempli les champs de la modal box connexion 
-		ET: je valide
-		ET: mon mot de passe est valide
-		ET: mon email est valide
-ALORS: je suis redirigé vers la page Accueil
-		ET: un lien logout est affiché sur la nav bar
-
-ÉTANT DONNÉ QUE: je suis visiteur
-QUAND: je rempli les champs de la modal box connexion
-		ET: je valide
-		ET: mon mot de passe est pas valide
-		ET: mon email est pas valide
-Alors le message d’erreur « passe et ou pseudo non valides » est affiché
-ET la modal box reste affichée
-
-ÉTANT DONNÉ QUE: je suis visiteur
-QUAND: je rempli les champs de la modal box connexion
-		ET: je valide
-		ET: mon mot de passe est pas valide
-		ET: mon email est pas valide
-		ET: mon pseudo est pas valide
-		ET: le nombre des essais est égal a 3
-ALORS:  je suis redirigé vers la page Accueil
-		ET: le message d’erreur « la connexion au site est bloquée pendant 15mn» est affiché
-		ET: le lien de connexion est non actif
+QUAND: je me connecte
+	ET: mon couple pseudo/mot de passe est invalide
+	ET: j’ai fait au moins 3 essais
+ALORS: un message d’erreur est affiché "texte du message"
+	ET: le compte associé au pseudo est bloqué

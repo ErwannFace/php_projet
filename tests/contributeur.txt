@@ -6,6 +6,14 @@ WHEN : je saisis un pseudo valide
 	AND je clique sur se connecter
 THEN : ma connection est validée
 	AND j’arrive sur la page accueil
+	
+je suis contributeur
+	AND je suis sur la page modal de connection
+WHEN : je saisis un email valide
+	AND je saisis un mot de passe valide
+	AND je clique sur se connecter
+THEN : ma connection est validée
+	AND j’arrive sur la page accueil
 
 
 GIVEN : je suis contributeur
@@ -35,6 +43,13 @@ GIVEN : je suis contributeur
 	AND je suis sur la page modal de connection
 WHEN : je saisis un mot de passe  non valide
 	AND je saisis un pseudo  valide
+THEN : un modal d’errreur apparaît
+	AND je suis renvoyé sur la modal de connection vierge
+
+GIVEN : je suis contributeur
+	AND je suis sur la page modal de connection
+WHEN : je saisis un mot de passe valide
+	AND je saisis un pseudo non valide
 THEN : un modal d’errreur apparaît
 	AND je suis renvoyé sur la modal de connection vierge
 

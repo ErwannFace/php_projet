@@ -1165,4 +1165,20 @@ class FeatureContext implements Context, SnippetAcceptingContext
     {
         throw new PendingException();
     }
+
+    /**
+     * @When j’ai fait moins de x essais :arg1
+     */
+    public function jAiFaitMoinsDeXEssais($arg1)
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @When j’ai fait au moins x essais :arg1
+     */
+    public function jAiFaitAuMoinsXEssais($arg1)
+    {
+        throw new PendingException();
+    }
 }

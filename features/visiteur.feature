@@ -2,19 +2,19 @@
 Fonctionnalité: Opérations d’un visiteur
 
 	Contexte:
-		Étant donné que un bloc existe avec la valeur "1er janvier 1970" pour le champ "date"
+		Étant donné que un bloc existe avec la valeur "1 janvier 1970" pour le champ "date"
 		Et un bloc existe avec la valeur "Réunion publique" pour le champ "titre"
 		Et un bloc existe avec la valeur "img+snd" pour le champ "type de media"
 
 	Scénario: Un Visiteur cherche des blocs publiés à une date donnée, et aucun bloc ne remplit ce critère
 	Étant donné que je suis visiteur
-	Quand je filtre les bloc par "date" avec la valeur "22 décembre 1972"
+	Quand je filtre les bloc par "date" avec la valeur "1 janvier 1970"
 		Et aucun bloc existe
 	Alors un message d’erreur est affiché "texte du message"
 
 	Scénario: Un Visiteur cherche des blocs publiés à une date donnée, et au moins un bloc remplit ce critère
 	Étant donné que je suis visiteur
-	Quand je filtre les bloc par "date" avec la valeur "1er janvier 1970"
+	Quand je filtre les bloc par "date" avec la valeur "1 janvier 1970"
 		Et un bloc existe 
 	Alors un sous-ensemble des blocs est retourné
 
@@ -44,45 +44,45 @@ Fonctionnalité: Opérations d’un visiteur
 
 	Scénario: Un Visiteur demande à se connecter avec des identifiants valides
 	Étant donné que je suis visiteur
-	Quand je me connecte avec comme pseudo "pseudo" et comme mot de passe "passwd"
+	Quand je me connecte avec comme pseudo "pseudo" et comme mot de passe "pwd"
 		Et mon couple pseudo/mot de passe est valide
 	Alors je suis connecté en tant que "id"
 
-	Scénario: Un Visiteur demande à se connecter avec des identifiants invalides, et a fait moins de 3 essais
+	Scénario: Un Visiteur demande à se connecter avec des identifiants invalides, et a fait moins de x essais "x"
 	Étant donné que je suis visiteur
-	Quand je me connecte avec comme pseudo "pseudo" et comme mot de passe "passwd"
+	Quand je me connecte avec comme pseudo "pseudo" et comme mot de passe "pwd"
 		Et mon couple pseudo/mot de passe est invalide
-		Et j’ai fait moins de 3 essais
+		Et j’ai fait moins de x essais "x"
 	Alors un message d’erreur est affiché "texte du message"
 		Et mon nombre d’essais est augmenté de un
 		Et un nouveau couple d’identifiants est demandé
 
-	Scénario: Un Visiteur demande à se connecter avec des identifiants invalides, et a déjà fait 3 essais
+	Scénario: Un Visiteur demande à se connecter avec des identifiants invalides, et a déjà fait x essais "x"
 	Étant donné que je suis visiteur
-	Quand je me connecte avec comme pseudo "pseudo" et comme mot de passe "passwd"
+	Quand je me connecte avec comme pseudo "pseudo" et comme mot de passe "pwd"
 		Et mon couple pseudo/mot de passe est invalide
-		Et j’ai fait au moins 3 essais
+		Et j’ai fait au moins x essais "x"
 	Alors un message d’erreur est affiché "texte du message"
 		Et le compte associé au pseudo est bloqué "id"
 
 	Scénario: Un Visiteur demande à se connecter avec des identifiants valides
 	Étant donné que je suis visiteur
-	Quand je me connecte avec comme e-mail "e-mail" et comme mot de passe "passwd"
+	Quand je me connecte avec comme e-mail "e-mail" et comme mot de passe "pwd"
 		Et mon couple e-mail/mot de passe est valide
 	Alors je suis connecté en tant que "id"
 
-	Scénario: Un Visiteur demande à se connecter avec des identifiants invalides, et a fait moins de 3 essais
+	Scénario: Un Visiteur demande à se connecter avec des identifiants invalides, et a fait moins de x essais "x"
 	Étant donné que je suis visiteur
-	Quand je me connecte avec comme e-mail "e-mail" et comme mot de passe "passwd"
+	Quand je me connecte avec comme e-mail "e-mail" et comme mot de passe "pwd"
 		Et mon couple e-mail/mot de passe est invalide
-		Et j’ai fait moins de 3 essais
+		Et j’ai fait moins de x essais "x"
 	Alors un message d’erreur est affiché "texte du message"
 		Et mon nombre d’essais est augmenté de un
 		Et un nouveau couple d’identifiants est demandé
 
 	Scénario: Un Visiteur demande à se connecter avec des identifiants invalides, et a déjà fait 3 essais
 	Étant donné que je suis visiteur
-	Quand je me connecte avec comme e-mail "e-mail" et comme mot de passe "passwd"
+	Quand je me connecte avec comme e-mail "e-mail" et comme mot de passe "pwd"
 		Et mon couple e-mail/mot de passe est invalide
 		Et j’ai fait au moins 3 essais
 	Alors un message d’erreur est affiché "texte du message"

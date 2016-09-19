@@ -1,8 +1,8 @@
 <?php
 class DBSingleton
 {
-  private $inst = NULL;
-  private $connection = FALSE; //connection to be opened
+  private static $instance = NULL;
+  private static $connection = FALSE; //connection to be opened
 
   //DB connection values
   private $server = NULL; private $usr = NULL; private $psw = NULL; private $name = NULL;
@@ -11,11 +11,13 @@ class DBSingleton
   {
      //simply stores connections values, without opening connection
 
-     if($inst === NULL)
-        $this->inst = new DBSingleton();
-     return $this->inst;
+     if( is_null(self::$instance) ) {
+        self::$instance = new DBSingleton();
+     }
+
+     return self::$instance;
   }
-  private __construct(){
+  private function __construct(){
 
     $db_server = 'localhost';
     $db_usr = 'TeamNabil'; 
@@ -23,15 +25,15 @@ class DBSingleton
     $db_name = 'php_projet';
   
     try {
-      $this->connection = new PDO(
+      self::$connection = new PDO(
 
-          'mysql:host='.$this->db_server.';dbname='.$this->db_name,
-          $this->db_usr,
-          $this->db_psw,
+          'mysql:host='.$db_server.';dbname='.$db_name,
+          $db_usr,
+          $db_psw
         );
     }
     catch (PDOException $exception) {
-      die($exception->getMessage() );
+      die($exception->getMessage());
     }
   }
 
@@ -41,8 +43,11 @@ class DBSingleton
   public function query($query_string)
   {
      //performs query over already opened connection, if connection is not open, it opens connection 1st
+
     $db = $this::getInstance();
-    return $db->connection->query($query_string);
+    $requete=$db::$connection->prepare($query_string);
+    $requete->execute();
+    return $requete;
 
   }
 

@@ -12,7 +12,7 @@ Fonctionnalité: Opérations d’un Administrateur
 
 	Scénario: Un Administrateur essaye d’ajouter un contributeur avec un pseudo invalide
 	Étant donné que je suis "Administrateur"
-	Quand j’ajoute un "Contributeur"
+	Quand j’ajoute un utilisateur
 		Et je renseigne un pseudo invalide "pseudo"
 	Alors un message d’erreur est affiché "message"
 		Et un nouveau pseudo est demandé

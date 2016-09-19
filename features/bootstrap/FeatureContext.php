@@ -5,6 +5,8 @@ use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
+use User;
+use DBSingleton;
 
 /**
  * Defines application features from the specific context.
@@ -18,6 +20,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      * You can also pass arbitrary arguments to the
      * context constructor through behat.yml.
      */
+    var $user;
     public function __construct()
     {
     }
@@ -27,23 +30,22 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function jeSuis($arg1)
     {
-        $user = new User();
-        $user->setRole($arg1);
+        $this->user = new User();
+        $this->user->setRole($arg1);
 
     }
 
     /**
-     * @When j’ajoute un :arg1
+     * @When j’ajoute un utilisateur
      */
-    public function jAjouteUn($arg1)
+    public function jAjouteUnUtilisateur()
     {
-        $db = new DbConnexion();
+       
+        $db = DBSingleton::getInstance();
+        $user_list = $this->user->getUsersList($db);
 
-
-    $temp = DBSingleton::getInstance();
-    $temp->query("SELECT...");
-
-        $user_list = $user->getUsersList($db);
+        var_dump($user_list);
+    
     }
 
     /**
@@ -51,7 +53,13 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function jeRenseigneUnPseudoValide($arg1)
     {
-        throw new PendingException();
+        
+    /*    if(
+            isset($arg1) &&
+            preg_match("/^[a-z0-9]+$/i", $arg1) &&
+            strlen($arg1)<=30 &&
+        ) {}
+*/
     }
 
     /**

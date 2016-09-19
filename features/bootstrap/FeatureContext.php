@@ -39,7 +39,11 @@ class FeatureContext implements Context, SnippetAcceptingContext
     {
         $db = new DbConnexion();
 
-        $userlist = $user->getUsersList($db);
+
+    $temp = DBSingleton::getInstance();
+    $temp->query("SELECT...");
+
+        $user_list = $user->getUsersList($db);
     }
 
     /**

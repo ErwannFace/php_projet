@@ -210,8 +210,7 @@ Quand je veux supprimer un Bloc "id"
      Et j’ai cliquer sur « supprimer le Bloc »
      Et un message de confirmation apparaît
      Et je clique sur « annuler»
-Alors je retourne sur accueil .# language: fr
-Fonctionnalité: Opérations d’un Contributeur
+Alors je retourne sur accueil .
 
 Scénario: Un visiteur se connecte avec son pseudo
 Etant donné que je suis "visiteur"

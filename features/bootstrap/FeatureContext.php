@@ -21,8 +21,10 @@ class FeatureContext implements Context, SnippetAcceptingContext
      * context constructor through behat.yml.
      */
     var $user;
+    var $user_list;
     public function __construct()
     {
+
     }
 
     /**
@@ -40,12 +42,12 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function jAjouteUnUtilisateur()
     {
-       
+
         $db = DBSingleton::getInstance();
-        $user_list = $this->user->getUsersList($db);
+        $this->user_list = $this->user->getUsersList($db);
 
         var_dump($user_list);
-    
+
     }
 
     /**
@@ -53,21 +55,49 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function jeRenseigneUnPseudoValide($arg1)
     {
-        
-    /*    if(
+        $pseudo_valide = true;
+        if(
             isset($arg1) &&
             preg_match("/^[a-z0-9]+$/i", $arg1) &&
-            strlen($arg1)<=30 &&
-        ) {}
-*/
+            strlen($arg1)<=30 
+            ) 
+        {
+            foreach ($user_list as $user) {
+                if ($user['pseudo'] == $arg1){
+                    $pseudo_valide = false;
+                    break;
+                }
+            }
+
+        }else{
+            $pseudo_valide = false;            
+        }
+        return $pseudo_valide;
     }
+
 
     /**
      * @When je renseigne un e-mail valide :arg1
      */
     public function jeRenseigneUnEMailValide($arg1)
     {
-        throw new PendingException();
+     $email_valide = true;
+     if(
+        isset($arg1) &&
+        preg_match("/^[a-z0-9\-_.]+@[a-z0-9\-_.]+\.[a-z]+$/i", $arg1) &&
+        strlen($arg1)<=30 
+        ) 
+     {
+        foreach ($user_list as $user) {
+            if ($user['email'] == $arg1){
+                $email_valide = false;
+                break;
+            }
+        }   
+        }else{
+            $email_valide = false;            
+        }
+        return $email_valide;
     }
 
     /**

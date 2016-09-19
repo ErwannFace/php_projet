@@ -38,15 +38,13 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @When j’ajoute un utilisateur
+     * @When j’ajoute un :arg1
      */
-    public function jAjouteUnUtilisateur()
+    public function jAjouteUn($arg1)
     {
 
         $db = DBSingleton::getInstance();
         $this->user_list = $this->user->getUsersList($db);
-
-        var_dump($user_list);
 
     }
 
@@ -62,7 +60,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
             strlen($arg1)<=30 
             ) 
         {
-            foreach ($user_list as $user) {
+            foreach ($this->user_list as $user) {
                 if ($user['pseudo'] == $arg1){
                     $pseudo_valide = false;
                     break;
@@ -72,6 +70,9 @@ class FeatureContext implements Context, SnippetAcceptingContext
         }else{
             $pseudo_valide = false;            
         }
+        if($pseudo_valide == false){
+        echo "pseudo invalide";
+    }
         return $pseudo_valide;
     }
 
@@ -88,7 +89,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
         strlen($arg1)<=30 
         ) 
      {
-        foreach ($user_list as $user) {
+        foreach ($this->user_list as $user) {
             if ($user['email'] == $arg1){
                 $email_valide = false;
                 break;
@@ -97,29 +98,45 @@ class FeatureContext implements Context, SnippetAcceptingContext
         }else{
             $email_valide = false;            
         }
-        return $email_valide;
+        if($email_valide == false){
+        echo "email invalide";
     }
-
+    return $email_valide;
+}
     /**
      * @Then un mot de passe est généré automatiquement
      */
     public function unMotDePasseEstGenereAutomatiquement()
     {
-        throw new PendingException();
+        $lettres = array_merge(range('a','z'),range('A','Z'),range('0','9'));
+         shuffle ( $lettres );
+        $lettres_finales = implode( $lettres);
+        return substr($lettres_finales , 0 , 9);
     }
 
     /**
-     * @Then une entrée est créée dans la table contributeurs :arg1 :arg2 :arg3
+     * @Then une entrée est créée dans la table contributeurs :arg1 :arg2 
      */
-    public function uneEntreeEstCreeeDansLaTableContributeurs($arg1, $arg2, $arg3)
+    public function uneEntreeEstCreeeDansLaTableContributeurs($pseudo, $email )
     {
-        throw new PendingException();
+        // "pseudo" "e-mail" 
+        if($this->jeRenseigneUnPseudoValide($pseudo) && 
+            $this->jeRenseigneUnEMailValide($email) ) {
+            $pwd = $this->unMotDePasseEstGenereAutomatiquement();
+            $db = DBSingleton::getInstance();
+            $sql = "INSERT INTO utilisateurs ( pseudo, password, email) VALUES ( '$pseudo', '$pwd', '$email');";
+            echo $sql;
+            $db->query($sql);
+        }else{
+            echo "pseudo ou email invalide";
+        }
+
     }
 
     /**
      * @Then un e-mail est envoyé au nouveau contributeur :arg1 :arg2 :arg3
      */
-    public function unEMailEstEnvoyeAuNouveauContributeur($arg1, $arg2, $arg3)
+    public function unEMailEstEnvoyeAuNouveauContributeur($email, $pseudo, $pwd)
     {
         throw new PendingException();
     }
@@ -129,7 +146,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function jeRenseigneUnPseudoInvalide($arg1)
     {
-        throw new PendingException();
+        return jeRenseigneUnPseudoValide($arg1);
     }
 
     /**
@@ -145,7 +162,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function unNouveauPseudoEstDemande()
     {
-        throw new PendingException();
+       
     }
 
     /**

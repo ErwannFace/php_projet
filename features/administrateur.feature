@@ -3,23 +3,23 @@ Fonctionnalité: Opérations d’un Administrateur
 
 	Scénario: Un Administrateur ajoute un contributeur
 	Étant donné que je suis "Administrateur"
-	Quand j’ajoute un contributeur
-		Et je renseigne un pseudo valide "pseudo"
-		Et je renseigne un e-mail valide "e-mail"
+	Quand j’ajoute un "contributeur"
+		Et je renseigne un pseudo valide "tata"
+		Et je renseigne un e-mail valide "toto@facesimplon.com"
 	Alors un mot de passe est généré automatiquement
-		Et une entrée est créée dans la table contributeurs "pseudo" "e-mail" "mot_de_passe"
+		Et une entrée est créée dans la table contributeurs "tata" "toto@facesimplon.com" 
 		Et un e-mail est envoyé au nouveau contributeur "e-mail" "pseudo" "mot_de_passe"
 
 	Scénario: Un Administrateur essaye d’ajouter un contributeur avec un pseudo invalide
 	Étant donné que je suis "Administrateur"
-	Quand j’ajoute un utilisateur
+	Quand j’ajoute un "contributeur"
 		Et je renseigne un pseudo invalide "pseudo"
 	Alors un message d’erreur est affiché "message"
 		Et un nouveau pseudo est demandé
 
 	Scénario: Un Administrateur essaye d’ajouter un contributeur avec un e-mail invalide
 	Étant donné que je suis "Administrateur"
-	Quand j’ajoute un contributeur
+	Quand j’ajoute un "contributeur"
 		Et je renseigne un e-mail invalide "e-mail"
 	Alors un message d’erreur est affiché "message"
 		Et un nouvel e-mail est demandé

@@ -31,9 +31,9 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @When j’ajoute un contributeur
+     * @When j’ajoute un :arg1
      */
-    public function jAjouteUnContributeur()
+    public function jAjouteUn($arg1)
     {
         throw new PendingException();
     }

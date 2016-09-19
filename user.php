@@ -16,7 +16,8 @@ class User{
 
 	public function getUsersList($db){
 
-		->
+		$db->query('SELECT * FROM utilisateurs');
+	
 	}
 }
 

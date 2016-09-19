@@ -27,7 +27,9 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function jeSuis($arg1)
     {
-        throw new PendingException();
+        $user = new User();
+        $user->setRole($arg1);
+
     }
 
     /**
@@ -35,7 +37,9 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function jAjouteUn($arg1)
     {
-        throw new PendingException();
+        $db = new DbConnexion();
+
+        $userlist = $user->getUsersList($db);
     }
 
     /**

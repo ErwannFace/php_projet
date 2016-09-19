@@ -141,7 +141,7 @@ Quand je veux modifier un bloc "id"
 	Et j’ai rentré un format "format"
 	Et  j’ai rentré un média compatible "media"
 Quand une message d’erreur apparait "message"
-Alors je dois ajouter un media valide pour confirmer l’ajout duBloc
+Alors je dois ajouter un media valide pour confirmer l’ajout du Bloc
 
 Scénario: Un Contributeur essaye de modifier un bloc mal renseigné sans format
 Etant donné que je suis "Contributeur"
@@ -151,7 +151,7 @@ Quand je veux modifier un bloc "id"
 	Et je n’ai pas rentré un format "format"
 	Et  j’ai rentré un média compatible "media"
 Quand une message d’erreur apparait "message"
-Alors je dois ajouter un media valide pour confirmer l’ajout duBloc
+Alors je dois ajouter un media valide pour confirmer l’ajout du Bloc
 
 
 Scénario: Un Contributeur arrive à modifier un bloc
@@ -352,7 +352,7 @@ Quand je veux modifier un bloc "id"
 	Et j’ai rentré un format "format"
 	Et  j’ai rentré un média compatible "media"
 Quand une message d’erreur apparait "message"
-Alors je dois ajouter un media valide pour confirmer l’ajout duBloc
+Alors je dois ajouter un media valide pour confirmer l’ajout du Bloc
 
 Scénario: Un Contributeur essaye de modifier un bloc mal renseigné sans format
 Etant donné que je suis "Contributeur"
@@ -362,7 +362,7 @@ Quand je veux modifier un bloc "id"
 	Et je n’ai pas rentré un format "format"
 	Et  j’ai rentré un média compatible "media"
 Quand une message d’erreur apparait "message"
-Alors je dois ajouter un media valide pour confirmer l’ajout duBloc
+Alors je dois ajouter un media valide pour confirmer l’ajout du Bloc
 
 
 Scénario: Un Contributeur arrive à modifier un bloc

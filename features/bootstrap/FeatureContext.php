@@ -743,14 +743,6 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Then je dois ajouter un media valide pour confirmer l’ajout duBloc
-     */
-    public function jeDoisAjouterUnMediaValidePourConfirmerLAjoutDubloc()
-    {
-        throw new PendingException();
-    }
-
-    /**
      * @When je n’ai rentré un titre :arg1
      */
     public function jeNAiRentreUnTitre($arg1)

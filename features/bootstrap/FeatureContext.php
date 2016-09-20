@@ -427,6 +427,15 @@ class FeatureContext implements Context, SnippetAcceptingContext
         throw new PendingException();
     }
 
+
+
+
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// CONTRIBUTEUR //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
     /**
      * @When je suis sur la page modal de connection
      */
@@ -445,7 +454,12 @@ class FeatureContext implements Context, SnippetAcceptingContext
     
     public function jeSaisisUnPseudoValide($arg1)
     {
-        throw new PendingException();
+
+        if($pseudo_valide)
+            $this->new_user->setPseudo($arg1);
+        else 
+            throw new Exception("Invalid Pseudo");
+        return $pseudo_valide;
     }
 
     /**
@@ -479,6 +493,10 @@ class FeatureContext implements Context, SnippetAcceptingContext
     {
         throw new PendingException();
     }
+
+
+    //////////////////////////////////////////
+    //////////////////////////////////////////
 
     /**
      * @When je saisis un email valide :arg1

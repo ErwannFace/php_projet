@@ -59,8 +59,8 @@ class User{
 		$db->query($sql);
 	}
 	
-	// suppression de l’entrée de la base utilisateurs
-	public static function delete($string) {
+	// retourne l’ID d’un utilisateur depuis son pseudo ou son e-mail
+	public static function select($string) {
 		$db = DBSingleton::getInstance();
 		
 		if ( preg_match('/@/', $string) ) {
@@ -71,12 +71,27 @@ class User{
 		
 		$reponse = $db->query($sql);
 		$user = $reponse->fetch();
-		
+
 		if ($user) {
-			$id = $user['ID'];
-			$pseudo = $user['pseudo'];
-			$sql = "DELETE FROM utilisateurs WHERE ID = $id";
+			return $user['ID'];
+		} else {
+			echo "utilisateur introuvable";
+		}
+	}
+
+	// suppression de l’entrée de la base utilisateurs
+	public static function delete($id) {
+		$db = DBSingleton::getInstance();
+		
+		$sql = "SELECT * FROM utilisateurs WHERE ID = '$id'";
+		
+		$reponse = $db->query($sql);
+		$user = $reponse->fetch();
+
+		if ($user) {
+			$sql = "DELETE FROM utilisateurs WHERE ID = '$id'";
 			$db->query($sql);
+			$pseudo = $user['pseudo'];
 			echo "l’utilisateur $pseudo a été supprimé";
 		} else {
 			echo "utilisateur introuvable";

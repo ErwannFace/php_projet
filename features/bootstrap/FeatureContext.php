@@ -22,6 +22,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     private $current_user;
 		private $new_user;
+		private $user_to_delete;
 		
     public function __construct()
     {
@@ -91,7 +92,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function jeSupprimeUnContributeur($arg)
     {
-			User::delete($arg);
+			$this->user_to_delete = User::select($arg);
     }
 
     /**
@@ -99,7 +100,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function lEntreeDeLaTableUtilisateursEstSupprimee()
     {
-			return true;
+			User::delete($this->user_to_delete);
     }
 
     /**

@@ -139,14 +139,14 @@ class User{
 		}
 	}
 	
-	// modification du röle
+	// modification du rôle
 	public function setRank($role) {
 		$db = DBSingleton::getInstance();
-		// get rank ID from database
+		// récupération de l’ID du rôle dans la table 'roles'
 		$sql = "SELECT * FROM roles WHERE nom = '$role'";
 		$requete = $db->query($sql);
 		$reponse = $requete->fetch();
-		// set user rank
+		// définition du rôle
 		$this->role = $reponse['id'];
 	}
 	

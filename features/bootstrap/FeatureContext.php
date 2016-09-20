@@ -34,7 +34,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
     public function jeSuis($role)
     {
 			$this->current_user = new User();
-			$this->current_user->setRole($role);
+			$this->current_user->setRank($role);
     }
 
     /**
@@ -42,9 +42,8 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function jAjouteUn($role)
     {
-			$db = DBSingleton::getInstance();
 			$this->new_user = new User();
-			$this->new_user->setRole($role);
+			$this->new_user->setRank($role);
     }
 
     /**
@@ -77,10 +76,10 @@ class FeatureContext implements Context, SnippetAcceptingContext
     public function uneEntreeEstCreeeDansLaTableUtilisateurs()
     {
 			if ( isset(
-				$this->new_user->pseudo,
-				$this->new_user->email,
-				$this->new_user->password,
-				$this->new_user->rank
+				$this->new_user->getPseudo(),
+				$this->new_user->getEmail(),
+				$this->new_user->getPassword(),
+				$this->new_user->getRank()
 			)) {
 				$this->new_user->create();
 			} else {

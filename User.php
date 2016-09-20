@@ -10,6 +10,27 @@ class User{
 	
 	public function __construct() {}
 	
+	// renvoi du pseudo
+	public function getPseudo() {
+		return $this->pseudo;
+	}
+	
+	// renvoi du mot de passe
+	public function getPassword() {
+		return $this->password;
+	}
+	
+	// renvoi de l’e-mail
+	public function getEmail() {
+		return $this->email;
+	}
+	
+	// renvoi du rôle
+	public function getRank() {
+		return $this->role;
+	}
+	
+	// création de l’entrée dans la table utilisateurs
 	public function create() {
 		$db = DBSingleton::getInstance();
 		$sql = "INSERT INTO utilisateurs (pseudo, password, email, role) VALUES ('$this->pseudo', '$this->password', '$this->email', '$this->role');";
@@ -17,12 +38,14 @@ class User{
 		var_dump($answer);
 	}
 	
+	// modification de l’entrée dans la table utilisateurs
 	public function update() {
 		$db = DBSingleton::getInstance();
 		$sql = "UPDATE utilisateurs SET pseudo = '$this->pseudo', password = '$this->password', email = '$this->email', role = '$this->role' WHERE ID = $this->id;";
 		$db->query($sql);
 	}
 	
+	// modification du pseudo
 	public function setPseudo($pseudo) {
 		$db = DBSingleton::getInstance();
 		$pseudo_valide = true;
@@ -52,6 +75,7 @@ class User{
 			echo "pseudo invalide";
 	}
 	
+	// modification de l’e-mail
 	public function setEmail($email) {
 		$db = DBSingleton::getInstance();
 		$email_valide = true;
@@ -81,7 +105,8 @@ class User{
 			echo "e-mail invalide";
 	}
 	
-	public function setRole($role) {
+	// modification du röle
+	public function setRank($role) {
 		$db = DBSingleton::getInstance();
 		// get rank ID from database
 		$sql = "SELECT * FROM roles WHERE nom = '$role'";
@@ -91,6 +116,7 @@ class User{
 		$this->role = $reponse['id'];
 	}
 	
+	// génération d’un mot de passe aléatoire
 	public function generatePassword() {
 		$string = array_merge( range('a','z'), range('A','Z'), range('0','9') );
 		shuffle ($string);

@@ -42,14 +42,16 @@ class DBSingleton
 
   public function query($query_string)
   {
-     //performs query over already opened connection, if connection is not open, it opens connection 1st
-
-    $db = $this::getInstance();
-    $requete=$db::$connection->prepare($query_string);
-    $requete->execute();
-    return $requete;
-
+		//performs query over already opened connection, if connection is not open, it opens connection 1st
+		$db = $this::getInstance();
+		$requete=$db::$connection->prepare($query_string);
+		$requete->execute();
+		return $requete;
+  }
+  
+  public function getLastID() {
+  	$db = $this::getInstance();
+  	return $db::$connection->lastInsertId();
   }
 
-  
 }

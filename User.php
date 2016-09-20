@@ -10,6 +10,11 @@ class User{
 	
 	public function __construct() {}
 	
+	// renvoi de l’ID
+	public function getID() {
+		return $this->id;
+	}
+	
 	// renvoi du pseudo
 	public function getPseudo() {
 		return $this->pseudo;
@@ -34,8 +39,8 @@ class User{
 	public function create() {
 		$db = DBSingleton::getInstance();
 		$sql = "INSERT INTO utilisateurs (pseudo, password, email, role) VALUES ('$this->pseudo', '$this->password', '$this->email', '$this->role');";
-		$answer = $db->query($sql);
-		var_dump($answer);
+		$db->query($sql);
+		$this->id = $db->getLastID();
 	}
 	
 	// modification de l’entrée dans la table utilisateurs
@@ -43,6 +48,18 @@ class User{
 		$db = DBSingleton::getInstance();
 		$sql = "UPDATE utilisateurs SET pseudo = '$this->pseudo', password = '$this->password', email = '$this->email', role = '$this->role' WHERE ID = $this->id;";
 		$db->query($sql);
+	}
+	
+	// envoie un e-mail au nouvel utilisateur
+	public function sendEmail() {
+  	$message = 'Votre nouveau compte sur notre application a été créé.';
+  	$message .= "\n\n";
+  	$message .= 'Votre pseudo est : ';
+  	$message .= $this->pseudo;
+  	$message .= "\n";
+  	$message .= 'et votre mot de passe est : ';
+  	$message .= $this->password;
+		mail( $this->email, 'Votre nouveau compte', $message );
 	}
 	
 	// modification du pseudo

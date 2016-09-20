@@ -92,15 +92,11 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function unEMailEstEnvoyeAuNouvelUtilisateur()
     {
-    	$message = 'Votre nouveau compte sur notre application a été créé.';
-    	$message .= "\n\n";
-    	$message .= 'Votre pseudo est : ';
-    	$message .= $this->pseudo;
-    	$message .= "\n";
-    	$message .= 'et votre mot de passe est : ';
-    	$message .= $this->passwd;
-    	
-			mail( $this->email, 'Votre nouveau compte', $message );
+			if ( null !== $this->new_user->getID() ) {
+				$this->new_user->sendEmail();
+			} else {
+				echo "l’e-mail n’a pas été envoyé";
+			}
     }
 
     /**

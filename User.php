@@ -2,7 +2,7 @@
 
 class User{
 	
-	$role;
+	private $role;
 	
 	public function __construct() {}
     
@@ -10,7 +10,7 @@ class User{
 		$this->role = $role;
 	}
 	
-	public function getUsersList($db) {
+	public static function getUsersList($db) {
 		$requete = $db->query('SELECT * FROM utilisateurs');
 		return $requete->fetchAll();
 	}

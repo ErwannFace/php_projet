@@ -45,7 +45,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
     public function jAjouteUn($role)
     {
 			$db = DBSingleton::getInstance();
-			$this->user_list = $this->user->getUsersList($db);
+			$this->user_list = User::getUsersList($db);
     }
 
     /**

@@ -59,15 +59,39 @@ class User{
 		$db->query($sql);
 	}
 	
+	// suppression de l’entrée de la base utilisateurs
+	public static function delete($string) {
+		$db = DBSingleton::getInstance();
+		
+		if ( preg_match('/@/', $string) ) {
+			$sql = "SELECT * FROM utilisateurs WHERE email = '$string'";
+		} else {
+			$sql = "SELECT * FROM utilisateurs WHERE pseudo = '$string'";
+		}
+		
+		$reponse = $db->query($sql);
+		$user = $reponse->fetch();
+		
+		if ($user) {
+			$id = $user['ID'];
+			$pseudo = $user['pseudo'];
+			$sql = "DELETE FROM utilisateurs WHERE ID = $id";
+			$db->query($sql);
+			echo "l’utilisateur $pseudo a été supprimé";
+		} else {
+			echo "utilisateur introuvable";
+		}
+	}
+	
 	// envoie un e-mail au nouvel utilisateur
 	public function sendEmail() {
 		if ( null !== $this->id ) {
 			$message = 'Votre nouveau compte sur notre application a été créé.';
 			$message .= "\n\n";
-			$message .= 'Votre pseudo est : ';
+			$message .= 'Votre pseudo est : ';
 			$message .= $this->pseudo;
 			$message .= "\n";
-			$message .= 'et votre mot de passe est : ';
+			$message .= 'et votre mot de passe est : ';
 			$message .= $this->password;
 			mail( $this->email, 'Votre nouveau compte', $message );
 		} else {

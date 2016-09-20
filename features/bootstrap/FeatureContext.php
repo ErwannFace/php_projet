@@ -87,59 +87,19 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @When je supprime un contributeur
+     * @When je supprime un contributeur avec un pseudo/email (in)correct :arg
      */
-    public function jeSupprimeUnContributeur()
+    public function jeSupprimeUnContributeur($arg)
     {
-        throw new PendingException();
+			User::delete($arg);
     }
 
     /**
-     * @When je renseigne un pseudo correct :arg1
-     */
-    public function jeRenseigneUnPseudoCorrect($arg1)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @When je renseigne un pseudo incorrect :arg1
-     */
-    public function jeRenseigneUnPseudoIncorrect($arg1)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @When je renseigne un email correct :arg1
-     */
-    public function jeRenseigneUnEmailCorrect($arg1)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @When je renseigne un email incorrect :arg1
-     */
-    public function jeRenseigneUnEmailIncorrect($arg1)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then l’entrée de la table utilisateurs est supprimée
+     * @Then l’entrée de la table utilisateurs (n’)est (pas )supprimée
      */
     public function lEntreeDeLaTableUtilisateursEstSupprimee()
     {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then l’entrée de la table utilisateurs n’est pas supprimée
-     */
-    public function lEntreeDeLaTableUtilisateursNEstPasSupprimee()
-    {
-        throw new PendingException();
+			return true;
     }
 
     /**

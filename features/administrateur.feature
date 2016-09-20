@@ -22,28 +22,24 @@ Fonctionnalité: Opérations d’un Administrateur
 		Et je renseigne un e-mail invalide "toto@facesimplon.com"
 	Alors aucune entrée n’est créée dans la table utilisateurs
 
-	Scénario: Un Administrateur supprime un contributeur
+	Scénario: Un Administrateur supprime un contributeur avec un pseudo correct
 	Étant donné que je suis "administrateur"
-	Quand je supprime un contributeur
-		Et je renseigne un pseudo correct "pseudo"
+	Quand je supprime un contributeur avec un pseudo correct "toto"
 	Alors l’entrée de la table utilisateurs est supprimée
 
-	Scénario: Un Administrateur essaye de supprimer un contributeur
+	Scénario: Un Administrateur essaye de supprimer un contributeur avec un pseudo incorrect
 	Étant donné que je suis "administrateur"
-	Quand je supprime un contributeur
-		Et je renseigne un pseudo incorrect "pseudo"
+	Quand je supprime un contributeur avec un pseudo incorrect "toto"
 	Alors l’entrée de la table utilisateurs n’est pas supprimée
 
-	Scénario: Un Administrateur supprime un contributeur
+	Scénario: Un Administrateur supprime un contributeur avec un e-mail correct
 	Étant donné que je suis "administrateur"
-	Quand je supprime un contributeur
-		Et je renseigne un email correct "email"
+	Quand je supprime un contributeur avec un email correct "toto@facesimplon.com"
 	Alors l’entrée de la table utilisateurs est supprimée
 
-	Scénario: Un Administrateur essaye de supprimer un contributeur
+	Scénario: Un Administrateur essaye de supprimer un contributeur avec un e-mail incorrect
 	Étant donné que je suis "administrateur"
-	Quand je supprime un contributeur
-		Et je renseigne un email incorrect "email"
+	Quand je supprime un contributeur avec un email incorrect "toto@facesimplon.com"
 	Alors l’entrée de la table utilisateurs n’est pas supprimée
 
 	Scénario: Un Administrateur modifie un contributeur
@@ -53,7 +49,6 @@ Fonctionnalité: Opérations d’un Administrateur
 		Et je renseigne un nouveau pseudo contributeur valide "pseudo_contributeur"
 	Alors l'entrée de la table est actualisée
 		Et un message de confirmation est affiché
-
 
 	Scénario: Un Administrateur modifie un contributeur
 	Étant donné que je suis "administrateur"

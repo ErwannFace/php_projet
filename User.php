@@ -1,25 +1,18 @@
-
 <?php
 
 class User{
-
-	var $role;
-
-	public function __construct(){
-
-    }
+	
+	$role;
+	
+	public function __construct() {}
     
-	public function setRole($role){
-
+	public function setRole($role) {
 		$this->role = $role;
 	}
-
-	public function getUsersList($db){
-
-	$requete=$db->query('SELECT * FROM utilisateurs');
-	return $requete->fetchAll();
-
 	
+	public function getUsersList($db) {
+		$requete = $db->query('SELECT * FROM utilisateurs');
+		return $requete->fetchAll();
 	}
 }
 

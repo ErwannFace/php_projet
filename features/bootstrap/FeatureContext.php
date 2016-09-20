@@ -75,12 +75,12 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function uneEntreeEstCreeeDansLaTableUtilisateurs()
     {
-			if ( isset(
-				$this->new_user->getPseudo(),
-				$this->new_user->getEmail(),
-				$this->new_user->getPassword(),
-				$this->new_user->getRank()
-			)) {
+			if (
+				null !== $this->new_user->getPseudo() &&
+				null !== $this->new_user->getEmail() &&
+				null !== $this->new_user->getPassword() &&
+				null !== $this->new_user->getRank()
+			) {
 				$this->new_user->create();
 			} else {
 				echo "échec de la création du compte";

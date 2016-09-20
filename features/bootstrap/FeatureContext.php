@@ -28,109 +28,116 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Given je suis :arg1
+     * @Given je suis :role
      */
-    public function jeSuis($arg1)
+    public function jeSuis($role)
     {
-        $this->user = new User();
-        $this->user->setRole($arg1);
-
+			$this->user = new User();
+			$this->user->setRole($role);
     }
 
     /**
-     * @When j’ajoute un :arg1
+     * @When j’ajoute un :role
      */
-    public function jAjouteUn($arg1)
+    public function jAjouteUn($role)
     {
-
-        $db = DBSingleton::getInstance();
-        $this->user_list = $this->user->getUsersList($db);
-
+			$db = DBSingleton::getInstance();
+			$this->user_list = $this->user->getUsersList($db);
     }
 
     /**
-     * @When je renseigne un pseudo valide :arg1
+     * @When je renseigne un pseudo valide :pseudo
      */
-    public function jeRenseigneUnPseudoValide($arg1)
+    public function jeRenseigneUnPseudoValide($pseudo)
     {
-        $pseudo_valide = true;
-        if(
-            isset($arg1) &&
-            preg_match("/^[a-z0-9]+$/i", $arg1) &&
-            strlen($arg1)<=30 
-            ) 
-        {
-            foreach ($this->user_list as $user) {
-                if ($user['pseudo'] == $arg1){
-                    $pseudo_valide = false;
-                    break;
-                }
-            }
-
-        }else{
-            $pseudo_valide = false;            
-        }
-        if($pseudo_valide == false){
-        echo "pseudo invalide";
+			$pseudo_valide = true;
+			// vérification que le pseudo …
+			if (
+				// … n’est pas vide
+				isset($pseudo) &&
+				// … est composé uniquement de caractères alpha-numériques
+				preg_match( "/^[a-z0-9]+$/i", $pseudo ) &&
+				// … ne fait pas plus de 30 caractères
+				strlen($pseudo) <= 30 
+			) {
+				// … n’existe pas déjà dans la table 'utilisateurs'
+				foreach ( $this->user_list as $user ) {
+					if ( $user['pseudo'] == $pseudo ) {
+						$pseudo_valide = false;
+						break;
+					}
+				}
+			} else {
+				$pseudo_valide = false;            
+			}
+			// affiche un message d’erreur si le pseudo est invalide
+			if ( $pseudo_valide == false ) {
+				echo "pseudo invalide";
+			}
+			// renvoie 'true' si le pseudo est valide, ou 'false' s’il est invalide
+			return $pseudo_valide;
     }
-        return $pseudo_valide;
-    }
-
 
     /**
-     * @When je renseigne un e-mail valide :arg1
+     * @When je renseigne un e-mail valide :email
      */
-    public function jeRenseigneUnEMailValide($arg1)
+    public function jeRenseigneUnEMailValide($email)
     {
-     $email_valide = true;
-     if(
-        isset($arg1) &&
-        preg_match("/^[a-z0-9\-_.]+@[a-z0-9\-_.]+\.[a-z]+$/i", $arg1) &&
-        strlen($arg1)<=30 
-        ) 
-     {
-        foreach ($this->user_list as $user) {
-            if ($user['email'] == $arg1){
-                $email_valide = false;
-                break;
-            }
-        }   
-        }else{
-            $email_valide = false;            
-        }
-        if($email_valide == false){
-        echo "email invalide";
-    }
-    return $email_valide;
-}
+			$email_valide = true;
+			// vérification que l’e-mail …
+			if (
+				// … n’est pas vide
+				isset($email) &&
+				// … a un format correct
+				preg_match( "/^[a-z0-9\-_.]+@[a-z0-9\-_.]+\.[a-z]+$/i", $email ) &&
+				// … ne fait pas plus de 30 caractères
+				strlen($email) <= 30 
+			) {
+				// … n’existe pas déjà dans la table 'utilisateurs'
+				foreach ( $this->user_list as $user ) {
+					if ( $user['email'] == $email ) {
+						$email_valide = false;
+						break;
+					}
+				}   
+			} else {
+				$email_valide = false;            
+			}
+			// affiche un message d’erreur si l’e-mail est invalide
+			if( $email_valide == false ) {
+				echo "email invalide";
+			}
+			// renvoie 'true' si l’e-mail est valide, ou 'false' s’il est invalide
+			return $email_valide;
+		}
+    
     /**
      * @Then un mot de passe est généré automatiquement
      */
     public function unMotDePasseEstGenereAutomatiquement()
     {
-        $lettres = array_merge(range('a','z'),range('A','Z'),range('0','9'));
-         shuffle ( $lettres );
-        $lettres_finales = implode( $lettres);
-        return substr($lettres_finales , 0 , 9);
+			$lettres = array_merge( range('a','z'), range('A','Z'), range('0','9') );
+			shuffle ($lettres);
+			$lettres_melange = implode($lettres);
+			return substr($lettres_melange, 0, 9);
     }
 
     /**
-     * @Then une entrée est créée dans la table contributeurs :arg1 :arg2 
+     * @Then une entrée est créée dans la table contributeurs :pseudo :email
      */
-    public function uneEntreeEstCreeeDansLaTableContributeurs($pseudo, $email )
+    public function uneEntreeEstCreeeDansLaTableContributeurs($pseudo, $email)
     {
-        // "pseudo" "e-mail" 
-        if($this->jeRenseigneUnPseudoValide($pseudo) && 
-            $this->jeRenseigneUnEMailValide($email) ) {
-            $pwd = $this->unMotDePasseEstGenereAutomatiquement();
-            $db = DBSingleton::getInstance();
-            $sql = "INSERT INTO utilisateurs ( pseudo, password, email) VALUES ( '$pseudo', '$pwd', '$email');";
-            echo $sql;
-            $db->query($sql);
-        }else{
-            echo "pseudo ou email invalide";
-        }
-
+			if (
+				$this->jeRenseigneUnPseudoValide($pseudo) && 
+				$this->jeRenseigneUnEMailValide($email)
+			) {
+				$pwd = $this->unMotDePasseEstGenereAutomatiquement();
+				$db = DBSingleton::getInstance();
+				$sql = "INSERT INTO utilisateurs ( pseudo, password, email) VALUES ( '$pseudo', '$pwd', '$email');";
+				$db->query($sql);
+			} else {
+				echo "pseudo ou email invalide";
+			}
     }
 
     /**
@@ -142,11 +149,11 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @When je renseigne un pseudo invalide :arg1
+     * @When je renseigne un pseudo invalide :pseudo
      */
-    public function jeRenseigneUnPseudoInvalide($arg1)
+    public function jeRenseigneUnPseudoInvalide($pseudo)
     {
-        return jeRenseigneUnPseudoValide($arg1);
+			return $this->jeRenseigneUnPseudoValide($pseudo);
     }
 
     /**

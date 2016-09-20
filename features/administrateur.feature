@@ -34,12 +34,13 @@ Fonctionnalité: Opérations d’un Administrateur
 
 	Scénario: Un Administrateur supprime un contributeur avec un e-mail correct
 	Étant donné que je suis "administrateur"
-	Quand je supprime un contributeur avec un email correct "toto@facesimplon.com"
+	Et que un utilisateur existe avec le pseudo "titi" et l’e-mail "titi@facesimplon.com"
+	Quand je supprime un contributeur avec un email correct "titi@facesimplon.com"
 	Alors l’entrée de la table utilisateurs est supprimée
 
 	Scénario: Un Administrateur essaye de supprimer un contributeur avec un e-mail incorrect
 	Étant donné que je suis "administrateur"
-	Quand je supprime un contributeur avec un email incorrect "toto@facesimplon.com"
+	Quand je supprime un contributeur avec un email incorrect "titi@facesimplon.com"
 	Alors l’entrée de la table utilisateurs n’est pas supprimée
 
 	Scénario: Un Administrateur modifie un contributeur

@@ -30,6 +30,19 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
+     * @Given un utilisateur existe avec le pseudo :pseudo et l’e-mail :email
+     */
+    public function unUtilisateurExiste($pseudo, $email)
+    {
+			$this->new_user = new User();
+			$this->new_user->setPseudo($pseudo);
+			$this->new_user->setEmail($email);
+			$this->new_user->generatePassword();
+			$this->new_user->setRank('contributeur');
+			$this->new_user->create();
+    }
+
+    /**
      * @Given je suis :role
      */
     public function jeSuis($role)

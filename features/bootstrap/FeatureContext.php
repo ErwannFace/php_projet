@@ -1034,7 +1034,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function jeSuisVisiteur()
     {
-        throw new PendingException();
+        return true;
     }
 
     /**

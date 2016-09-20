@@ -37,10 +37,19 @@ class User{
 	
 	// création de l’entrée dans la table utilisateurs
 	public function create() {
-		$db = DBSingleton::getInstance();
-		$sql = "INSERT INTO utilisateurs (pseudo, password, email, role) VALUES ('$this->pseudo', '$this->password', '$this->email', '$this->role');";
-		$db->query($sql);
-		$this->id = $db->getLastID();
+		if (
+			null !== $this->pseudo &&
+			null !== $this->email &&
+			null !== $this->password &&
+			null !== $this->role
+		) {
+			$db = DBSingleton::getInstance();
+			$sql = "INSERT INTO utilisateurs (pseudo, password, email, role) VALUES ('$this->pseudo', '$this->password', '$this->email', '$this->role');";
+			$db->query($sql);
+			$this->id = $db->getLastID();
+		} else {
+			echo "échec de la création du compte";
+		}
 	}
 	
 	// modification de l’entrée dans la table utilisateurs
@@ -52,14 +61,18 @@ class User{
 	
 	// envoie un e-mail au nouvel utilisateur
 	public function sendEmail() {
-  	$message = 'Votre nouveau compte sur notre application a été créé.';
-  	$message .= "\n\n";
-  	$message .= 'Votre pseudo est : ';
-  	$message .= $this->pseudo;
-  	$message .= "\n";
-  	$message .= 'et votre mot de passe est : ';
-  	$message .= $this->password;
-		mail( $this->email, 'Votre nouveau compte', $message );
+		if ( null !== $this->id ) {
+			$message = 'Votre nouveau compte sur notre application a été créé.';
+			$message .= "\n\n";
+			$message .= 'Votre pseudo est : ';
+			$message .= $this->pseudo;
+			$message .= "\n";
+			$message .= 'et votre mot de passe est : ';
+			$message .= $this->password;
+			mail( $this->email, 'Votre nouveau compte', $message );
+		} else {
+			echo "l’e-mail n’a pas été envoyé";
+		}
 	}
 	
 	// modification du pseudo

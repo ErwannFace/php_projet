@@ -13,44 +13,38 @@ Fonctionnalité: Opérations d’un Administrateur
 	Scénario: Un Administrateur essaye d’ajouter un contributeur avec un pseudo invalide
 	Étant donné que je suis "administrateur"
 	Quand j’ajoute un "contributeur"
-		Et je renseigne un pseudo invalide "pseudo"
-	Alors un message d’erreur est affiché "message"
-		Et un nouveau pseudo est demandé
+		Et je renseigne un pseudo invalide "toto"
+	Alors aucune entrée n’est créée dans la table utilisateurs
 
 	Scénario: Un Administrateur essaye d’ajouter un contributeur avec un e-mail invalide
 	Étant donné que je suis "administrateur"
 	Quand j’ajoute un "contributeur"
-		Et je renseigne un e-mail invalide "e-mail"
-	Alors un message d’erreur est affiché "message"
-		Et un nouvel e-mail est demandé
+		Et je renseigne un e-mail invalide "toto@facesimplon.com"
+	Alors aucune entrée n’est créée dans la table utilisateurs
 
 	Scénario: Un Administrateur supprime un contributeur
 	Étant donné que je suis "administrateur"
 	Quand je supprime un contributeur
 		Et je renseigne un pseudo correct "pseudo"
-	Alors l'entrée de la table est supprimée
-		Et un message de confirmation est affiché
+	Alors l’entrée de la table utilisateurs est supprimée
 
 	Scénario: Un Administrateur essaye de supprimer un contributeur
 	Étant donné que je suis "administrateur"
 	Quand je supprime un contributeur
 		Et je renseigne un pseudo incorrect "pseudo"
-	Alors un message d'erreur est affiché
-		Et un nouveau pseudo est demandé
+	Alors l’entrée de la table utilisateurs n’est pas supprimée
 
 	Scénario: Un Administrateur supprime un contributeur
 	Étant donné que je suis "administrateur"
-	Quand je supprime un utlisateur
+	Quand je supprime un contributeur
 		Et je renseigne un email correct "email"
-	Alors l'entrée de la table est supprimée
-		Et un message de confirmation est affiché
+	Alors l’entrée de la table utilisateurs est supprimée
 
 	Scénario: Un Administrateur essaye de supprimer un contributeur
 	Étant donné que je suis "administrateur"
 	Quand je supprime un contributeur
 		Et je renseigne un email incorrect "email"
-	Alors un message d'erreur est affiché
-		Et un nouveau email est demandé
+	Alors l’entrée de la table utilisateurs n’est pas supprimée
 
 	Scénario: Un Administrateur modifie un contributeur
 	Étant donné que je suis "administrateur"

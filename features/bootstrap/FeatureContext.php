@@ -47,7 +47,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @When je renseigne un pseudo valide :pseudo
+     * @When je renseigne un pseudo (in)valide :pseudo
      */
     public function jeRenseigneUnPseudoValide($pseudo)
     {
@@ -55,7 +55,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @When je renseigne un e-mail valide :email
+     * @When je renseigne un e-mail (in)valide :email
      */
     public function jeRenseigneUnEMailValide($email)
     {
@@ -71,20 +71,11 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Then une entrée est créée dans la table utilisateurs
+     * @Then (auc)une entrée (n’)est créée dans la table utilisateurs
      */
     public function uneEntreeEstCreeeDansLaTableUtilisateurs()
     {
-			if (
-				null !== $this->new_user->getPseudo() &&
-				null !== $this->new_user->getEmail() &&
-				null !== $this->new_user->getPassword() &&
-				null !== $this->new_user->getRank()
-			) {
-				$this->new_user->create();
-			} else {
-				echo "échec de la création du compte";
-			}
+			$this->new_user->create();
     }
 
     /**
@@ -92,51 +83,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function unEMailEstEnvoyeAuNouvelUtilisateur()
     {
-			if ( null !== $this->new_user->getID() ) {
-				$this->new_user->sendEmail();
-			} else {
-				echo "l’e-mail n’a pas été envoyé";
-			}
-    }
-
-    /**
-     * @When je renseigne un pseudo invalide :pseudo
-     */
-    public function jeRenseigneUnPseudoInvalide($pseudo)
-    {
-			return $this->jeRenseigneUnPseudoValide($pseudo);
-    }
-
-    /**
-     * @Then un message d’erreur est affiché :arg1
-     */
-    public function unMessageDErreurEstAffiche($arg1)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then un nouveau pseudo est demandé
-     */
-    public function unNouveauPseudoEstDemande()
-    {
-       
-    }
-
-    /**
-     * @When je renseigne un e-mail invalide :arg1
-     */
-    public function jeRenseigneUnEMailInvalide($arg1)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then un nouvel e-mail est demandé
-     */
-    public function unNouvelEMailEstDemande()
-    {
-        throw new PendingException();
+			$this->new_user->sendEmail();
     }
 
     /**
@@ -156,41 +103,9 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Then l'entrée de la table est supprimée
-     */
-    public function lEntreeDeLaTableEstSupprimee()
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then un message de confirmation est affiché
-     */
-    public function unMessageDeConfirmationEstAffiche()
-    {
-        throw new PendingException();
-    }
-
-    /**
      * @When je renseigne un pseudo incorrect :arg1
      */
     public function jeRenseigneUnPseudoIncorrect($arg1)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then un message d'erreur est affiché
-     */
-    public function unMessageDErreurEstAffiche2()
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @When je supprime un utlisateur
-     */
-    public function jeSupprimeUnUtlisateur()
     {
         throw new PendingException();
     }
@@ -212,9 +127,41 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Then un nouveau email est demandé
+     * @Then l’entrée de la table utilisateurs est supprimée
      */
-    public function unNouveauEmailEstDemande()
+    public function lEntreeDeLaTableUtilisateursEstSupprimee()
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @Then l’entrée de la table utilisateurs n’est pas supprimée
+     */
+    public function lEntreeDeLaTableUtilisateursNEstPasSupprimee()
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @Then un nouveau pseudo est demandé
+     */
+    public function unNouveauPseudoEstDemande()
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @Then un message d’erreur est affiché :arg1
+     */
+    public function unMessageDErreurEstAffiche($arg1)
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @Then un nouvel e-mail est demandé
+     */
+    public function unNouvelEMailEstDemande()
     {
         throw new PendingException();
     }
@@ -1199,6 +1146,30 @@ class FeatureContext implements Context, SnippetAcceptingContext
      * @When j’ai fait au moins x essais :arg1
      */
     public function jAiFaitAuMoinsXEssais($arg1)
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @Then un message de confirmation est affiché
+     */
+    public function unMessageDeConfirmationEstAffiche()
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @Then un message d'erreur est affiché
+     */
+    public function unMessageDErreurEstAffiche2()
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @Then un nouveau email est demandé
+     */
+    public function unNouveauEmailEstDemande()
     {
         throw new PendingException();
     }

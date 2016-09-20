@@ -20,8 +20,10 @@ class FeatureContext implements Context, SnippetAcceptingContext
      * You can also pass arbitrary arguments to the
      * context constructor through behat.yml.
      */
-    var $user;
-    var $user_list;
+    private $user;
+    private $user_list;
+    private $new_user;
+
     public function __construct()
     {
 
@@ -45,7 +47,8 @@ class FeatureContext implements Context, SnippetAcceptingContext
 
         $db = DBSingleton::getInstance();
         $this->user_list = $this->user->getUsersList($db);
-
+        $this->new_user = new User();
+        $this->new_user->setRole($arg1);
     }
 
     /**
@@ -71,8 +74,12 @@ class FeatureContext implements Context, SnippetAcceptingContext
             $pseudo_valide = false;            
         }
         if($pseudo_valide == false){
-        echo "pseudo invalide";
-    }
+            echo "pseudo invalide";
+        }
+        if($pseudo_valide)
+            $this->new_user->setPseudo($arg1);
+        else 
+            throw new Exception("Invalid Pseudo");
         return $pseudo_valide;
     }
 
@@ -86,7 +93,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      if(
         isset($arg1) &&
         preg_match("/^[a-z0-9\-_.]+@[a-z0-9\-_.]+\.[a-z]+$/i", $arg1) &&
-        strlen($arg1)<=30 
+        strlen($arg1)<=50 
         ) 
      {
         foreach ($this->user_list as $user) {
@@ -101,6 +108,11 @@ class FeatureContext implements Context, SnippetAcceptingContext
         if($email_valide == false){
         echo "email invalide";
     }
+    if($email_valide)
+        $this->new_user->setEmail($arg1);
+    else 
+        throw new Exception("Invalid Email");
+
     return $email_valide;
 }
     /**
@@ -111,7 +123,9 @@ class FeatureContext implements Context, SnippetAcceptingContext
         $lettres = array_merge(range('a','z'),range('A','Z'),range('0','9'));
          shuffle ( $lettres );
         $lettres_finales = implode( $lettres);
-        return substr($lettres_finales , 0 , 9);
+        $pwd = substr($lettres_finales , 0 , 9);
+        $this->user->setPwd($pwd);
+        return true;
     }
 
     /**
@@ -119,17 +133,9 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function uneEntreeEstCreeeDansLaTableContributeurs($pseudo, $email )
     {
-        // "pseudo" "e-mail" 
-        if($this->jeRenseigneUnPseudoValide($pseudo) && 
-            $this->jeRenseigneUnEMailValide($email) ) {
-            $pwd = $this->unMotDePasseEstGenereAutomatiquement();
+            
             $db = DBSingleton::getInstance();
-            $sql = "INSERT INTO utilisateurs ( pseudo, password, email) VALUES ( '$pseudo', '$pwd', '$email');";
-            echo $sql;
-            $db->query($sql);
-        }else{
-            echo "pseudo ou email invalide";
-        }
+            $this->user->create($db);
 
     }
 
@@ -146,7 +152,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function jeRenseigneUnPseudoInvalide($arg1)
     {
-        return jeRenseigneUnPseudoValide($arg1);
+        return $this->jeRenseigneUnPseudoValide($arg1);
     }
 
     /**
@@ -421,18 +427,6 @@ class FeatureContext implements Context, SnippetAcceptingContext
         throw new PendingException();
     }
 
-
-
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
     /**
      * @When je suis sur la page modal de connection
      */
@@ -441,9 +435,14 @@ class FeatureContext implements Context, SnippetAcceptingContext
         throw new PendingException();
     }
 
+
+
     /**
      * @When je saisis un pseudo valide :arg1
      */
+
+
+    
     public function jeSaisisUnPseudoValide($arg1)
     {
         throw new PendingException();
@@ -1040,18 +1039,6 @@ class FeatureContext implements Context, SnippetAcceptingContext
     {
         throw new PendingException();
     }
-
-
-
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
 
     /**
      * @Given je suis visiteur

@@ -22,6 +22,9 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     var $user;
     var $user_list;
+    var $pseudo;
+    var $pwd;
+    var $email;
     public function __construct()
     {
 
@@ -131,21 +134,32 @@ class FeatureContext implements Context, SnippetAcceptingContext
 				$this->jeRenseigneUnPseudoValide($pseudo) && 
 				$this->jeRenseigneUnEMailValide($email)
 			) {
-				$pwd = $this->unMotDePasseEstGenereAutomatiquement();
+				$passwd = $this->unMotDePasseEstGenereAutomatiquement();
 				$db = DBSingleton::getInstance();
-				$sql = "INSERT INTO utilisateurs ( pseudo, password, email) VALUES ( '$pseudo', '$pwd', '$email');";
+				$sql = "INSERT INTO utilisateurs ( pseudo, password, email) VALUES ( '$pseudo', '$passwd', '$email');";
 				$db->query($sql);
+				$this->pseudo = $pseudo;
+				$this->passwd = $passwd;
+				$this->email = $email;
 			} else {
 				echo "pseudo ou email invalide";
 			}
     }
 
     /**
-     * @Then un e-mail est envoyé au nouveau contributeur :arg1 :arg2 :arg3
+     * @Then un e-mail est envoyé au nouveau contributeur
      */
-    public function unEMailEstEnvoyeAuNouveauContributeur($email, $pseudo, $pwd)
+    public function unEMailEstEnvoyeAuNouveauContributeur()
     {
-        throw new PendingException();
+    	$message = 'Votre nouveau compte sur notre application a été créé.';
+    	$message .= "\n\n";
+    	$message .= 'Votre pseudo est : ';
+    	$message .= $this->pseudo;
+    	$message .= "\n";
+    	$message .= 'et votre mot de passe est : ';
+    	$message .= $this->passwd;
+    	
+			mail( $this->email, 'Votre nouveau compte', $message );
     }
 
     /**

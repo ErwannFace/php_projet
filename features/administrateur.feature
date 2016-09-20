@@ -5,10 +5,10 @@ Fonctionnalité: Opérations d’un Administrateur
 	Étant donné que je suis "Administrateur"
 	Quand j’ajoute un "contributeur"
 		Et je renseigne un pseudo valide "toto"
-		Et je renseigne un e-mail valide "toto@facesimplon.fr"
+		Et je renseigne un e-mail valide "toto@facesimplon.com"
 	Alors un mot de passe est généré automatiquement
-		Et une entrée est créée dans la table contributeurs "toto" "toto@facesimplon.fr"
-		Et un e-mail est envoyé au nouveau contributeur "toto@facesimplon.fr" "toto" "mot_de_passe"
+		Et une entrée est créée dans la table contributeurs "toto" "toto@facesimplon.com"
+		Et un e-mail est envoyé au nouveau contributeur
 
 	Scénario: Un Administrateur essaye d’ajouter un contributeur avec un pseudo invalide
 	Étant donné que je suis "Administrateur"

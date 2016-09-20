@@ -20,9 +20,8 @@ class FeatureContext implements Context, SnippetAcceptingContext
      * You can also pass arbitrary arguments to the
      * context constructor through behat.yml.
      */
-    private $current_user;
-		private $new_user;
-		private $user_to_delete;
+    private $operator;
+		private $current_user;
 		
     public function __construct()
     {
@@ -34,12 +33,12 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function unUtilisateurExiste($pseudo, $email)
     {
-			$this->new_user = new User();
-			$this->new_user->setPseudo($pseudo);
-			$this->new_user->setEmail($email);
-			$this->new_user->generatePassword();
-			$this->new_user->setRank('contributeur');
-			$this->new_user->create();
+			$this->current_user = new User();
+			$this->current_user->setPseudo($pseudo);
+			$this->current_user->setEmail($email);
+			$this->current_user->generatePassword();
+			$this->current_user->setRank('contributeur');
+			$this->current_user->create();
     }
 
     /**
@@ -47,8 +46,8 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function jeSuis($role)
     {
-			$this->current_user = new User();
-			$this->current_user->setRank($role);
+			$this->operator = new User();
+			$this->operator->setRank($role);
     }
 
     /**
@@ -56,8 +55,8 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function jAjouteUn($role)
     {
-			$this->new_user = new User();
-			$this->new_user->setRank($role);
+			$this->current_user = new User();
+			$this->current_user->setRank($role);
     }
 
     /**
@@ -65,7 +64,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function jeRenseigneUnPseudoValide($pseudo)
     {
-			$this->new_user->setPseudo($pseudo);
+			$this->current_user->setPseudo($pseudo);
     }
 
     /**
@@ -73,7 +72,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function jeRenseigneUnEMailValide($email)
     {
-			$this->new_user->setEmail($email);
+			$this->current_user->setEmail($email);
 		}
     
     /**
@@ -81,7 +80,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function unMotDePasseEstGenereAutomatiquement()
     {
-			$this->new_user->generatePassword();
+			$this->current_user->generatePassword();
     }
 
     /**
@@ -89,7 +88,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function uneEntreeEstCreeeDansLaTableUtilisateurs()
     {
-			$this->new_user->create();
+			$this->current_user->create();
     }
 
     /**
@@ -97,7 +96,31 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function unEMailEstEnvoyeAuNouvelUtilisateur()
     {
-			$this->new_user->sendEmail();
+			$this->current_user->sendEmail();
+    }
+
+    /**
+     * @When je modifie un utilisateur avec :pseudo_ou_email :arg
+     */
+    public function jeModifieUnUtilisateur($arg)
+    {
+			$this->current_user = User::select($arg);
+    }
+
+    /**
+     * @Then l’entrée de la table utilisateurs est modifiée
+     */
+    public function lEntreeDeLaTableUtilisateursEstModifiee()
+    {
+//			$this->
+    }
+
+    /**
+     * @Then l’entrée de la table utilisateurs n’est pas modifiée
+     */
+    public function lEntreeDeLaTableUtilisateursNEstPasModifiee()
+    {
+        throw new PendingException();
     }
 
     /**
@@ -105,7 +128,9 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function jeSupprimeUnContributeur($arg)
     {
-			$this->user_to_delete = User::select($arg);
+			$user = User::select($arg);
+			$this->current_user = new User();
+			$this->current_user->setID($user['ID']);
     }
 
     /**
@@ -113,7 +138,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function lEntreeDeLaTableUtilisateursEstSupprimee()
     {
-			User::delete($this->user_to_delete);
+			User::delete($this->current_user->getID());
     }
 
     /**

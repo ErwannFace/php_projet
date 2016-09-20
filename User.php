@@ -59,7 +59,7 @@ class User{
 		$db->query($sql);
 	}
 	
-	// retourne l’ID d’un utilisateur depuis son pseudo ou son e-mail
+	// retourne un utilisateur depuis son pseudo ou son e-mail
 	public static function select($string) {
 		$db = DBSingleton::getInstance();
 		
@@ -73,13 +73,13 @@ class User{
 		$user = $reponse->fetch();
 
 		if ($user) {
-			return $user['ID'];
+			return $user;
 		} else {
 			echo "utilisateur introuvable";
 		}
 	}
 
-	// suppression de l’entrée de la base utilisateurs
+	// suppression d’un utilisateur de l’entrée de la base utilisateurs depuis son id
 	public static function delete($id) {
 		$db = DBSingleton::getInstance();
 		
@@ -111,6 +111,15 @@ class User{
 			mail( $this->email, 'Votre nouveau compte', $message );
 		} else {
 			echo "l’e-mail n’a pas été envoyé";
+		}
+	}
+	
+	// modification de l’ID
+	public function setID($id) {
+		if (is_numeric($id)) {
+			$this->id = $id;
+		} else {
+			echo "format de l’ID incorrect";
 		}
 	}
 	

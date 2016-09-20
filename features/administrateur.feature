@@ -22,6 +22,30 @@ Fonctionnalité: Opérations d’un Administrateur
 		Et je renseigne un e-mail invalide "toto@facesimplon.com"
 	Alors aucune entrée n’est créée dans la table utilisateurs
 
+	Scénario: Un Administrateur modifie le pseudo d’un contributeur, et entre un nouveau pseudo valide
+	Étant donné que je suis "administrateur"
+	Quand je modifie un utilisateur avec "le pseudo" "toto"
+		Et je renseigne un pseudo valide "tutu"
+	Alors l’entrée de la table utilisateurs est modifiée
+
+	Scénario: Un Administrateur modifie le pseudo d’un contributeur, et entre un nouveau pseudo invalide
+	Étant donné que je suis "administrateur"
+	Quand je modifie un utilisateur avec "le pseudo" "tutu"
+		Et je renseigne un pseudo invalide "t@t@"
+	Alors l’entrée de la table utilisateurs n’est pas modifiée
+
+	Scénario: Un Administrateur modifie l’e-mail d’un contributeur, et entre un nouvel e-mail valide
+	Étant donné que je suis "administrateur"
+	Quand je modifie un utilisateur avec "l’e-mail" "toto@facesimplon.com"
+		Et je renseigne un e-mail valide "tutu@facesimplon.com"
+	Alors l’entrée de la table utilisateurs est modifiée
+
+	Scénario: Un Administrateur modifie l’e-mail d’un contributeur, et entre un nouvel e-mail invalide
+	Étant donné que je suis "administrateur"
+	Quand je modifie un utilisateur avec "l’e-mail" "tutu@facesimplon.com"
+		Et je renseigne un e-mail invalide "tutu-AT-facesimplon-DOT-com"
+	Alors l’entrée de la table utilisateurs n’est pas modifiée
+
 	Scénario: Un Administrateur supprime un contributeur avec un pseudo correct
 	Étant donné que je suis "administrateur"
 	Quand je supprime un contributeur avec un pseudo correct "toto"
@@ -42,41 +66,6 @@ Fonctionnalité: Opérations d’un Administrateur
 	Étant donné que je suis "administrateur"
 	Quand je supprime un contributeur avec un email incorrect "titi@facesimplon.com"
 	Alors l’entrée de la table utilisateurs n’est pas supprimée
-
-	Scénario: Un Administrateur modifie un contributeur
-	Étant donné que je suis "administrateur"
-	Quand je modifie un "pseudo_contributeur" 
-		Et je renseigne un pseudo contributeur correct "pseudo_contributeur"
-		Et je renseigne un nouveau pseudo contributeur valide "pseudo_contributeur"
-	Alors l'entrée de la table est actualisée
-		Et un message de confirmation est affiché
-
-	Scénario: Un Administrateur modifie un contributeur
-	Étant donné que je suis "administrateur"
-	Quand je modifie un "pseudo_contributeur" 
-		Et je renseigne un pseudo contributeur correct "pseudo_contributeur"
-		Et je renseigne un nouveau pseudo contributeur invalide "pseudo_contributeur"
-	Alors un message d'erreur est affiché
-		Et un nouveau pseudo_contributeur est demandé
-
-
-	Scénario: Un Administrateur modifie un contributeur
-	Étant donné que je suis "administrateur"
-	Quand je modifie un "email_contributeur" 
-		Et je renseigne un email contributeur correct "email_contributeur"
-		Et je renseigne un nouveau email contributeur valide "email_contributeur"
-	Alors l'entrée de la table est actualisée
-		Et un message de confirmation est affiché
-
-
-	Scénario: Un Administrateur modifie un contributeur
-	Étant donné que je suis "administrateur"
-	Quand je modifie un "email_contributeur" 
-		Et je renseigne un email contributeur correct "email_contributeur"
-		Et je renseigne un nouveau email contributeur invalide "email_contributeur"
-	Alors un message d'erreur est affiché
-		Et un nouveau email_contributeur est demandé
-
 
 	Scénario: Un Administrateur modifie un droit de contributeur
 	Étant donné que je suis "administrateur"

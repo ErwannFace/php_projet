@@ -20,11 +20,9 @@ class FeatureContext implements Context, SnippetAcceptingContext
      * You can also pass arbitrary arguments to the
      * context constructor through behat.yml.
      */
-    var $user;
-    var $user_list;
-    var $pseudo;
-    var $pwd;
-    var $email;
+    private $current_user;
+		private $new_user;
+		
     public function __construct()
     {
 
@@ -35,8 +33,8 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function jeSuis($role)
     {
-			$this->user = new User();
-			$this->user->setRole($role);
+			$this->current_user = new User();
+			$this->current_user->setRole($role);
     }
 
     /**
@@ -45,7 +43,8 @@ class FeatureContext implements Context, SnippetAcceptingContext
     public function jAjouteUn($role)
     {
 			$db = DBSingleton::getInstance();
-			$this->user_list = User::getUsersList($db);
+			$this->new_user = new User();
+			$this->new_user->setRole($role);
     }
 
     /**
@@ -53,32 +52,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function jeRenseigneUnPseudoValide($pseudo)
     {
-			$pseudo_valide = true;
-			// vérification que le pseudo …
-			if (
-				// … n’est pas vide
-				isset($pseudo) &&
-				// … est composé uniquement de caractères alpha-numériques
-				preg_match( "/^[a-z0-9]+$/i", $pseudo ) &&
-				// … ne fait pas plus de 30 caractères
-				strlen($pseudo) <= 30 
-			) {
-				// … n’existe pas déjà dans la table 'utilisateurs'
-				foreach ( $this->user_list as $user ) {
-					if ( $user['pseudo'] == $pseudo ) {
-						$pseudo_valide = false;
-						break;
-					}
-				}
-			} else {
-				$pseudo_valide = false;            
-			}
-			// affiche un message d’erreur si le pseudo est invalide
-			if ( $pseudo_valide == false ) {
-				echo "pseudo invalide";
-			}
-			// renvoie 'true' si le pseudo est valide, ou 'false' s’il est invalide
-			return $pseudo_valide;
+			$this->new_user->setPseudo($pseudo);
     }
 
     /**
@@ -86,32 +60,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function jeRenseigneUnEMailValide($email)
     {
-			$email_valide = true;
-			// vérification que l’e-mail …
-			if (
-				// … n’est pas vide
-				isset($email) &&
-				// … a un format correct
-				preg_match( "/^[a-z0-9\-_.]+@[a-z0-9\-_.]+\.[a-z]+$/i", $email ) &&
-				// … ne fait pas plus de 30 caractères
-				strlen($email) <= 30 
-			) {
-				// … n’existe pas déjà dans la table 'utilisateurs'
-				foreach ( $this->user_list as $user ) {
-					if ( $user['email'] == $email ) {
-						$email_valide = false;
-						break;
-					}
-				}   
-			} else {
-				$email_valide = false;            
-			}
-			// affiche un message d’erreur si l’e-mail est invalide
-			if( $email_valide == false ) {
-				echo "email invalide";
-			}
-			// renvoie 'true' si l’e-mail est valide, ou 'false' s’il est invalide
-			return $email_valide;
+			$this->new_user->setEmail($email);
 		}
     
     /**
@@ -119,37 +68,30 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function unMotDePasseEstGenereAutomatiquement()
     {
-			$lettres = array_merge( range('a','z'), range('A','Z'), range('0','9') );
-			shuffle ($lettres);
-			$lettres_melange = implode($lettres);
-			return substr($lettres_melange, 0, 9);
+			$this->new_user->generatePassword();
     }
 
     /**
-     * @Then une entrée est créée dans la table contributeurs :pseudo :email
+     * @Then une entrée est créée dans la table utilisateurs
      */
-    public function uneEntreeEstCreeeDansLaTableContributeurs($pseudo, $email)
+    public function uneEntreeEstCreeeDansLaTableUtilisateurs()
     {
-			if (
-				$this->jeRenseigneUnPseudoValide($pseudo) && 
-				$this->jeRenseigneUnEMailValide($email)
-			) {
-				$passwd = $this->unMotDePasseEstGenereAutomatiquement();
-				$db = DBSingleton::getInstance();
-				$sql = "INSERT INTO utilisateurs ( pseudo, password, email) VALUES ( '$pseudo', '$passwd', '$email');";
-				$db->query($sql);
-				$this->pseudo = $pseudo;
-				$this->passwd = $passwd;
-				$this->email = $email;
+			if ( isset(
+				$this->new_user->pseudo,
+				$this->new_user->email,
+				$this->new_user->password,
+				$this->new_user->rank
+			)) {
+				$this->new_user->create();
 			} else {
-				echo "pseudo ou email invalide";
+				echo "échec de la création du compte";
 			}
     }
 
     /**
-     * @Then un e-mail est envoyé au nouveau contributeur
+     * @Then un e-mail est envoyé au nouvel utilisateur
      */
-    public function unEMailEstEnvoyeAuNouveauContributeur()
+    public function unEMailEstEnvoyeAuNouvelUtilisateur()
     {
     	$message = 'Votre nouveau compte sur notre application a été créé.';
     	$message .= "\n\n";

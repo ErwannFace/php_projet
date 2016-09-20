@@ -4,11 +4,11 @@ Fonctionnalité: Opérations d’un Administrateur
 	Scénario: Un Administrateur ajoute un contributeur
 	Étant donné que je suis "Administrateur"
 	Quand j’ajoute un "contributeur"
-		Et je renseigne un pseudo valide "pseudo"
-		Et je renseigne un e-mail valide "e-mail"
+		Et je renseigne un pseudo valide "toto"
+		Et je renseigne un e-mail valide "toto@facesimplon.fr"
 	Alors un mot de passe est généré automatiquement
-		Et une entrée est créée dans la table contributeurs "pseudo" "e-mail" 
-		Et un e-mail est envoyé au nouveau contributeur "e-mail" "pseudo" "mot_de_passe"
+		Et une entrée est créée dans la table contributeurs "toto" "toto@facesimplon.fr"
+		Et un e-mail est envoyé au nouveau contributeur "toto@facesimplon.fr" "toto" "mot_de_passe"
 
 	Scénario: Un Administrateur essaye d’ajouter un contributeur avec un pseudo invalide
 	Étant donné que je suis "Administrateur"

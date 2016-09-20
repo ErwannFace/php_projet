@@ -68,11 +68,13 @@ class User{
 		} else {
 			$pseudo_valide = false;
 		}
-		($pseudo_valide) ?
+		if ($pseudo_valide) {
 			// assigne le pseudo au nouvel utilisateur s’il est valide …
-			$this->pseudo = $pseudo :
+			$this->pseudo = $pseudo;
+		} else {
 			// … ou affiche un message d’erreur si le pseudo est invalide
 			echo "pseudo invalide";
+		}
 	}
 	
 	// modification de l’e-mail
@@ -98,11 +100,13 @@ class User{
 		} else {
 			$email_valide = false;
 		}
-		($email_valide) ?
+		if ($email_valide) {
 			// assigne l’e-mail au nouvel utilisateur s’il est valide …
-			$this->email = $email :
+			$this->email = $email;
+		} else {
 			// … ou affiche un message d’erreur si l’e-mail est invalide
 			echo "e-mail invalide";
+		}
 	}
 	
 	// modification du röle

@@ -42,7 +42,7 @@ audio/mp3
 		// vérification que le titre …
 		if (
 			// … n’est pas vide
-			!isset($titre) ||
+			isset($titre) ||
 			// … ne fait pas plus de 250 caractères
 			strlen($titre) > 250
 		){

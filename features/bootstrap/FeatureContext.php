@@ -957,6 +957,9 @@ class FeatureContext implements Context, SnippetAcceptingContext
     {
         //Id Date Titre Format Media
         if (isset($valeur)){
+            $blocs_list = "SELECT `date`, `titre`, `media` FROM `blocs`";
+            // var_dump($bloc['media']);
+
             foreach ($this->$blocs_list as $bloc) {
                 if ($bloc['date'] == $valeur){
                     return $bloc;
@@ -980,7 +983,16 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function jeMeConnecteAvecCommePseudoEtCommeMotDePasse($arg1, $arg2)
     {
-        throw new PendingException();
+        $connection_valide = false;
+
+        if (isset($arg1) && isset($arg2)) {
+            $identifiants_list = "SELECT * FROM `utilisateurs'";    
+            $id = "SELECT * FROM utilisateurs WHERE pseudo = $arg1";
+                if ($arg1 == 'pseudo' && $arg2 == 'password') {
+                    $connection_valide = true;
+                }
+
+        }
     }
 
     /**

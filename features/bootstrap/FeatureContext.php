@@ -1049,48 +1049,20 @@ class FeatureContext implements Context, SnippetAcceptingContext
         if (isset($valeur)){
             foreach ($this->$blocs_list as $bloc) {
                 if ($bloc['date'] == $valeur){
-                    break;
                     return $bloc;
                 }
             }
             foreach ($this->$blocs_list as $bloc) {
                 if ($bloc['titre'] == $valeur){
-                    break;
                     return $bloc;
                 }
             }
             foreach ($this->$blocs_list as $bloc) {
                 if ($bloc['media'] == $valeur){
-                    break;
                     return $bloc;
                 }
             }
         }        
-    }
-
-
-    /**
-     * @When aucun bloc existe
-     */
-    public function aucunBlocExiste()
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @When un bloc existe
-     */
-    public function unBlocExiste()
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then un sous-ensemble des blocs est retourné
-     */
-    public function unSousEnsembleDesBlocsEstRetourne()
-    {
-        throw new PendingException();
     }
 
     /**

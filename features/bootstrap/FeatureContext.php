@@ -20,10 +20,8 @@ class FeatureContext implements Context, SnippetAcceptingContext
      * You can also pass arbitrary arguments to the
      * context constructor through behat.yml.
      */
-    private $user;
-    private $user_list;
-    private $new_user;
-
+    var $user;
+    var $user_list;
     public function __construct()
     {
 
@@ -47,8 +45,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
 
         $db = DBSingleton::getInstance();
         $this->user_list = $this->user->getUsersList($db);
-        $this->new_user = new User();
-        $this->new_user->setRole($arg1);
+
     }
 
     /**
@@ -74,12 +71,8 @@ class FeatureContext implements Context, SnippetAcceptingContext
             $pseudo_valide = false;            
         }
         if($pseudo_valide == false){
-            echo "pseudo invalide";
-        }
-        if($pseudo_valide)
-            $this->new_user->setPseudo($arg1);
-        else 
-            throw new Exception("Invalid Pseudo");
+        echo "pseudo invalide";
+    }
         return $pseudo_valide;
     }
 
@@ -93,7 +86,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      if(
         isset($arg1) &&
         preg_match("/^[a-z0-9\-_.]+@[a-z0-9\-_.]+\.[a-z]+$/i", $arg1) &&
-        strlen($arg1)<=50 
+        strlen($arg1)<=30 
         ) 
      {
         foreach ($this->user_list as $user) {
@@ -108,11 +101,6 @@ class FeatureContext implements Context, SnippetAcceptingContext
         if($email_valide == false){
         echo "email invalide";
     }
-    if($email_valide)
-        $this->new_user->setEmail($arg1);
-    else 
-        throw new Exception("Invalid Email");
-
     return $email_valide;
 }
     /**
@@ -123,9 +111,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
         $lettres = array_merge(range('a','z'),range('A','Z'),range('0','9'));
          shuffle ( $lettres );
         $lettres_finales = implode( $lettres);
-        $pwd = substr($lettres_finales , 0 , 9);
-        $this->user->setPwd($pwd);
-        return true;
+        return substr($lettres_finales , 0 , 9);
     }
 
     /**
@@ -133,9 +119,17 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function uneEntreeEstCreeeDansLaTableContributeurs($pseudo, $email )
     {
-            
+        // "pseudo" "e-mail" 
+        if($this->jeRenseigneUnPseudoValide($pseudo) && 
+            $this->jeRenseigneUnEMailValide($email) ) {
+            $pwd = $this->unMotDePasseEstGenereAutomatiquement();
             $db = DBSingleton::getInstance();
-            $this->user->create($db);
+            $sql = "INSERT INTO utilisateurs ( pseudo, password, email) VALUES ( '$pseudo', '$pwd', '$email');";
+            echo $sql;
+            $db->query($sql);
+        }else{
+            echo "pseudo ou email invalide";
+        }
 
     }
 
@@ -152,7 +146,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function jeRenseigneUnPseudoInvalide($arg1)
     {
-        return $this->jeRenseigneUnPseudoValide($arg1);
+        return jeRenseigneUnPseudoValide($arg1);
     }
 
     /**
@@ -427,39 +421,21 @@ class FeatureContext implements Context, SnippetAcceptingContext
         throw new PendingException();
     }
 
-
-
-
-
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// CONTRIBUTEUR //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
     /**
      * @When je suis sur la page modal de connection
      */
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public function jeSuisSurLaPageModalDeConnection()
     {
         throw new PendingException();
     }
 
-
-
     /**
      * @When je saisis un pseudo valide :arg1
      */
-
-
-    
     public function jeSaisisUnPseudoValide($arg1)
     {
-
-        if($pseudo_valide)
-            $this->new_user->setPseudo($arg1);
-        else 
-            throw new Exception("Invalid Pseudo");
-        return $pseudo_valide;
+        throw new PendingException();
     }
 
     /**
@@ -493,10 +469,6 @@ class FeatureContext implements Context, SnippetAcceptingContext
     {
         throw new PendingException();
     }
-
-
-    //////////////////////////////////////////
-    //////////////////////////////////////////
 
     /**
      * @When je saisis un email valide :arg1
@@ -1061,18 +1033,41 @@ class FeatureContext implements Context, SnippetAcceptingContext
     /**
      * @Given je suis visiteur
      */
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public function jeSuisVisiteur()
     {
         throw new PendingException();
     }
 
     /**
-     * @When je filtre les bloc par :arg1 avec la valeur :arg2
+     * @When je filtre les bloc par :champ avec la valeur :valeur
      */
-    public function jeFiltreLesBlocParAvecLaValeur($arg1, $arg2)
+    var $blocs_list;
+    public function jeFiltreLesBlocParAvecLaValeur($champ, $valeur)
     {
-        throw new PendingException();
+        //Id Date Titre Format Media
+        if (isset($valeur)){
+            foreach ($this->$blocs_list as $bloc) {
+                if ($bloc['date'] == $valeur){
+                    break;
+                    return $bloc;
+                }
+            }
+            foreach ($this->$blocs_list as $bloc) {
+                if ($bloc['titre'] == $valeur){
+                    break;
+                    return $bloc;
+                }
+            }
+            foreach ($this->$blocs_list as $bloc) {
+                if ($bloc['media'] == $valeur){
+                    break;
+                    return $bloc;
+                }
+            }
+        }        
     }
+
 
     /**
      * @When aucun bloc existe

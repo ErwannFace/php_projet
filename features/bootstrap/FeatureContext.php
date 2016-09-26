@@ -334,6 +334,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
     /**
      * @When je suis sur la page modal de connection
      */
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public function jeSuisSurLaPageModalDeConnection()
     {
         throw new PendingException();
@@ -942,41 +943,36 @@ class FeatureContext implements Context, SnippetAcceptingContext
     /**
      * @Given je suis visiteur
      */
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public function jeSuisVisiteur()
     {
         return true;
     }
 
     /**
-     * @When je filtre les bloc par :arg1 avec la valeur :arg2
+     * @When je filtre les bloc par :champ avec la valeur :valeur
      */
-    public function jeFiltreLesBlocParAvecLaValeur($arg1, $arg2)
+    var $blocs_list;
+    public function jeFiltreLesBlocParAvecLaValeur($champ, $valeur)
     {
-        throw new PendingException();
-    }
-
-    /**
-     * @When aucun bloc existe
-     */
-    public function aucunBlocExiste()
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @When un bloc existe
-     */
-    public function unBlocExiste()
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then un sous-ensemble des blocs est retourné
-     */
-    public function unSousEnsembleDesBlocsEstRetourne()
-    {
-        throw new PendingException();
+        //Id Date Titre Format Media
+        if (isset($valeur)){
+            foreach ($this->$blocs_list as $bloc) {
+                if ($bloc['date'] == $valeur){
+                    return $bloc;
+                }
+            }
+            foreach ($this->$blocs_list as $bloc) {
+                if ($bloc['titre'] == $valeur){
+                    return $bloc;
+                }
+            }
+            foreach ($this->$blocs_list as $bloc) {
+                if ($bloc['media'] == $valeur){
+                    return $bloc;
+                }
+            }
+        }        
     }
 
     /**

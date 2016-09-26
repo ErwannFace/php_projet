@@ -31,7 +31,6 @@ class Bloc{
 		return $this->media;
 	}
 
-
 video/mpeg
 audio/mp3
 

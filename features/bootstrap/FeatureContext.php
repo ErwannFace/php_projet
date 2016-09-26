@@ -20,133 +20,139 @@ class FeatureContext implements Context, SnippetAcceptingContext
      * You can also pass arbitrary arguments to the
      * context constructor through behat.yml.
      */
-    var $user;
-    var $user_list;
+    private $operator;
+		private $current_user;
+		
     public function __construct()
     {
 
     }
 
     /**
-     * @Given je suis :arg1
+     * @Given un utilisateur existe avec le pseudo :pseudo et l’e-mail :email
      */
-    public function jeSuis($arg1)
+    public function unUtilisateurExiste($pseudo, $email)
     {
-        $this->user = new User();
-        $this->user->setRole($arg1);
-
+			$this->current_user = new User();
+			$this->current_user->setPseudo($pseudo);
+			$this->current_user->setEmail($email);
+			$this->current_user->generatePassword();
+			$this->current_user->setRank('contributeur');
+			$this->current_user->create();
     }
 
     /**
-     * @When j’ajoute un :arg1
+     * @Given je suis :role
      */
-    public function jAjouteUn($arg1)
+    public function jeSuis($role)
     {
-
-        $db = DBSingleton::getInstance();
-        $this->user_list = $this->user->getUsersList($db);
-
+			$this->operator = new User();
+			$this->operator->setRank($role);
     }
 
     /**
-     * @When je renseigne un pseudo valide :arg1
+     * @When j’ajoute un :role
      */
-    public function jeRenseigneUnPseudoValide($arg1)
+    public function jAjouteUn($role)
     {
-        $pseudo_valide = true;
-        if(
-            isset($arg1) &&
-            preg_match("/^[a-z0-9]+$/i", $arg1) &&
-            strlen($arg1)<=30 
-            ) 
-        {
-            foreach ($this->user_list as $user) {
-                if ($user['pseudo'] == $arg1){
-                    $pseudo_valide = false;
-                    break;
-                }
-            }
-
-        }else{
-            $pseudo_valide = false;            
-        }
-        if($pseudo_valide == false){
-        echo "pseudo invalide";
+			$this->current_user = new User();
+			$this->current_user->setRank($role);
     }
-        return $pseudo_valide;
-    }
-
 
     /**
-     * @When je renseigne un e-mail valide :arg1
+     * @When je renseigne un pseudo (in)valide :pseudo
      */
-    public function jeRenseigneUnEMailValide($arg1)
+    public function jeRenseigneUnPseudoValide($pseudo)
     {
-     $email_valide = true;
-     if(
-        isset($arg1) &&
-        preg_match("/^[a-z0-9\-_.]+@[a-z0-9\-_.]+\.[a-z]+$/i", $arg1) &&
-        strlen($arg1)<=30 
-        ) 
-     {
-        foreach ($this->user_list as $user) {
-            if ($user['email'] == $arg1){
-                $email_valide = false;
-                break;
-            }
-        }   
-        }else{
-            $email_valide = false;            
-        }
-        if($email_valide == false){
-        echo "email invalide";
+			$this->current_user->setPseudo($pseudo);
     }
-    return $email_valide;
-}
+
+    /**
+     * @When je renseigne un e-mail (in)valide :email
+     */
+    public function jeRenseigneUnEMailValide($email)
+    {
+			$this->current_user->setEmail($email);
+		}
+    
     /**
      * @Then un mot de passe est généré automatiquement
      */
     public function unMotDePasseEstGenereAutomatiquement()
     {
-        $lettres = array_merge(range('a','z'),range('A','Z'),range('0','9'));
-         shuffle ( $lettres );
-        $lettres_finales = implode( $lettres);
-        return substr($lettres_finales , 0 , 9);
+			$this->current_user->generatePassword();
     }
 
     /**
-     * @Then une entrée est créée dans la table contributeurs :arg1 :arg2 
+     * @Then (auc)une entrée (n’)est créée dans la table utilisateurs
      */
-    public function uneEntreeEstCreeeDansLaTableContributeurs($pseudo, $email )
+    public function uneEntreeEstCreeeDansLaTableUtilisateurs()
     {
-        // "pseudo" "e-mail" 
-        if($this->jeRenseigneUnPseudoValide($pseudo) && 
-            $this->jeRenseigneUnEMailValide($email) ) {
-            $pwd = $this->unMotDePasseEstGenereAutomatiquement();
-            $db = DBSingleton::getInstance();
-            $sql = "INSERT INTO utilisateurs ( pseudo, password, email) VALUES ( '$pseudo', '$pwd', '$email');";
-            echo $sql;
-            $db->query($sql);
-        }else{
-            echo "pseudo ou email invalide";
-        }
-
+			$this->current_user->create();
     }
 
     /**
-     * @Then un e-mail est envoyé au nouveau contributeur :arg1 :arg2 :arg3
+     * @Then un e-mail est envoyé au nouvel utilisateur
      */
-    public function unEMailEstEnvoyeAuNouveauContributeur($email, $pseudo, $pwd)
+    public function unEMailEstEnvoyeAuNouvelUtilisateur()
+    {
+			$this->current_user->sendEmail();
+    }
+
+    /**
+     * @When je modifie un utilisateur avec :pseudo_ou_email :arg
+     */
+    public function jeModifieUnUtilisateur($arg)
+    {
+			$this->current_user = User::select($arg);
+    }
+
+    /**
+     * @Then l’entrée de la table utilisateurs est modifiée
+     */
+    public function lEntreeDeLaTableUtilisateursEstModifiee()
+    {
+			$this->current_user->update();
+    }
+
+    /**
+     * @Then l’entrée de la table utilisateurs n’est pas modifiée
+     */
+    public function lEntreeDeLaTableUtilisateursNEstPasModifiee()
+    {
+			return true;
+    }
+
+    /**
+     * @When je supprime un contributeur avec un pseudo/email (in)correct :arg
+     */
+    public function jeSupprimeUnContributeur($arg)
+    {
+			$this->current_user = User::select($arg);
+    }
+
+    /**
+     * @Then l’entrée de la table utilisateurs est supprimée
+     */
+    public function lEntreeDeLaTableUtilisateursEstSupprimee()
+    {
+			User::delete($this->current_user->getID());
+    }
+
+    /**
+     * @Then l’entrée de la table utilisateurs n’est pas supprimée
+     */
+    public function lEntreeDeLaTableUtilisateursNEstPasSupprimee()
+    {
+			return true;
+    }
+
+    /**
+     * @Then un nouveau pseudo est demandé
+     */
+    public function unNouveauPseudoEstDemande()
     {
         throw new PendingException();
-    }
-
-    /**
-     * @When je renseigne un pseudo invalide :arg1
-     */
-    public function jeRenseigneUnPseudoInvalide($arg1)
-    {
-        return jeRenseigneUnPseudoValide($arg1);
     }
 
     /**
@@ -158,105 +164,9 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Then un nouveau pseudo est demandé
-     */
-    public function unNouveauPseudoEstDemande()
-    {
-       
-    }
-
-    /**
-     * @When je renseigne un e-mail invalide :arg1
-     */
-    public function jeRenseigneUnEMailInvalide($arg1)
-    {
-        throw new PendingException();
-    }
-
-    /**
      * @Then un nouvel e-mail est demandé
      */
     public function unNouvelEMailEstDemande()
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @When je supprime un contributeur
-     */
-    public function jeSupprimeUnContributeur()
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @When je renseigne un pseudo correct :arg1
-     */
-    public function jeRenseigneUnPseudoCorrect($arg1)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then l'entrée de la table est supprimée
-     */
-    public function lEntreeDeLaTableEstSupprimee()
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then un message de confirmation est affiché
-     */
-    public function unMessageDeConfirmationEstAffiche()
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @When je renseigne un pseudo incorrect :arg1
-     */
-    public function jeRenseigneUnPseudoIncorrect($arg1)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then un message d'erreur est affiché
-     */
-    public function unMessageDErreurEstAffiche2()
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @When je supprime un utlisateur
-     */
-    public function jeSupprimeUnUtlisateur()
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @When je renseigne un email correct :arg1
-     */
-    public function jeRenseigneUnEmailCorrect($arg1)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @When je renseigne un email incorrect :arg1
-     */
-    public function jeRenseigneUnEmailIncorrect($arg1)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then un nouveau email est demandé
-     */
-    public function unNouveauEmailEstDemande()
     {
         throw new PendingException();
     }
@@ -1241,6 +1151,30 @@ class FeatureContext implements Context, SnippetAcceptingContext
      * @When j’ai fait au moins x essais :arg1
      */
     public function jAiFaitAuMoinsXEssais($arg1)
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @Then un message de confirmation est affiché
+     */
+    public function unMessageDeConfirmationEstAffiche()
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @Then un message d'erreur est affiché
+     */
+    public function unMessageDErreurEstAffiche2()
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @Then un nouveau email est demandé
+     */
+    public function unNouveauEmailEstDemande()
     {
         throw new PendingException();
     }

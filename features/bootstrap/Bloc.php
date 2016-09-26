@@ -42,7 +42,7 @@ audio/mp3
 		// vérification que le titre …
 		if (
 			// … n’est pas vide
-			isset($titre) ||
+			!isset($titre) ||
 			// … ne fait pas plus de 250 caractères
 			strlen($titre) > 250
 		){
@@ -80,27 +80,22 @@ audio/mp3
 	public function setFormat($format) {
 
 		$format_valide = false;
+
 		$format_autorisee = array(
-			'jpg','png','gif','mp3',
-			'mov','mpeg','flv','mp4'
+			('jpg','png','gif'),
+			('mov','mpeg','mpeg2','flv','mp4','avi','wmv','mkv','mp3')
 		);
 		$format_uploaded;
 		$format = strtolower(substr(strrchr($_FILES[''], '.'), 1) );
 
-		if (in_array($format_uploaded, $format_autorisee[0]) &&
-		filesize($format_uploaded) <= 20000)
+		if (in_array($format_uploaded, $format_autorisee[0]))
+			// && filesize($format_uploaded) <= 20000
 		{
 			$format_valide = true;
 		}
 
-		if (in_array($format_uploaded, $format_autorisee[1]) &&
-		filesize($format_uploaded) <= 20000)
-		{
-			$format_valide = true;
-		}
-
-		if (in_array($format_uploaded, $format_autorisee[2]) &&
-		filesize($format_uploaded) <= 50000)
+		if (in_array($format_uploaded, $format_autorisee[1]))
+		//&& filesize($format_uploaded) <= 50000)
 		{
 			$format_valide = true;
 		}

@@ -112,7 +112,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function lEntreeDeLaTableUtilisateursEstModifiee()
     {
-//			$this->
+			$this->current_user->update();
     }
 
     /**
@@ -120,7 +120,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function lEntreeDeLaTableUtilisateursNEstPasModifiee()
     {
-        throw new PendingException();
+			return true;
     }
 
     /**
@@ -128,17 +128,23 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function jeSupprimeUnContributeur($arg)
     {
-			$user = User::select($arg);
-			$this->current_user = new User();
-			$this->current_user->setID($user['ID']);
+			$this->current_user = User::select($arg);
     }
 
     /**
-     * @Then l’entrée de la table utilisateurs (n’)est (pas )supprimée
+     * @Then l’entrée de la table utilisateurs est supprimée
      */
     public function lEntreeDeLaTableUtilisateursEstSupprimee()
     {
 			User::delete($this->current_user->getID());
+    }
+
+    /**
+     * @Then l’entrée de la table utilisateurs n’est pas supprimée
+     */
+    public function lEntreeDeLaTableUtilisateursNEstPasSupprimee()
+    {
+			return true;
     }
 
     /**

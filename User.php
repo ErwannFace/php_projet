@@ -2,7 +2,7 @@
 
 class User{
 	
-	private $id;
+	private $ID;
 	private $pseudo;
 	private $password;
 	private $email;
@@ -12,7 +12,7 @@ class User{
 	
 	// renvoi de l’ID
 	public function getID() {
-		return $this->id;
+		return $this->ID;
 	}
 	
 	// renvoi du pseudo
@@ -38,6 +38,7 @@ class User{
 	// création de l’entrée dans la table utilisateurs
 	public function create() {
 		if (
+			// vérification que pseudo, e-mail, mot de passe et rôle sont définis
 			null !== $this->pseudo &&
 			null !== $this->email &&
 			null !== $this->password &&
@@ -46,7 +47,7 @@ class User{
 			$db = DBSingleton::getInstance();
 			$sql = "INSERT INTO utilisateurs (pseudo, password, email, role) VALUES ('$this->pseudo', '$this->password', '$this->email', '$this->role');";
 			$db->query($sql);
-			$this->id = $db->getLastID();
+			$this->ID = $db->getLastID();
 		} else {
 			echo "échec de la création du compte";
 		}
@@ -55,7 +56,7 @@ class User{
 	// modification de l’entrée dans la table utilisateurs
 	public function update() {
 		$db = DBSingleton::getInstance();
-		$sql = "UPDATE utilisateurs SET pseudo = '$this->pseudo', password = '$this->password', email = '$this->email', role = '$this->role' WHERE ID = $this->id;";
+		$sql = "UPDATE utilisateurs SET pseudo = '$this->pseudo', password = '$this->password', email = '$this->email', role = '$this->role' WHERE ID = $this->ID;";
 		$db->query($sql);
 	}
 	
@@ -70,6 +71,7 @@ class User{
 		}
 		
 		$reponse = $db->query($sql);
+		$reponse->setFetchMode(PDO::FETCH_CLASS, 'User');
 		$user = $reponse->fetch();
 
 		if ($user) {
@@ -80,16 +82,16 @@ class User{
 	}
 
 	// suppression d’un utilisateur de l’entrée de la base utilisateurs depuis son id
-	public static function delete($id) {
+	public static function delete($ID) {
 		$db = DBSingleton::getInstance();
 		
-		$sql = "SELECT * FROM utilisateurs WHERE ID = '$id'";
-		
+		// vérification qu’un utilisateur existe avec l’ID donné en argument
+		$sql = "SELECT * FROM utilisateurs WHERE ID = '$ID'";
 		$reponse = $db->query($sql);
 		$user = $reponse->fetch();
 
 		if ($user) {
-			$sql = "DELETE FROM utilisateurs WHERE ID = '$id'";
+			$sql = "DELETE FROM utilisateurs WHERE ID = '$ID'";
 			$db->query($sql);
 			$pseudo = $user['pseudo'];
 			echo "l’utilisateur $pseudo a été supprimé";
@@ -100,7 +102,7 @@ class User{
 	
 	// envoie un e-mail au nouvel utilisateur
 	public function sendEmail() {
-		if ( null !== $this->id ) {
+		if ( null !== $this->ID ) {
 			$message = 'Votre nouveau compte sur notre application a été créé.';
 			$message .= "\n\n";
 			$message .= 'Votre pseudo est : ';
@@ -115,9 +117,9 @@ class User{
 	}
 	
 	// modification de l’ID
-	public function setID($id) {
-		if (is_numeric($id)) {
-			$this->id = $id;
+	public function setID($ID) {
+		if (is_numeric($ID)) {
+			$this->ID = $ID;
 		} else {
 			echo "format de l’ID incorrect";
 		}

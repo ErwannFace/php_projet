@@ -48,12 +48,12 @@ Fonctionnalité: Opérations d’un Administrateur
 
 	Scénario: Un Administrateur supprime un contributeur avec un pseudo correct
 	Étant donné que je suis "administrateur"
-	Quand je supprime un contributeur avec un pseudo correct "toto"
+	Quand je supprime un contributeur avec un pseudo correct "tutu"
 	Alors l’entrée de la table utilisateurs est supprimée
 
 	Scénario: Un Administrateur essaye de supprimer un contributeur avec un pseudo incorrect
 	Étant donné que je suis "administrateur"
-	Quand je supprime un contributeur avec un pseudo incorrect "toto"
+	Quand je supprime un contributeur avec un pseudo incorrect "tutu"
 	Alors l’entrée de la table utilisateurs n’est pas supprimée
 
 	Scénario: Un Administrateur supprime un contributeur avec un e-mail correct

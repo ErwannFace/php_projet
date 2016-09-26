@@ -7,6 +7,7 @@ class User{
 	private $password;
 	private $email;
 	private $role;	
+	private $droits;
 	
 	public function __construct() {}
 	
@@ -35,6 +36,11 @@ class User{
 		return $this->role;
 	}
 	
+	// renvoi des droits
+	public function getRights() {
+		return $this->droits;
+	}
+	
 	// création de l’entrée dans la table utilisateurs
 	public function create() {
 		if (
@@ -42,10 +48,11 @@ class User{
 			null !== $this->pseudo &&
 			null !== $this->email &&
 			null !== $this->password &&
-			null !== $this->role
+			null !== $this->role &&
+			null !== $this->droits 
 		) {
 			$db = DBSingleton::getInstance();
-			$sql = "INSERT INTO utilisateurs (pseudo, password, email, role) VALUES ('$this->pseudo', '$this->password', '$this->email', '$this->role');";
+			$sql = "INSERT INTO utilisateurs (pseudo, password, email, role, droits) VALUES ('$this->pseudo', '$this->password', '$this->email', '$this->role', '$this->droits');";
 			$db->query($sql);
 			$this->ID = $db->getLastID();
 		} else {
@@ -56,7 +63,7 @@ class User{
 	// modification de l’entrée dans la table utilisateurs
 	public function update() {
 		$db = DBSingleton::getInstance();
-		$sql = "UPDATE utilisateurs SET pseudo = '$this->pseudo', password = '$this->password', email = '$this->email', role = '$this->role' WHERE ID = $this->ID;";
+		$sql = "UPDATE utilisateurs SET pseudo = '$this->pseudo', password = '$this->password', email = '$this->email', role = '$this->role', droits = '$this->droits' WHERE ID = $this->ID;";
 		$db->query($sql);
 	}
 	
@@ -198,6 +205,7 @@ class User{
 		$reponse = $requete->fetch();
 		// définition du rôle
 		$this->role = $reponse['id'];
+		$this->droits = 7;
 	}
 	
 	// génération d’un mot de passe aléatoire
@@ -205,6 +213,64 @@ class User{
 		$string = array_merge( range('a','z'), range('A','Z'), range('0','9') );
 		shuffle ($string);
 		$this->password = substr(implode($string), 0, 9);
+	}
+
+	// suppression d’un droit
+	public function removeRight($droit) {
+		$db = DBSingleton::getInstance();
+		// récupération de la valeur du droit dans la table 'droits'
+		$sql = "SELECT * FROM droits WHERE nom = '$droit'";
+		$requete = $db->query($sql);
+		$reponse = $requete->fetch();
+		if ( isset($reponse['valeur']) ) {
+			$valeur = $reponse['valeur'];
+		} else {
+			echo "droit inconnu\n";
+			return false;
+		}
+		// modification des droits
+		$nouveaux_droits = $this->droits - $valeur;
+		$pseudo = $this->pseudo;
+		if (
+			$nouveaux_droits >= 0 &&
+			$nouveaux_droits <= 6
+		) {
+			$droits = $nouveaux_droits;
+			echo "droits modifiés pour l’utilisateur $pseudo\n";
+			return true;
+		} else {
+			echo "droits conservés pour l’utilisateur $pseudo\n";
+			return false;
+		}
+	}
+
+	// ajout d’un droit
+	public function addRight($droit) {
+		$db = DBSingleton::getInstance();
+		// récupération de la valeur du droit dans la table 'droits'
+		$sql = "SELECT * FROM droits WHERE nom = '$droit'";
+		$requete = $db->query($sql);
+		$reponse = $requete->fetch();
+		if ( isset($reponse['valeur']) ) {
+			$valeur = $reponse['valeur'];
+		} else {
+			echo "droit inconnu\n";
+			return false;
+		}
+		// modification des droits
+		$nouveaux_droits = $this->droits + $valeur;
+		$pseudo = $this->pseudo;
+		if (
+			$nouveaux_droits >= 1 &&
+			$nouveaux_droits <= 7
+		) {
+			$droits = $nouveaux_droits;
+			echo "droits modifiés pour l’utilisateur $pseudo\n";
+			return true;
+		} else {
+			echo "droits conservés pour l’utilisateur $pseudo\n";
+			return false;
+		}
 	}
 }
 

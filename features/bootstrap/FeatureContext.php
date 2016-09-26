@@ -963,14 +963,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function jeMeConnecteAvecCommePseudoEtCommeMotDePasse($arg1, $arg2)
     {
-        $connection_valide = false;
-
-        if (isset($arg1) && isset($arg2)) {
-            $identifiants_list = "SELECT * FROM `utilisateurs'";
-            // tout users
-            $id = "SELECT * FROM utilisateurs WHERE 'pseudo' == $arg1";
-            // user = pseudo
-        }
+      $this-->
     }
 
     /**

@@ -22,6 +22,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     var $user;
     var $user_list;
+    var $current_bloc;
     public function __construct()
     {
 
@@ -1022,14 +1023,6 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Given un bloc existe avec la valeur :arg1 pour le champ :arg2
-     */
-    public function unBlocExisteAvecLaValeurPourLeChamp($arg1, $arg2)
-    {
-        throw new PendingException();
-    }
-
-    /**
      * @Given je suis visiteur
      */
     public function jeSuisVisiteur()
@@ -1243,5 +1236,13 @@ class FeatureContext implements Context, SnippetAcceptingContext
     public function jAiFaitAuMoinsXEssais($arg1)
     {
         throw new PendingException();
+    }
+
+    /**
+     * @Given un bloc existe avec la date :date et le titre :titre et le type de média :type
+     */
+    public function unBlocExisteAvecLaDateEtLeTitreEtLeTypeDeMedia($date, $titre, $type)
+    {
+        $this->current_bloc = new Bloc($date, $titre, $type);
     }
 }

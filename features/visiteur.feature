@@ -2,9 +2,7 @@
 Fonctionnalité: Opérations d’un visiteur
 
 	Contexte:
-		Étant donné que un bloc existe avec la valeur "1 janvier 1970" pour le champ "date"
-		Et un bloc existe avec la valeur "Réunion publique" pour le champ "titre"
-		Et un bloc existe avec la valeur "img+snd" pour le champ "type de media"
+		Étant donné que un bloc existe avec la date "1 janvier 1970" et le titre "Réunion publique" et le type de média "img+snd"
 
 	Scénario: Un Visiteur cherche des blocs publiés à une date donnée, et aucun bloc ne remplit ce critère
 	Étant donné que je suis visiteur

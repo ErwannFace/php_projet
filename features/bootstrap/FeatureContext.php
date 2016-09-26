@@ -22,7 +22,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     private $operator;
 		private $current_user;
-		
+
     public function __construct()
     {
 
@@ -74,7 +74,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
     {
 			$this->current_user->setEmail($email);
 		}
-    
+
     /**
      * @Then un mot de passe est généré automatiquement
      */
@@ -955,27 +955,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
     var $blocs_list;
     public function jeFiltreLesBlocParAvecLaValeur($champ, $valeur)
     {
-        //Id Date Titre Format Media
-        if (isset($valeur)){
-            $blocs_list = "SELECT `date`, `titre`, `media` FROM `blocs`";
-            // var_dump($bloc['media']);
-
-            foreach ($this->$blocs_list as $bloc) {
-                if ($bloc['date'] == $valeur){
-                    return $bloc;
-                }
-            }
-            foreach ($this->$blocs_list as $bloc) {
-                if ($bloc['titre'] == $valeur){
-                    return $bloc;
-                }
-            }
-            foreach ($this->$blocs_list as $bloc) {
-                if ($bloc['media'] == $valeur){
-                    return $bloc;
-                }
-            }
-        }        
+      $this->blocs_list = Bloc::filtre($champ, $valeur);
     }
 
     /**
@@ -986,12 +966,10 @@ class FeatureContext implements Context, SnippetAcceptingContext
         $connection_valide = false;
 
         if (isset($arg1) && isset($arg2)) {
-            $identifiants_list = "SELECT * FROM `utilisateurs'";    
-            $id = "SELECT * FROM utilisateurs WHERE pseudo = $arg1";
-                if ($arg1 == 'pseudo' && $arg2 == 'password') {
-                    $connection_valide = true;
-                }
-
+            $identifiants_list = "SELECT * FROM `utilisateurs'";
+            // tout users
+            $id = "SELECT * FROM utilisateurs WHERE 'pseudo' == $arg1";
+            // user = pseudo
         }
     }
 

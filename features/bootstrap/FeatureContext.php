@@ -100,7 +100,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @When je modifie un utilisateur avec :pseudo_ou_email :arg
+     * @When je modifie/supprime un utilisateur avec un pseudo/email (in)correct :arg
      */
     public function jeModifieUnUtilisateur($arg)
     {
@@ -108,43 +108,23 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Then l’entrée de la table utilisateurs est modifiée
+     * @Then l’entrée de la table utilisateurs (n’)est (pas )modifiée
      */
-    public function lEntreeDeLaTableUtilisateursEstModifiee()
+    public function updateDBUserEntry()
     {
-			$this->current_user->update();
+			if ( isset($this->current_user) ) {
+				$this->current_user->update();
+			}
     }
 
     /**
-     * @Then l’entrée de la table utilisateurs n’est pas modifiée
+     * @Then l’entrée de la table utilisateurs (n’)est (pas )supprimée
      */
-    public function lEntreeDeLaTableUtilisateursNEstPasModifiee()
+    public function deleteDBUserEntry()
     {
-			return true;
-    }
-
-    /**
-     * @When je supprime un contributeur avec un pseudo/email (in)correct :arg
-     */
-    public function jeSupprimeUnContributeur($arg)
-    {
-			$this->current_user = User::select($arg);
-    }
-
-    /**
-     * @Then l’entrée de la table utilisateurs est supprimée
-     */
-    public function lEntreeDeLaTableUtilisateursEstSupprimee()
-    {
-			User::delete($this->current_user->getID());
-    }
-
-    /**
-     * @Then l’entrée de la table utilisateurs n’est pas supprimée
-     */
-    public function lEntreeDeLaTableUtilisateursNEstPasSupprimee()
-    {
-			return true;
+			if ( isset($this->current_user) ) {
+				$this->current_user->delete();
+			}
     }
 
     /**

@@ -41,88 +41,6 @@ class User{
 		return $this->droits;
 	}
 	
-	// création de l’entrée dans la table utilisateurs
-	public function create() {
-		if (
-			// vérification que pseudo, e-mail, mot de passe et rôle sont définis
-			null !== $this->pseudo &&
-			null !== $this->email &&
-			null !== $this->password &&
-			null !== $this->role &&
-			null !== $this->droits 
-		) {
-			$db = DBSingleton::getInstance();
-			$sql = "INSERT INTO utilisateurs (pseudo, password, email, role, droits) VALUES ('$this->pseudo', '$this->password', '$this->email', '$this->role', '$this->droits');";
-			$db->query($sql);
-			$this->ID = $db->getLastID();
-		} else {
-			echo "échec de la création du compte";
-		}
-	}
-	
-	// modification de l’entrée dans la table utilisateurs
-	public function update() {
-		$db = DBSingleton::getInstance();
-		$sql = "UPDATE utilisateurs SET pseudo = '$this->pseudo', password = '$this->password', email = '$this->email', role = '$this->role', droits = '$this->droits' WHERE ID = $this->ID;";
-		$db->query($sql);
-	}
-	
-	// retourne un utilisateur depuis son pseudo ou son e-mail
-	public static function select($string) {
-		$db = DBSingleton::getInstance();
-		
-		if ( preg_match('/@/', $string) ) {
-			$sql = "SELECT * FROM utilisateurs WHERE email = '$string'";
-		} else {
-			$sql = "SELECT * FROM utilisateurs WHERE pseudo = '$string'";
-		}
-		
-		$reponse = $db->query($sql);
-		$reponse->setFetchMode(PDO::FETCH_CLASS, 'User');
-		$user = $reponse->fetch();
-
-		if ($user) {
-			return $user;
-		} else {
-			echo "utilisateur introuvable";
-		}
-	}
-
-	// suppression d’un utilisateur de l’entrée de la base utilisateurs depuis son id
-	public static function delete($ID) {
-		$db = DBSingleton::getInstance();
-		
-		// vérification qu’un utilisateur existe avec l’ID donné en argument
-		$sql = "SELECT * FROM utilisateurs WHERE ID = '$ID'";
-		$reponse = $db->query($sql);
-		$user = $reponse->fetch();
-
-		if ($user) {
-			$sql = "DELETE FROM utilisateurs WHERE ID = '$ID'";
-			$db->query($sql);
-			$pseudo = $user['pseudo'];
-			echo "l’utilisateur $pseudo a été supprimé";
-		} else {
-			echo "utilisateur introuvable";
-		}
-	}
-	
-	// envoie un e-mail au nouvel utilisateur
-	public function sendEmail() {
-		if ( null !== $this->ID ) {
-			$message = 'Votre nouveau compte sur notre application a été créé.';
-			$message .= "\n\n";
-			$message .= 'Votre pseudo est : ';
-			$message .= $this->pseudo;
-			$message .= "\n";
-			$message .= 'et votre mot de passe est : ';
-			$message .= $this->password;
-			mail( $this->email, 'Votre nouveau compte', $message );
-		} else {
-			echo "l’e-mail n’a pas été envoyé";
-		}
-	}
-	
 	// modification de l’ID
 	public function setID($ID) {
 		if (is_numeric($ID)) {
@@ -136,31 +54,38 @@ class User{
 	public function setPseudo($pseudo) {
 		$db = DBSingleton::getInstance();
 		$pseudo_valide = true;
-		// vérification que le pseudo …
 		if (
-			// … n’est pas vide
-			isset($pseudo) &&
-			// … est composé uniquement de caractères alpha-numériques
-			preg_match( "/^[a-z0-9]+$/i", $pseudo ) &&
-			// … ne fait pas plus de 30 caractères
-			strlen($pseudo) <= 30
+			// vérification que le pseudo est composé uniquement de caractères alpha-numériques
+			!preg_match( "/^[a-z0-9]+$/i", $pseudo ) ||
+			// vérification que le pseudo ne fait pas plus de 30 caractères
+			strlen($pseudo) > 30
 		) {
-			// … n’existe pas déjà dans la table 'utilisateurs'
+			echo "Pseudo invalide : erreur de syntaxe.\n";
+			$pseudo_valide = false;
+		} else {
+			// vérification que le pseudo n’existe pas déjà dans la table 'utilisateurs'
 			$sql = "SELECT * FROM utilisateurs WHERE pseudo = '$pseudo'";
 			$requete = $db->query($sql);
 			$reponse = $requete->fetchAll();
 			if (count($reponse) > 0) {
+				echo "Pseudo invalide : déjà utilisé.\n";
 				$pseudo_valide = false;
 			}
-		} else {
-			$pseudo_valide = false;
 		}
 		if ($pseudo_valide) {
-			// assigne le pseudo au nouvel utilisateur s’il est valide …
-			$this->pseudo = $pseudo;
+			// assigne le pseudo à l’utilisateur s’il est valide
+			if ( isset($this->pseudo) ) {
+				echo "Le pseudo de l’utilisateur $this->pseudo";
+				$this->pseudo = $pseudo;
+				echo " a été modifié pour \"$this->pseudo\".\n";
+			} else {
+				$this->pseudo = $pseudo;
+			}
 		} else {
-			// … ou affiche un message d’erreur si le pseudo est invalide
-			echo "pseudo invalide";
+			// affiche un message d’erreur si le pseudo est invalide
+			if ( isset($this->pseudo) ) {
+				echo "Le pseudo de l’utilisateur $this->pseudo n’a pas été modifié.\n";
+			}
 		}
 	}
 	
@@ -168,31 +93,37 @@ class User{
 	public function setEmail($email) {
 		$db = DBSingleton::getInstance();
 		$email_valide = true;
-		// vérification que l’e-mail …
 		if (
-			// … n’est pas vide
-			isset($email) &&
-			// … a un format correct
-			preg_match( "/^[a-z0-9\-_.]+@[a-z0-9\-_.]+\.[a-z]+$/i", $email ) &&
-			// … ne fait pas plus de 30 caractères
-			strlen($email) <= 30
+			// vérification que l’e-mail a un format correct
+			!preg_match( "/^[a-z0-9\-_.]+@[a-z0-9\-_.]+\.[a-z]+$/i", $email ) ||
+			// vérification que l’e-mail ne fait pas plus de 30 caractères
+			strlen($email) > 30
 		) {
-			// … n’existe pas déjà dans la table 'utilisateurs'
+			echo "Addresse e-mail invalide : erreur de syntaxe.\n";
+			$email_valide = false;
+		} else {
+			// vérification que l’e-mail n’existe pas déjà dans la table 'utilisateurs'
 			$sql = "SELECT * FROM utilisateurs WHERE email = '$email'";
 			$requete = $db->query($sql);
 			$reponse = $requete->fetchAll();
 			if (count($reponse) > 0) {
+				echo "Addresse e-mail invalide : déjà utilisée.\n";
 				$email_valide = false;
 			}
-		} else {
-			$email_valide = false;
 		}
 		if ($email_valide) {
-			// assigne l’e-mail au nouvel utilisateur s’il est valide …
-			$this->email = $email;
+			// assigne l’e-mail au nouvel utilisateur s’il est valide
+			if ( isset($this->email) ) {
+				$this->email = $email;
+				echo "L’addresse e-mail de l’utilisateur $this->pseudo a été modifiée pour $this->email\n";
+			} else {
+				$this->email = $email;
+			}
 		} else {
-			// … ou affiche un message d’erreur si l’e-mail est invalide
-			echo "e-mail invalide";
+			// affiche un message d’erreur si l’e-mail est invalide
+			if ( isset($this->email) ) {
+				echo "L’addresse e-mail de l’utilisateur $this->pseudo n’a pas été modifiée.\n";
+			}
 		}
 	}
 	
@@ -225,21 +156,28 @@ class User{
 		if ( isset($reponse['valeur']) ) {
 			$valeur = $reponse['valeur'];
 		} else {
-			echo "droit inconnu\n";
+			echo "Le droit $droit est inconnu.\n";
 			return false;
 		}
-		// modification des droits
-		$nouveaux_droits = $this->droits - $valeur;
+		// vérification que la modification est valide
+		$validity = false;
+		if ( $valeur == 1 && $this->droits % 2 == 1 ) { $validity = true; }
+		if ( $valeur == 2 && 
+			$this->droits != 1 &&
+			$this->droits != 4 &&
+			$this->droits != 5
+		) { $validity = true; }
+		if ( $valeur == 4 && $this->droits >= 4 ) { $validity = true; }
 		$pseudo = $this->pseudo;
-		if (
-			$nouveaux_droits >= 0 &&
-			$nouveaux_droits <= 6
-		) {
-			$droits = $nouveaux_droits;
-			echo "droits modifiés pour l’utilisateur $pseudo\n";
+		if ( $validity == true ) {
+			// modification des droits
+			$nouveaux_droits = $this->droits - $valeur;
+			$this->droits = $nouveaux_droits;
+			echo "Les droits de l’utilisateur $pseudo ont été modifiés.\n";
 			return true;
 		} else {
-			echo "droits conservés pour l’utilisateur $pseudo\n";
+			// conservation des droits
+			echo "Les droits de l’utilisateur $pseudo n’ont pas été modifiés.\n";
 			return false;
 		}
 	}
@@ -254,22 +192,125 @@ class User{
 		if ( isset($reponse['valeur']) ) {
 			$valeur = $reponse['valeur'];
 		} else {
-			echo "droit inconnu\n";
+			echo "Le droit $droit est inconnu.\n";
 			return false;
 		}
-		// modification des droits
-		$nouveaux_droits = $this->droits + $valeur;
+		// vérification que la modification est valide
+		$validity = false;
+		if ( $valeur == 1 && $this->droits % 2 == 0 && $this->droits < 7 ) { $validity = true; }
+		if ( $valeur == 2 && 
+			$this->droits != 2 &&
+			$this->droits != 3 &&
+			$this->droits < 6
+		) { $validity = true; }
+		if ( $valeur == 4 && $this->droits < 4 ) { $validity = true; }
 		$pseudo = $this->pseudo;
-		if (
-			$nouveaux_droits >= 1 &&
-			$nouveaux_droits <= 7
-		) {
-			$droits = $nouveaux_droits;
-			echo "droits modifiés pour l’utilisateur $pseudo\n";
+		if ( $validity == true ) {
+			// modification des droits
+			$nouveaux_droits = $this->droits + $valeur;
+			$this->droits = $nouveaux_droits;
+			echo "Les droits de l’utilisateur $pseudo ont été modifiés.\n";
 			return true;
 		} else {
-			echo "droits conservés pour l’utilisateur $pseudo\n";
+			// conservation des droits
+			echo "Les droits de l’utilisateur $pseudo n’ont pas été modifiés.\n";
 			return false;
+		}
+	}
+
+	// retourne un utilisateur depuis son pseudo ou son e-mail
+	public static function select($string) {
+		$db = DBSingleton::getInstance();
+		
+		if ( preg_match('/@/', $string) ) {
+			$sql = "SELECT * FROM utilisateurs WHERE email = '$string'";
+		} else {
+			$sql = "SELECT * FROM utilisateurs WHERE pseudo = '$string'";
+		}
+		
+		$reponse = $db->query($sql);
+		$reponse->setFetchMode(PDO::FETCH_CLASS, 'User');
+		$user = $reponse->fetch();
+
+		if ($user) {
+			return $user;
+		} else {
+			echo "L’utilisateur identifié par \"$string\" est introuvable.\n";
+		}
+	}
+
+	// création de l’entrée dans la table utilisateurs
+	public function create() {
+		$success = false;
+		if (
+			// vérification que pseudo, e-mail, mot de passe, rôle et droits sont définis
+			null !== $this->pseudo &&
+			null !== $this->email &&
+			null !== $this->password &&
+			null !== $this->role &&
+			null !== $this->droits 
+		) {
+			$db = DBSingleton::getInstance();
+			// insertion de l’utilisateur dans la table utilisateurs
+			$sql = "INSERT INTO utilisateurs (pseudo, password, email, role, droits) VALUES ('$this->pseudo', '$this->password', '$this->email', '$this->role', '$this->droits');";
+			$db->query($sql);
+			// vérification que l’insertion a été effectuée avec succès
+			$sql = "SELECT * FROM utilisateurs WHERE pseudo = '$this->pseudo'";
+			$reponse = $db->query($sql);
+			$reponse->setFetchMode(PDO::FETCH_CLASS, 'User');
+			$user = $reponse->fetch();
+			if ($user) {
+				$this->ID = $db->getLastID();
+				$success = true;
+			}
+		}
+		if ( $success == true ) {
+			echo "Le compte de l’utilisateur $this->pseudo a été créé avec succès.\n";
+		} else {
+			echo "Échec de la création du compte.\n";
+		}
+	}
+	
+	// modification de l’entrée dans la table utilisateurs
+	public function update() {
+		$db = DBSingleton::getInstance();
+		$sql = "UPDATE utilisateurs SET pseudo = '$this->pseudo', password = '$this->password', email = '$this->email', role = '$this->role', droits = '$this->droits' WHERE ID = $this->ID;";
+		$db->query($sql);
+	}
+	
+	// suppression d’une entrée de la base utilisateurs
+	public function delete() {
+		$db = DBSingleton::getInstance();
+		
+		// vérification qu’un utilisateur existe avec l’ID de l’objet courant
+		$sql = "SELECT * FROM utilisateurs WHERE ID = '$this->ID'";
+		$reponse = $db->query($sql);
+		$user = $reponse->fetch();
+
+		if ($user) {
+			$sql = "DELETE FROM utilisateurs WHERE ID = '$this->ID'";
+			$db->query($sql);
+			$pseudo = $user['pseudo'];
+			echo "L’utilisateur $pseudo a été supprimé.\n";
+		} else {
+			echo "L’utilisateur $pseudo est introuvable.\n";
+		}
+	}
+	
+	// envoie un e-mail au nouvel utilisateur
+	public function sendEmail() {
+		if ( null !== $this->ID ) {
+			$message = 'Votre nouveau compte sur notre application a été créé.';
+			$message .= "\n\n";
+			$message .= 'Votre pseudo est : ';
+			$message .= $this->pseudo;
+			$message .= "\n";
+			$message .= 'et votre mot de passe est : ';
+			$message .= $this->password;
+			mail( $this->email, 'Votre nouveau compte', $message );
+			echo "Un e-mail a été envoyé à l’addresse $this->email\n";
+		} else {
+			echo "L’e-mail n’a pas été envoyé.\n";
 		}
 	}
 }

@@ -19,7 +19,6 @@ class FeatureContext implements Context, SnippetAcceptingContext
      * context constructor through behat.yml.
      */
 
-    private $operator;
 		private $current_user;
     private $user;
     private $user_list;
@@ -45,10 +44,11 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function jeSuis($role)
     {
-		if ($role != 'visiteur') {
-            $this->operator = new User();
-			$this->operator->setRank($role);
-        }
+			if ( $role == 'administrateur' ) {
+				$_SESSION['user_role'] = 1;
+			} else if ( $role == 'contributeur' ) {
+				$_SESSION['user_role'] = 2;
+			}
     }
 
     /**

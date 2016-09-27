@@ -128,7 +128,7 @@ class User{
 	// modification d’un droit
 	public static function setRight($role, $action, $droit) {
 		if ( $action != 'add' && $action != 'remove' ) {
-			echo "L’action \"$action\" invalide.\n";
+			echo "L’action \"$action\" est invalide.\n";
 			return false;
 		}
 		// récupération de l’ID du rôle dans la table 'roles'
@@ -136,8 +136,7 @@ class User{
 		$sql = "SELECT * FROM roles WHERE nom = '$role'";
 		$requete = $db->query($sql);
 		$reponse = $requete->fetch();
-		var_dump($reponse);
-		if ( count($reponse) == 0 ) {
+		if ( $reponse === false ) {
 			echo "Le rôle \"$role\" est inconnu.\n";
 			return false;
 		} else {
@@ -153,6 +152,7 @@ class User{
 		// vérification que la modification est valide
 		if (
 			$action == 'add' && (
+				$role_droits == 0 ||
 				$droit == 'USERS' && $role_droits == Rights::BLOCS ||
 				$droit == 'USERS' && $role_droits == Rights::THEME ||
 				$droit == 'USERS' && $role_droits == Rights::BLOCS + Rights::THEME ||
@@ -212,32 +212,60 @@ class User{
 		}
 	}
 	
+	// vérification que l’utilisateur à l’origine de l’action est autorisé à modifier la table utilisateurs
+	private static function checkPrivileges() {
+		// vérification qu’un utilisateur connecté effectue l’action
+		if ( !isset($_SESSION['user_role']) ) {
+			echo "Vous devez être connecté pour ajouter un utilisateur.\n";
+			return false;
+		}
+		$role_id = $_SESSION['user_role'];
+		// vérification que l’utilisateur à l’origine de l’action a les droits nécessaires
+		$db = DBSingleton::getInstance();
+		$sql = "SELECT * FROM roles WHERE id = '$role_id'";
+		$reponse = $db->query($sql);
+		$role = $reponse->fetch();
+		if (
+			!is_numeric($role['droits']) ||
+			$role['droits'] != Rights::USERS &&
+			$role['droits'] != Rights::USERS + Rights::BLOCS &&
+			$role['droits'] != Rights::USERS + Rights::THEME &&
+			$role['droits'] != Rights::USERS + Rights::BLOCS + Rights::THEME
+		) {
+			echo "Vous n’avez pas les droits nécessaires pour ajouter un utilisateur.\n";
+			return false;
+		}
+		return true;
+	}
+	
 	// création de l’entrée dans la table utilisateurs
 	public function create() {
 		$success = false;
-		if (
-			// vérification que pseudo, e-mail, mot de passe et rôle sont définis
-			null !== $this->pseudo &&
-			null !== $this->email &&
-			null !== $this->password &&
-			null !== $this->role
-		) {
-			$db = DBSingleton::getInstance();
-			// insertion de l’utilisateur dans la table utilisateurs
-			$sql = "INSERT INTO utilisateurs (pseudo, password, email, role) VALUES ('$this->pseudo', '$this->password', '$this->email', '$this->role');";
-			$db->query($sql);
-			// vérification que l’insertion a été effectuée avec succès
-			$sql = "SELECT * FROM utilisateurs WHERE pseudo = '$this->pseudo'";
-			$reponse = $db->query($sql);
-			$reponse->setFetchMode(PDO::FETCH_CLASS, 'User');
-			$user = $reponse->fetch();
-			if ($user) {
-				$this->ID = $db->getLastID();
-				$success = true;
+		if ( self::checkPrivileges() ) {
+			if (
+				// vérification que pseudo, e-mail, mot de passe et rôle sont définis
+				null !== $this->pseudo &&
+				null !== $this->email &&
+				null !== $this->password &&
+				null !== $this->role
+			) {
+				// insertion de l’utilisateur dans la table utilisateurs
+				$db = DBSingleton::getInstance();
+				$sql = "INSERT INTO utilisateurs (pseudo, password, email, role) VALUES ('$this->pseudo', '$this->password', '$this->email', '$this->role');";
+				$db->query($sql);
+				// vérification que l’insertion a été effectuée avec succès
+				$sql = "SELECT * FROM utilisateurs WHERE pseudo = '$this->pseudo'";
+				$reponse = $db->query($sql);
+				$reponse->setFetchMode(PDO::FETCH_CLASS, 'User');
+				$user = $reponse->fetch();
+				if ($user) {
+					$this->ID = $db->getLastID();
+					$success = true;
+				}
 			}
 		}
 		if ( $success == true ) {
-			echo "Le compte de l’utilisateur $this->pseudo a été créé avec succès.\n";
+			echo "Le compte de l’utilisateur $this->pseudo a été créé.\n";
 		} else {
 			echo "Échec de la création du compte.\n";
 		}
@@ -245,43 +273,78 @@ class User{
 	
 	// modification de l’entrée dans la table utilisateurs
 	public function update() {
-		$db = DBSingleton::getInstance();
-		$sql = "UPDATE utilisateurs SET pseudo = '$this->pseudo', password = '$this->password', email = '$this->email', role = '$this->role' WHERE ID = $this->ID;";
-		$db->query($sql);
+		$success = false;
+		if ( self::checkPrivileges() ) {
+			$db = DBSingleton::getInstance();
+			$sql = "SELECT * FROM utilisateurs WHERE ID = $this->ID";
+			$reponse = $db->query($sql);
+			$reponse->setFetchMode(PDO::FETCH_CLASS, 'User');
+			$user = $reponse->fetch();
+			if (
+				$this->pseudo != $user->getPseudo() ||
+				$this->password != $user->getPassword() ||
+				$this->email != $user->getEmail() ||
+				$this->role != $user->getRank()
+			) {
+				$sql = "UPDATE utilisateurs SET pseudo = '$this->pseudo', password = '$this->password', email = '$this->email', role = '$this->role' WHERE ID = $this->ID;";
+				$db->query($sql);
+				$success = true;
+			}
+		}
+		if ( $success == true ) {
+			echo "Le compte de l’utilisateur $this->pseudo a été mis à jour.\n";
+		} else {
+			echo "Échec de la modification du compte.\n";
+		}
 	}
 	
 	// suppression d’une entrée de la base utilisateurs
 	public function delete() {
-		// vérification qu’un utilisateur existe avec l’ID de l’objet courant
-		$db = DBSingleton::getInstance();
-		$sql = "SELECT * FROM utilisateurs WHERE ID = '$this->ID'";
-		$reponse = $db->query($sql);
-		$user = $reponse->fetch();
-		if ($user) {
-			$sql = "DELETE FROM utilisateurs WHERE ID = '$this->ID'";
-			$db->query($sql);
-			$pseudo = $user['pseudo'];
-			echo "L’utilisateur $pseudo a été supprimé.\n";
+		$success = false;
+		if ( self::checkPrivileges() ) {
+			// vérification qu’un utilisateur existe avec l’ID de l’objet courant
+			$db = DBSingleton::getInstance();
+			$sql = "SELECT * FROM utilisateurs WHERE ID = '$this->ID'";
+			$reponse = $db->query($sql);
+			$user = $reponse->fetch();
+			if ($user) {
+				$sql = "DELETE FROM utilisateurs WHERE ID = '$this->ID'";
+				$db->query($sql);
+				$success = true;
+			}
+		}
+		if ( $success == true ) {
+			echo "Le compte de l’utilisateur $this->pseudo a été supprimé.\n";
 		} else {
-			echo "L’utilisateur $pseudo est introuvable.\n";
-
+			echo "Échec de la suppression du compte.\n";
 		}
 	}
 	
 	// envoie un e-mail au nouvel utilisateur
 	public function sendEmail() {
-		if ( null !== $this->ID ) {
-			$message = 'Votre nouveau compte sur notre application a été créé.';
-			$message .= "\n\n";
-			$message .= 'Votre pseudo est : ';
-			$message .= $this->pseudo;
-			$message .= "\n";
-			$message .= 'et votre mot de passe est : ';
-			$message .= $this->password;
-			mail( $this->email, 'Votre nouveau compte', $message );
+		$success = false;
+		if ( self::checkPrivileges() ) {
+			if (
+				null !== $this->ID ||
+				null !== $this->pseudo ||
+				null !== $this->password ||
+				null !== $this->email
+		 ) {
+				$message = 'Votre nouveau compte sur notre application a été créé.';
+				$message .= "\n\n";
+				$message .= 'Votre pseudo est : ';
+				$message .= $this->pseudo;
+				$message .= "\n";
+				$message .= 'et votre mot de passe est : ';
+				$message .= $this->password;
+				mail( $this->email, 'Votre nouveau compte', $message );
+				$success = true;
+			}
+		}
+		if ( $success == true ) {
 			echo "Un e-mail a été envoyé à l’addresse $this->email\n";
 		} else {
-			echo "L’e-mail n’a pas été envoyé.\n";
+			echo "Échec de l’envoi de l’e-mail.\n";
 		}
 	}
 	

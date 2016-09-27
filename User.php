@@ -1,16 +1,16 @@
 <?php
 
 class User{
-
+	
 	private $ID;
 	private $pseudo;
 	private $password;
 	private $email;
-	private $role;	
+	private $role;
 	private $droits;
 	
 	public function __construct() {}
-
+	
 	// renvoi des attributs de l’objet
 	public function getID() { return $this->ID; }
 	public function getPseudo() { return $this->pseudo; }
@@ -18,7 +18,7 @@ class User{
 	public function getEmail() { return $this->email; }
 	public function getRank() { return $this->role; }
 	public function getRights() { return $this->droits; }
-
+	
 	// modification de l’ID
 	public function setID($ID) {
 		if ( !is_numeric($ID) ) {
@@ -38,7 +38,7 @@ class User{
 			}
 		}
 	}
-
+	
 	// modification du pseudo
 	public function setPseudo($pseudo) {
 		if (
@@ -70,7 +70,7 @@ class User{
 		}
 		return false;
 	}
-
+	
 	// modification de l’e-mail
 	public function setEmail($email) {
 		if (
@@ -102,7 +102,7 @@ class User{
 		}
 		return false;
 	}
-
+	
 	// modification du rôle
 	public function setRank($role) {
 		// récupération de l’ID du rôle dans la table 'roles'
@@ -120,37 +120,14 @@ class User{
 			return true;
 		}
 	}
-
+	
 	// génération d’un mot de passe aléatoire
 	public function generatePassword() {
 		$string = array_merge( range('a','z'), range('A','Z'), range('0','9') );
 		shuffle ($string);
 		$this->password = substr(implode($string), 0, 9);
 	}
-
-	public function isPseudoValid($arg1){
-		$pseudo_valide = true;
-    if (
-		  isset($arg1) &&
-		  preg_match("/^[a-z0-9]+$/i", $arg1) &&
-		  strlen($arg1) <= 30 
-    ) 
-    {
-			foreach ($this->user_list as $user) {
-				if ($user['pseudo'] == $arg1){
-					$pseudo_valide = false;
-					break;
-				}
-	    }
-    } else {
-			$pseudo_valide = false;            
-    }
-    if	($pseudo_valide == false) {
-			echo "pseudo ou et mot de passe invalides";
-    }
-    return $pseudo_valide;
-   }
-
+	
 	// suppression d’un droit
 	public function removeRight($droit) {
 		$const = "Rights::".$droit;
@@ -186,7 +163,7 @@ class User{
 			return false;
 		}
 	}
-
+	
 	// ajout d’un droit
 	public function addRight($droit) {
 		$const = "Rights::".$droit;
@@ -219,28 +196,25 @@ class User{
 			return false;
 		}
 	}
-
+	
 	// retourne un utilisateur depuis son pseudo ou son e-mail
 	public static function select($string) {
-		$db = DBSingleton::getInstance();
-		
 		if ( preg_match('/@/', $string) ) {
 			$sql = "SELECT * FROM utilisateurs WHERE email = '$string'";
 		} else {
 			$sql = "SELECT * FROM utilisateurs WHERE pseudo = '$string'";
 		}
-		
+		$db = DBSingleton::getInstance();
 		$reponse = $db->query($sql);
 		$reponse->setFetchMode(PDO::FETCH_CLASS, 'User');
 		$user = $reponse->fetch();
-
 		if ($user) {
 			return $user;
 		} else {
 			echo "L’utilisateur identifié par \"$string\" est introuvable.\n";
 		}
 	}
-
+	
 	// création de l’entrée dans la table utilisateurs
 	public function create() {
 		$success = false;
@@ -250,7 +224,7 @@ class User{
 			null !== $this->email &&
 			null !== $this->password &&
 			null !== $this->role &&
-			null !== $this->droits 
+			null !== $this->droits
 		) {
 			$db = DBSingleton::getInstance();
 			// insertion de l’utilisateur dans la table utilisateurs
@@ -282,13 +256,11 @@ class User{
 	
 	// suppression d’une entrée de la base utilisateurs
 	public function delete() {
-		$db = DBSingleton::getInstance();
-		
 		// vérification qu’un utilisateur existe avec l’ID de l’objet courant
+		$db = DBSingleton::getInstance();
 		$sql = "SELECT * FROM utilisateurs WHERE ID = '$this->ID'";
 		$reponse = $db->query($sql);
 		$user = $reponse->fetch();
-
 		if ($user) {
 			$sql = "DELETE FROM utilisateurs WHERE ID = '$this->ID'";
 			$db->query($sql);
@@ -315,7 +287,7 @@ class User{
 			echo "L’e-mail n’a pas été envoyé.\n";
 		}
 	}
-
+	
 	public static function Connection($arg1, $arg2){
 		$connection_valide = false;
 		$identifiants_list = "SELECT * FROM utilisateurs";

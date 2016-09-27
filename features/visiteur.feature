@@ -49,7 +49,7 @@ Scénario: Un Visiteur demande à se connecter avec des identifiants invalides
 
 	Scénario: Un Visiteur demande à se connecter avec des identifiants invalides, et a fait moins de x essais "x"
 	Étant donné que je suis visiteur
-	Quand je me connecte avec comme pseudo "toto" et comme mot de passe "coucou"
+	Quand je me connecte avec identifiants invalides pseudo "toto"  mot de passe "coucou"
 		Et mon couple pseudo/mot de passe est invalide
 		Et j’ai fait moins de x essais "3"
 	Alors mon nombre d’essais est augmenté de un
@@ -58,7 +58,7 @@ Scénario: Un Visiteur demande à se connecter avec des identifiants invalides
 	Scénario: Un Visiteur demande à se connecter avec des identifiants invalides, et a déjà fait x essais "x"
 	Étant donné que je suis visiteur
 	Quand je me connecte avec comme pseudo "toto" et comme mot de passe "coucou"
-		Et mon couple pseudo/mot de passe est invalide
+		Et mon couple pseudo/mot de passe est valide
 		Et j’ai fait au moins x essais "3"
 	Alors le compte associé au pseudo est bloqué "id"
 

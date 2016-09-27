@@ -799,7 +799,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function jAiFaitMoinsDeXEssais($arg1)
     {
-        throw new PendingException();
+        $_SESSION['number_of_tries'] = ($arg1 - 1);
     }
 
     /**
@@ -823,7 +823,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function jAiFaitAuMoinsXEssais($arg1)
     {
-        throw new PendingException();
+        $_SESSION['number_of_tries'] = $arg1;
     }
 
     /**

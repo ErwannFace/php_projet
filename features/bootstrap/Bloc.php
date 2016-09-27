@@ -79,8 +79,8 @@ class Bloc{
 		$format_valide = false;
 
 		$format_autorisee = array(
-			('jpg','png','gif'),
-			('mov','mpeg','mpeg2','flv','mp4','avi','wmv','mkv','mp3')
+			array('jpg','png','gif'),
+			array('mov','mpeg','mpeg2','flv','mp4','avi','wmv','mkv','mp3')
 		);
 		$format_uploaded;
 		$format = strtolower(substr(strrchr($_FILES[''], '.'), 1) );
@@ -100,7 +100,7 @@ class Bloc{
 
 	}
 
-	public static filtre($champ, $valeur) {
+	public static function filtre($champ, $valeur) {
 		//Id Date Titre Format Media
 		if (isset($valeur)){
 				$blocs_list = "SELECT `date`, `titre`, `media` FROM `blocs`";

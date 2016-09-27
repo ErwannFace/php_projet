@@ -58,14 +58,10 @@ class User{
 			} else {
 				// assigne le pseudo à l’utilisateur s’il est valide
 				if ( isset($this->pseudo) ) {
-					echo "Le pseudo de l’utilisateur $this->pseudo";
-					$this->pseudo = $pseudo;
-					echo " a été modifié pour \"$this->pseudo\".\n";
-					return true;
-				} else {
-					$this->pseudo = $pseudo;
-					return true;
+					echo "Le pseudo de l’utilisateur $this->pseudo a été modifié pour \"$pseudo\".\n";
 				}
+				$this->pseudo = $pseudo;
+				return true;
 			}
 		}
 		// affiche un message d’erreur si le pseudo est invalide

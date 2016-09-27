@@ -11,34 +11,13 @@ class User{
 	
 	public function __construct() {}
 
-	// renvoi de l’ID
-	public function getID() {
-		return $this->ID;
-	}
-
-	// renvoi du pseudo
-	public function getPseudo() {
-		return $this->pseudo;
-	}
-
-	// renvoi du mot de passe
-	public function getPassword() {
-		return $this->password;
-	}
-
-	// renvoi de l’e-mail
-	public function getEmail() {
-		return $this->email;
-	}
-
-	// renvoi du rôle
-	public function getRank() {
-		return $this->role;
-	}
-	// renvoi des droits
-	public function getRights() {
-		return $this->droits;
-	}
+	// renvoi des attributs de l’objet
+	public function getID() { return $this->ID; }
+	public function getPseudo() { return $this->pseudo; }
+	public function getPassword() { return $this->password; }
+	public function getEmail() { return $this->email; }
+	public function getRank() { return $this->role; }
+	public function getRights() { return $this->droits; }
 
 	// modification de l’ID
 	public function setID($ID) {

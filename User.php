@@ -7,7 +7,6 @@ class User{
 	private $password;
 	private $email;
 	private $role;
-	private $droits;
 	
 	public function __construct() {}
 	
@@ -17,7 +16,6 @@ class User{
 	public function getPassword() { return $this->password; }
 	public function getEmail() { return $this->email; }
 	public function getRank() { return $this->role; }
-	public function getRights() { return $this->droits; }
 	
 	// modification de l’ID
 	public function setID($ID) {
@@ -114,9 +112,8 @@ class User{
 			echo "Le rôle \"$role\" est inconnu.\n";
 			return false;
 		} else {
-			// définition du rôle et des droits par défaut
+			// définition du rôle
 			$this->role = $reponse['id'];
-			$this->droits = 7;
 			return true;
 		}
 	}
@@ -129,10 +126,23 @@ class User{
 	}
 	
 	// modification d’un droit
-	public function setRight($action, $droit) {
+	public static function setRight($role, $action, $droit) {
 		if ( $action != 'add' && $action != 'remove' ) {
-			echo "Action \"$action\" invalide.\n";
+			echo "L’action \"$action\" invalide.\n";
 			return false;
+		}
+		// récupération de l’ID du rôle dans la table 'roles'
+		$db = DBSingleton::getInstance();
+		$sql = "SELECT * FROM roles WHERE nom = '$role'";
+		$requete = $db->query($sql);
+		$reponse = $requete->fetch();
+		var_dump($reponse);
+		if ( count($reponse) == 0 ) {
+			echo "Le rôle \"$role\" est inconnu.\n";
+			return false;
+		} else {
+			$role_id = $reponse['id'];
+			$role_droits = $reponse['droits'];
 		}
 		$const = "Rights::".$droit;
 		// vérification que le droit est valide
@@ -143,40 +153,42 @@ class User{
 		// vérification que la modification est valide
 		if (
 			$action == 'add' && (
-				$droit == 'USERS' && $this->droits == Rights::BLOCS ||
-				$droit == 'USERS' && $this->droits == Rights::THEME ||
-				$droit == 'USERS' && $this->droits == Rights::BLOCS + Rights::THEME ||
-				$droit == 'BLOCS' && $this->droits == Rights::USERS ||
-				$droit == 'BLOCS' && $this->droits == Rights::THEME ||
-				$droit == 'BLOCS' && $this->droits == Rights::USERS + Rights::THEME ||
-				$droit == 'THEME' && $this->droits == Rights::USERS ||
-				$droit == 'THEME' && $this->droits == Rights::BLOCS ||
-				$droit == 'THEME' && $this->droits == Rights::USERS + Rights::BLOCS
+				$droit == 'USERS' && $role_droits == Rights::BLOCS ||
+				$droit == 'USERS' && $role_droits == Rights::THEME ||
+				$droit == 'USERS' && $role_droits == Rights::BLOCS + Rights::THEME ||
+				$droit == 'BLOCS' && $role_droits == Rights::USERS ||
+				$droit == 'BLOCS' && $role_droits == Rights::THEME ||
+				$droit == 'BLOCS' && $role_droits == Rights::USERS + Rights::THEME ||
+				$droit == 'THEME' && $role_droits == Rights::USERS ||
+				$droit == 'THEME' && $role_droits == Rights::BLOCS ||
+				$droit == 'THEME' && $role_droits == Rights::USERS + Rights::BLOCS
 			) ||
 			$action == 'remove' && (
-				$droit == 'USERS' && $this->droits == Rights::USERS ||
-				$droit == 'USERS' && $this->droits == Rights::USERS + Rights::BLOCS ||
-				$droit == 'USERS' && $this->droits == Rights::USERS + Rights::THEME ||
-				$droit == 'USERS' && $this->droits == Rights::USERS + Rights::BLOCS + Rights::THEME ||
-				$droit == 'BLOCS' && $this->droits == Rights::BLOCS ||
-				$droit == 'BLOCS' && $this->droits == Rights::BLOCS + Rights::USERS ||
-				$droit == 'BLOCS' && $this->droits == Rights::BLOCS + Rights::THEME ||
-				$droit == 'BLOCS' && $this->droits == Rights::BLOCS + Rights::USERS + Rights::THEME ||
-				$droit == 'THEME' && $this->droits == Rights::THEME ||
-				$droit == 'THEME' && $this->droits == Rights::THEME + Rights::USERS ||
-				$droit == 'THEME' && $this->droits == Rights::THEME + Rights::BLOCS ||
-				$droit == 'THEME' && $this->droits == Rights::THEME + Rights::USERS + Rights::BLOCS
+				$droit == 'USERS' && $role_droits == Rights::USERS ||
+				$droit == 'USERS' && $role_droits == Rights::USERS + Rights::BLOCS ||
+				$droit == 'USERS' && $role_droits == Rights::USERS + Rights::THEME ||
+				$droit == 'USERS' && $role_droits == Rights::USERS + Rights::BLOCS + Rights::THEME ||
+				$droit == 'BLOCS' && $role_droits == Rights::BLOCS ||
+				$droit == 'BLOCS' && $role_droits == Rights::BLOCS + Rights::USERS ||
+				$droit == 'BLOCS' && $role_droits == Rights::BLOCS + Rights::THEME ||
+				$droit == 'BLOCS' && $role_droits == Rights::BLOCS + Rights::USERS + Rights::THEME ||
+				$droit == 'THEME' && $role_droits == Rights::THEME ||
+				$droit == 'THEME' && $role_droits == Rights::THEME + Rights::USERS ||
+				$droit == 'THEME' && $role_droits == Rights::THEME + Rights::BLOCS ||
+				$droit == 'THEME' && $role_droits == Rights::THEME + Rights::USERS + Rights::BLOCS
 			)
 		) {
 			// modification des droits
-			$this->droits = ($action == 'add')?
-				$this->droits += eval("return $const;"):
-				$this->droits -= eval("return $const;");
-			echo "Les droits de l’utilisateur $this->pseudo ont été modifiés.\n";
+			$role_droits = ($action == 'add')?
+				$role_droits += eval("return $const;"):
+				$role_droits -= eval("return $const;");
+			$sql = "UPDATE roles SET droits = '$role_droits' WHERE ID = $role_id;";
+			$db->query($sql);
+			echo "Les droits du rôle $role ont été modifiés.\n";
 			return true;
 		} else {
 			// conservation des droits
-			echo "Les droits de l’utilisateur $this->pseudo n’ont pas été modifiés.\n";
+			echo "Les droits du rôle $role n’ont pas été modifiés.\n";
 			return false;
 		}
 	}
@@ -204,16 +216,15 @@ class User{
 	public function create() {
 		$success = false;
 		if (
-			// vérification que pseudo, e-mail, mot de passe, rôle et droits sont définis
+			// vérification que pseudo, e-mail, mot de passe et rôle sont définis
 			null !== $this->pseudo &&
 			null !== $this->email &&
 			null !== $this->password &&
-			null !== $this->role &&
-			null !== $this->droits
+			null !== $this->role
 		) {
 			$db = DBSingleton::getInstance();
 			// insertion de l’utilisateur dans la table utilisateurs
-			$sql = "INSERT INTO utilisateurs (pseudo, password, email, role, droits) VALUES ('$this->pseudo', '$this->password', '$this->email', '$this->role', '$this->droits');";
+			$sql = "INSERT INTO utilisateurs (pseudo, password, email, role) VALUES ('$this->pseudo', '$this->password', '$this->email', '$this->role');";
 			$db->query($sql);
 			// vérification que l’insertion a été effectuée avec succès
 			$sql = "SELECT * FROM utilisateurs WHERE pseudo = '$this->pseudo'";
@@ -235,7 +246,7 @@ class User{
 	// modification de l’entrée dans la table utilisateurs
 	public function update() {
 		$db = DBSingleton::getInstance();
-		$sql = "UPDATE utilisateurs SET pseudo = '$this->pseudo', password = '$this->password', email = '$this->email', role = '$this->role', droits = '$this->droits' WHERE ID = $this->ID;";
+		$sql = "UPDATE utilisateurs SET pseudo = '$this->pseudo', password = '$this->password', email = '$this->email', role = '$this->role' WHERE ID = $this->ID;";
 		$db->query($sql);
 	}
 	

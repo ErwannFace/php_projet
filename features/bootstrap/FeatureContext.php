@@ -129,19 +129,27 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @When je retire un droit (in)valide au contributeur :droit
+     * @When je retire un droit (in)valide :droit au role (in)valide :role
      */
-    public function jeRetireUnDroitAuContributeur($droit)
+    public function jeRetireUnDroitAuRole($droit, $role)
     {
-			$this->current_user->setRight('remove', $droit);
+			User::setRight($role, 'remove', $droit);
     }
 
     /**
-     * @When j’ajoute un droit (in)valide au contributeur :droit
+     * @When j’ajoute un droit (in)valide :droit au role (in)valide :role
      */
-    public function jAjouteUnDroitAuContributeur($droit)
+    public function jAjouteUnDroitAuRole($droit, $role)
     {
-    	$this->current_user->setRight('add', $droit);
+			User::setRight($role, 'add', $droit);
+    }
+
+    /**
+     * @Then l’entrée de la table roles (n’)est (pas )modifiée
+     */
+    public function lEntreeDeLaTableRolesEstModifiee()
+    {
+			return true;
     }
 
 		/*

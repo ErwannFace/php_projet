@@ -56,42 +56,6 @@ Fonctionnalité: Opérations d’un Administrateur
 		Et je renseigne un e-mail invalide "tutu-AT-facesimplon-DOT-com"
 	Alors l’entrée de la table utilisateurs n’est pas modifiée
 
-	Scénario: Un Administrateur retire un droit valide à un contributeur identifié par un pseudo correct
-	Étant donné que je suis "administrateur"
-	Quand je modifie un utilisateur avec un pseudo correct "tutu"
-		Et je retire un droit valide au contributeur "READ"
-	Alors l’entrée de la table utilisateurs est modifiée
-	
-	Scénario: Un Administrateur retire un droit valide à un contributeur identifié par un e-mail correct
-	Étant donné que je suis "administrateur"
-	Quand je modifie un utilisateur avec un email correct "tutu@facesimplon.com"
-		Et je retire un droit valide au contributeur "WRITE"
-	Alors l’entrée de la table utilisateurs est modifiée
-	
-	Scénario: Un Administrateur ajoute un droit valide à un contributeur identifié par un pseudo correct
-	Étant donné que je suis "administrateur"
-	Quand je modifie un utilisateur avec un pseudo correct "tutu"
-		Et j’ajoute un droit valide au contributeur "READ"
-	Alors l’entrée de la table utilisateurs est modifiée
-	
-	Scénario: Un Administrateur ajoute un droit valide à un contributeur identifié par un e-mail correct
-	Étant donné que je suis "administrateur"
-	Quand je modifie un utilisateur avec un email correct "tutu@facesimplon.com"
-		Et j’ajoute un droit valide au contributeur "WRITE"
-	Alors l’entrée de la table utilisateurs est modifiée
-	
-	Scénario: Un Administrateur retire un droit invalide à un contributeur
-	Étant donné que je suis "administrateur"
-	Quand je modifie un utilisateur avec un pseudo correct "tutu"
-		Et je retire un droit invalide au contributeur "SING"
-	Alors l’entrée de la table utilisateurs n’est pas modifiée
-	
-	Scénario: Un Administrateur ajoute un droit invalide à un contributeur
-	Étant donné que je suis "administrateur"
-	Quand je modifie un utilisateur avec un pseudo correct "tutu"
-		Et j’ajoute un droit invalide au contributeur "SING"
-	Alors l’entrée de la table utilisateurs n’est pas modifiée
-	
 	Scénario: Un Administrateur supprime un contributeur avec un pseudo correct
 	Étant donné que je suis "administrateur"
 	Quand je supprime un utilisateur avec un pseudo correct "tutu"
@@ -112,3 +76,28 @@ Fonctionnalité: Opérations d’un Administrateur
 	Étant donné que je suis "administrateur"
 	Quand je supprime un utilisateur avec un email incorrect "titi@facesimplon.com"
 	Alors l’entrée de la table utilisateurs n’est pas supprimée
+	
+	Scénario: Un Administrateur retire un droit valide aux contributeurs
+	Étant donné que je suis "administrateur"
+	Quand je retire un droit valide "BLOCS" au role valide "contributeur"
+	Alors l’entrée de la table roles est modifiée
+	
+	Scénario: Un Administrateur retire un droit invalide aux contributeurs
+	Étant donné que je suis "administrateur"
+	Quand je retire un droit invalide "DANCE" au role valide "contributeur"
+	Alors l’entrée de la table roles n’est pas modifiée
+	
+	Scénario: Un Administrateur ajoute un droit valide aux contributeurs
+	Étant donné que je suis "administrateur"
+	Quand j’ajoute un droit valide "BLOCS" au role valide "contributeur"
+	Alors l’entrée de la table roles est modifiée
+	
+	Scénario: Un Administrateur ajoute un droit invalide aux contributeurs
+	Étant donné que je suis "administrateur"
+	Quand j’ajoute un droit invalide "DANCE" au role valide "contributeur"
+	Alors l’entrée de la table roles n’est pas modifiée
+	
+	Scénario: Un Administrateur modifie un droit d’un role invalide
+	Étant donné que je suis "administrateur"
+	Quand j’ajoute un droit valide "BLOCS" au role invalide "spectateur"
+	Alors l’entrée de la table roles n’est pas modifiée

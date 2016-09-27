@@ -217,14 +217,6 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @When je clique sur se connecter
-     */
-    public function jeCliqueSurSeConnecter()
-    {
-        throw new PendingException();
-    }
-
-    /**
      * @Then ma connection est validée
      */
     public function maConnectionEstValidee()
@@ -233,9 +225,9 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Then j’arrive sur la page accueil
+     * @When je me connecte
      */
-    public function jArriveSurLaPageAccueil()
+    public function jeMeConnecte()
     {
         throw new PendingException();
     }
@@ -257,17 +249,9 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Then un message d’erreur apparaît :arg1
+     * @Then ma connection n'est pas validée
      */
-    public function unMessageDErreurApparait($arg1)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then je suis renvoyé sur la modal de connection vierge
-     */
-    public function jeSuisRenvoyeSurLaModalDeConnectionVierge()
+    public function maConnectionNEstPasValidee()
     {
         throw new PendingException();
     }
@@ -276,6 +260,14 @@ class FeatureContext implements Context, SnippetAcceptingContext
      * @When je saisis un email non valide :arg1
      */
     public function jeSaisisUnEmailNonValide($arg1)
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @Then ma connection n'est pas validé
+     */
+    public function maConnectionNEstPasValide()
     {
         throw new PendingException();
     }
@@ -297,9 +289,9 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Then un message d’errreur apparaît :arg1
+     * @Then Alors ma connection n'est pas validé
      */
-    public function unMessageDErrreurApparait($arg1)
+    public function alorsMaConnectionNEstPasValide()
     {
         throw new PendingException();
     }
@@ -316,14 +308,6 @@ class FeatureContext implements Context, SnippetAcceptingContext
      * @When je saisis un email  valide :arg1
      */
     public function jeSaisisUnEmailValide2($arg1)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @When je suis sur le modal de connection
-     */
-    public function jeSuisSurLeModalDeConnection()
     {
         throw new PendingException();
     }
@@ -353,9 +337,9 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @When je suis sur la modal « ajouter un Bloc » :arg1
+     * @When j'ajoute un bloc
      */
-    public function jeSuisSurLaModalAjouterUnBloc($arg1)
+    public function jAjouteUnBloc()
     {
         throw new PendingException();
     }
@@ -393,9 +377,9 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Then j’arrive sur la page accueil avec un bloc supplémentaire
+     * @Then le bloc est ajouté
      */
-    public function jArriveSurLaPageAccueilAvecUnBlocSupplementaire()
+    public function leBlocEstAjoute()
     {
         throw new PendingException();
     }
@@ -425,14 +409,6 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @When le bouton de confirmation d’ajout de Bloc n’est pas cliquable
-     */
-    public function leBoutonDeConfirmationDAjoutDeBlocNEstPasCliquable()
-    {
-        throw new PendingException();
-    }
-
-    /**
      * @Then je rentre mon titre :arg1
      */
     public function jeRentreMonTitre($arg1)
@@ -449,25 +425,9 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @When je clique sur ajouter Bloc
-     */
-    public function jeCliqueSurAjouterBloc()
-    {
-        throw new PendingException();
-    }
-
-    /**
      * @Then je rentre mon format :arg1
      */
     public function jeRentreMonFormat($arg1)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @When je suis sur la modal « ajouter un Bloc »
-     */
-    public function jeSuisSurLaModalAjouterUnBloc2()
     {
         throw new PendingException();
     }
@@ -489,17 +449,9 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @When un message d’erreur apparait :arg1
+     * @Then j'ajoute un media pour confirmer l’ajout du Bloc
      */
-    public function unMessageDErreurApparait2($arg1)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then je dois ajouter un media pour confirmer l’ajout du Bloc
-     */
-    public function jeDoisAjouterUnMediaPourConfirmerLAjoutDuBloc()
+    public function jAjouteUnMediaPourConfirmerLAjoutDuBloc()
     {
         throw new PendingException();
     }
@@ -521,25 +473,17 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @When que je veux modifier un Bloc :arg1
+     * @When que je  modifie un Bloc :arg1
      */
-    public function queJeVeuxModifierUnBloc($arg1)
+    public function queJeModifieUnBloc($arg1)
     {
         throw new PendingException();
     }
 
     /**
-     * @When je suis sur la modal «modifier un Bloc»
+     * @Then je dois ajouter un media valide
      */
-    public function jeSuisSurLaModalModifierUnBloc()
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then je dois ajouter un media valide pour confirmer l’ajout du Bloc
-     */
-    public function jeDoisAjouterUnMediaValidePourConfirmerLAjoutDuBloc()
+    public function jeDoisAjouterUnMediaValide()
     {
         throw new PendingException();
     }
@@ -553,9 +497,9 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @When je veux modifier un bloc :arg1
+     * @When je modifie un bloc :arg1
      */
-    public function jeVeuxModifierUnBloc($arg1)
+    public function jeModifieUnBloc($arg1)
     {
         throw new PendingException();
     }
@@ -564,14 +508,6 @@ class FeatureContext implements Context, SnippetAcceptingContext
      * @When je n’ai pas rentré un titre :arg1
      */
     public function jeNAiPasRentreUnTitre($arg1)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @When une message d’erreur apparait :arg1
-     */
-    public function uneMessageDErreurApparait($arg1)
     {
         throw new PendingException();
     }
@@ -593,9 +529,9 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @When je veux modifier un artcile :arg1
+     * @When je modifie un artcile :arg1
      */
-    public function jeVeuxModifierUnArtcile($arg1)
+    public function jeModifieUnArtcile($arg1)
     {
         throw new PendingException();
     }
@@ -617,17 +553,9 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @When J’ai cliqué sur « valider »
+     * @Then le bloc est modifié
      */
-    public function jAiCliqueSurValider()
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then une modal de confirmation apparaît
-     */
-    public function uneModalDeConfirmationApparait()
+    public function leBlocEstModifie()
     {
         throw new PendingException();
     }
@@ -635,7 +563,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
     /**
      * @When je veux modifier un Bloc :arg1
      */
-    public function jeVeuxModifierUnBloc2($arg1)
+    public function jeVeuxModifierUnBloc($arg1)
     {
         throw new PendingException();
     }
@@ -644,22 +572,6 @@ class FeatureContext implements Context, SnippetAcceptingContext
      * @When j’ai bien modifié le Bloc
      */
     public function jAiBienModifieLeBloc()
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @When J’ai cliqué sur « valider » dans la modal de confirmation
-     */
-    public function jAiCliqueSurValiderDansLaModalDeConfirmation()
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then je suis sur accueil
-     */
-    public function jeSuisSurAccueil()
     {
         throw new PendingException();
     }
@@ -681,17 +593,17 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @When je valide la modification
+     * @Then je cree le bloc
      */
-    public function jeValideLaModification()
+    public function jeCreeLeBloc()
     {
         throw new PendingException();
     }
 
     /**
-     * @Then une fenetre de confirmation de création ou d'abandon du Bloc apparaît
+     * @Then je ne  cree pas le bloc
      */
-    public function uneFenetreDeConfirmationDeCreationOuDAbandonDuBlocApparait()
+    public function jeNeCreePasLeBloc()
     {
         throw new PendingException();
     }
@@ -713,81 +625,121 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Then une fenetre de confirmation de modification ou d'abandon du Bloc apparaît
+     * @Then je modifie le bloc
      */
-    public function uneFenetreDeConfirmationDeModificationOuDAbandonDuBlocApparait()
+    public function jeModifieLeBloc()
     {
         throw new PendingException();
     }
 
     /**
-     * @When je veux supprimer un Bloc :arg1
+     * @Then je modifie pas le bloc
      */
-    public function jeVeuxSupprimerUnBloc($arg1)
+    public function jeModifiePasLeBloc()
     {
         throw new PendingException();
     }
 
     /**
-     * @When je clique sur « supprimer le Bloc »
+     * @When je supprime un Bloc :arg1
      */
-    public function jeCliqueSurSupprimerLeBloc()
+    public function jeSupprimeUnBloc($arg1)
     {
         throw new PendingException();
     }
 
     /**
-     * @Then un message de confirmation apparaît
+     * @Then le bloc est supprimé
      */
-    public function unMessageDeConfirmationApparait()
+    public function leBlocEstSupprime()
     {
         throw new PendingException();
     }
 
     /**
-     * @When j’ai cliqué sur « supprimer le Bloc »
+     * @Then je ne suis pas connecté
      */
-    public function jAiCliqueSurSupprimerLeBloc()
+    public function jeNeSuisPasConnecte()
     {
         throw new PendingException();
     }
 
     /**
-     * @When je clique sur « confirmer »
+     * @Then je ne suis pas connecte
      */
-    public function jeCliqueSurConfirmer()
+    public function jeNeSuisPasConnecte2()
     {
         throw new PendingException();
     }
 
     /**
-     * @Then je retourne sur accueil avec un Bloc en moins.
+     * @When j'ajoute un bloc :arg1
      */
-    public function jeRetourneSurAccueilAvecUnBlocEnMoins()
+    public function jAjouteUnBloc2($arg1)
     {
         throw new PendingException();
     }
 
     /**
-     * @When j’ai cliquer sur « supprimer le Bloc »
+     * @Then je dois ajouter un media pour confirmer l’ajout du Bloc
      */
-    public function jAiCliquerSurSupprimerLeBloc()
+    public function jeDoisAjouterUnMediaPourConfirmerLAjoutDuBloc()
     {
         throw new PendingException();
     }
 
     /**
-     * @When je clique sur « annuler»
+     * @When j’ai rentré un média incompatible :arg1"
      */
-    public function jeCliqueSurAnnuler()
+    public function jAiRentreUnMediaIncompatible2($arg1)
     {
         throw new PendingException();
     }
 
     /**
-     * @Then je retourne sur accueil .
+     * @Then je dois ajouter un media valide pour confirmer l’ajout du Bloc
      */
-    public function jeRetourneSurAccueil()
+    public function jeDoisAjouterUnMediaValidePourConfirmerLAjoutDuBloc()
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @When que je modifie un Bloc :arg1
+     */
+    public function queJeModifieUnBloc2($arg1)
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @When je suis sur la modal «modifier un Bloc»
+     */
+    public function jeSuisSurLaModalModifierUnBloc()
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @Then le media est modifié
+     */
+    public function leMediaEstModifie()
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @When je modifie un Bloc :arg1
+     */
+    public function jeModifieUnBloc2($arg1)
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @Then le Bloc est modifié
+     */
+    public function leBlocEstModifie2()
     {
         throw new PendingException();
     }

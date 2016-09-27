@@ -60,37 +60,37 @@ Fonctionnalité: Opérations d’un Administrateur
 	Étant donné que je suis "administrateur"
 		Et que un utilisateur existe avec le pseudo "tutu" et l’e-mail "tutu@facesimplon.com"
 	Quand je modifie un utilisateur avec un pseudo correct "tutu"
-		Et je retire un droit valide au contributeur "ajout"
+		Et je retire un droit valide au contributeur "READ"
 	Alors l’entrée de la table utilisateurs est modifiée
 	
 	Scénario: Un Administrateur retire un droit valide à un contributeur identifié par un e-mail correct
 	Étant donné que je suis "administrateur"
 	Quand je modifie un utilisateur avec un email correct "tutu@facesimplon.com"
-		Et je retire un droit valide au contributeur "suppression"
+		Et je retire un droit valide au contributeur "WRITE"
 	Alors l’entrée de la table utilisateurs est modifiée
 	
 	Scénario: Un Administrateur ajoute un droit valide à un contributeur identifié par un pseudo correct
 	Étant donné que je suis "administrateur"
 	Quand je modifie un utilisateur avec un pseudo correct "tutu"
-		Et j’ajoute un droit valide au contributeur "ajout"
+		Et j’ajoute un droit valide au contributeur "READ"
 	Alors l’entrée de la table utilisateurs est modifiée
 	
 	Scénario: Un Administrateur ajoute un droit valide à un contributeur identifié par un e-mail correct
 	Étant donné que je suis "administrateur"
 	Quand je modifie un utilisateur avec un email correct "tutu@facesimplon.com"
-		Et j’ajoute un droit valide au contributeur "suppression"
+		Et j’ajoute un droit valide au contributeur "WRITE"
 	Alors l’entrée de la table utilisateurs est modifiée
 	
 	Scénario: Un Administrateur retire un droit invalide à un contributeur
 	Étant donné que je suis "administrateur"
 	Quand je modifie un utilisateur avec un pseudo correct "tutu"
-		Et je retire un droit invalide au contributeur "contemplation"
+		Et je retire un droit invalide au contributeur "SING"
 	Alors l’entrée de la table utilisateurs n’est pas modifiée
 	
 	Scénario: Un Administrateur ajoute un droit invalide à un contributeur
 	Étant donné que je suis "administrateur"
 	Quand je modifie un utilisateur avec un pseudo correct "tutu"
-		Et j’ajoute un droit invalide au contributeur "contemplation"
+		Et j’ajoute un droit invalide au contributeur "SING"
 	Alors l’entrée de la table utilisateurs n’est pas modifiée
 	
 	Scénario: Un Administrateur supprime un contributeur avec un pseudo correct

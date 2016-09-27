@@ -148,50 +148,45 @@ class User{
 
 	// suppression d’un droit
 	public function removeRight($droit) {
-		$db = DBSingleton::getInstance();
-		// récupération de la valeur du droit dans la table 'droits'
-		$sql = "SELECT * FROM droits WHERE nom = '$droit'";
-		$requete = $db->query($sql);
-		$reponse = $requete->fetch();
-		if ( isset($reponse['valeur']) ) {
-			$valeur = $reponse['valeur'];
-		} else {
+		var_dump(constant('Rights::'.$droit));
+		// vérification que le droit est valide
+		if ( !defined('Rights::'.$droit) ) {
 			echo "Le droit $droit est inconnu.\n";
 			return false;
 		}
 		// vérification que la modification est valide
 		$validity = false;
-		if ( $valeur == 1 && $this->droits % 2 == 1 ) { $validity = true; }
-		if ( $valeur == 2 && 
-			$this->droits != 1 &&
-			$this->droits != 4 &&
-			$this->droits != 5
+		if (
+			$droit == 'READ' && $this->droits == Rights::READ ||
+			$droit == 'READ' && $this->droits == Rights::READ + Rights::WRITE ||
+			$droit == 'READ' && $this->droits == Rights::READ + Rights::DELETE ||
+			$droit == 'READ' && $this->droits == Rights::READ + Rights::WRITE + Rights::DELETE ||
+			$droit == 'WRITE' && $this->droits == Rights::WRITE ||
+			$droit == 'WRITE' && $this->droits == Rights::WRITE + Rights::READ ||
+			$droit == 'WRITE' && $this->droits == Rights::WRITE + Rights::DELETE ||
+			$droit == 'WRITE' && $this->droits == Rights::WRITE + Rights::READ + Rights::DELETE ||
+			$droit == 'DELETE' && $this->droits == Rights::DELETE ||
+			$droit == 'DELETE' && $this->droits == Rights::DELETE + Rights::READ ||
+			$droit == 'DELETE' && $this->droits == Rights::DELETE + Rights::WRITE ||
+			$droit == 'DELETE' && $this->droits == Rights::DELETE + Rights::READ + Rights::WRITE
 		) { $validity = true; }
-		if ( $valeur == 4 && $this->droits >= 4 ) { $validity = true; }
-		$pseudo = $this->pseudo;
 		if ( $validity == true ) {
 			// modification des droits
-			$nouveaux_droits = $this->droits - $valeur;
-			$this->droits = $nouveaux_droits;
-			echo "Les droits de l’utilisateur $pseudo ont été modifiés.\n";
+			$this->droits -= Rights::$droit;
+			echo "Les droits de l’utilisateur $this->pseudo ont été modifiés.\n";
+			echo "DEBUG: nouveaux droits = $this->droits\n";
 			return true;
 		} else {
 			// conservation des droits
-			echo "Les droits de l’utilisateur $pseudo n’ont pas été modifiés.\n";
+			echo "Les droits de l’utilisateur $this->pseudo n’ont pas été modifiés.\n";
 			return false;
 		}
 	}
 
 	// ajout d’un droit
 	public function addRight($droit) {
-		$db = DBSingleton::getInstance();
-		// récupération de la valeur du droit dans la table 'droits'
-		$sql = "SELECT * FROM droits WHERE nom = '$droit'";
-		$requete = $db->query($sql);
-		$reponse = $requete->fetch();
-		if ( isset($reponse['valeur']) ) {
-			$valeur = $reponse['valeur'];
-		} else {
+		// vérification que le droit est valide
+		if ( !isset(Rights::$droit) ) {
 			echo "Le droit $droit est inconnu.\n";
 			return false;
 		}

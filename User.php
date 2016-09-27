@@ -170,7 +170,7 @@ class User{
 
 	// suppression d’un droit
 	public function removeRight($droit) {
-		$const = eval('return Rights::'.$droit.';');
+		$const = eval('return (defined("Rights::'.$droit.'"))?Rights::'.$droit.':null;');
 		// vérification que le droit est valide
 		if ( $const == null ) {
 			echo "Le droit $droit est inconnu.\n";
@@ -206,7 +206,7 @@ class User{
 
 	// ajout d’un droit
 	public function addRight($droit) {
-		$const = eval('return Rights::'.$droit.';');
+		$const = eval('return (defined("Rights::'.$droit.'"))?Rights::'.$droit.':null;');
 		// vérification que le droit est valide
 		if ( $const == null ) {
 			echo "Le droit $droit est inconnu.\n";

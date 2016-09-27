@@ -22,145 +22,94 @@ Fonctionnalité: Opérations d’un Administrateur
 		Et je renseigne un e-mail invalide "toto@facesimplon.com"
 	Alors aucune entrée n’est créée dans la table utilisateurs
 
+	Scénario: Un Administrateur essaye de modifier un contributeur avec un pseudo incorrect
+	Étant donné que je suis "administrateur"
+	Quand je modifie un utilisateur avec un pseudo incorrect "titi"
+	Alors l’entrée de la table utilisateurs n’est pas modifiée
+
+	Scénario: Un Administrateur essaye de modifier un contributeur avec un e-mail incorrect
+	Étant donné que je suis "administrateur"
+	Quand je modifie un utilisateur avec un email incorrect "titi@facesimplon.com"
+	Alors l’entrée de la table utilisateurs n’est pas modifiée
+
 	Scénario: Un Administrateur modifie le pseudo d’un contributeur, et entre un nouveau pseudo valide
 	Étant donné que je suis "administrateur"
-	Quand je modifie un utilisateur avec "le pseudo" "toto"
+	Quand je modifie un utilisateur avec un pseudo correct "toto"
 		Et je renseigne un pseudo valide "tutu"
 	Alors l’entrée de la table utilisateurs est modifiée
 
 	Scénario: Un Administrateur modifie le pseudo d’un contributeur, et entre un nouveau pseudo invalide
 	Étant donné que je suis "administrateur"
-	Quand je modifie un utilisateur avec "le pseudo" "tutu"
+	Quand je modifie un utilisateur avec un pseudo correct "tutu"
 		Et je renseigne un pseudo invalide "t@t@"
 	Alors l’entrée de la table utilisateurs n’est pas modifiée
 
 	Scénario: Un Administrateur modifie l’e-mail d’un contributeur, et entre un nouvel e-mail valide
 	Étant donné que je suis "administrateur"
-	Quand je modifie un utilisateur avec "l’e-mail" "toto@facesimplon.com"
+	Quand je modifie un utilisateur avec un email correct "toto@facesimplon.com"
 		Et je renseigne un e-mail valide "tutu@facesimplon.com"
 	Alors l’entrée de la table utilisateurs est modifiée
 
 	Scénario: Un Administrateur modifie l’e-mail d’un contributeur, et entre un nouvel e-mail invalide
 	Étant donné que je suis "administrateur"
-	Quand je modifie un utilisateur avec "l’e-mail" "tutu@facesimplon.com"
+	Quand je modifie un utilisateur avec un email correct "tutu@facesimplon.com"
 		Et je renseigne un e-mail invalide "tutu-AT-facesimplon-DOT-com"
 	Alors l’entrée de la table utilisateurs n’est pas modifiée
 
+	Scénario: Un Administrateur retire un droit valide à un contributeur identifié par un pseudo correct
+	Étant donné que je suis "administrateur"
+		Et que un utilisateur existe avec le pseudo "tutu" et l’e-mail "tutu@facesimplon.com"
+	Quand je modifie un utilisateur avec un pseudo correct "tutu"
+		Et je retire un droit valide au contributeur "READ"
+	Alors l’entrée de la table utilisateurs est modifiée
+	
+	Scénario: Un Administrateur retire un droit valide à un contributeur identifié par un e-mail correct
+	Étant donné que je suis "administrateur"
+	Quand je modifie un utilisateur avec un email correct "tutu@facesimplon.com"
+		Et je retire un droit valide au contributeur "WRITE"
+	Alors l’entrée de la table utilisateurs est modifiée
+	
+	Scénario: Un Administrateur ajoute un droit valide à un contributeur identifié par un pseudo correct
+	Étant donné que je suis "administrateur"
+	Quand je modifie un utilisateur avec un pseudo correct "tutu"
+		Et j’ajoute un droit valide au contributeur "READ"
+	Alors l’entrée de la table utilisateurs est modifiée
+	
+	Scénario: Un Administrateur ajoute un droit valide à un contributeur identifié par un e-mail correct
+	Étant donné que je suis "administrateur"
+	Quand je modifie un utilisateur avec un email correct "tutu@facesimplon.com"
+		Et j’ajoute un droit valide au contributeur "WRITE"
+	Alors l’entrée de la table utilisateurs est modifiée
+	
+	Scénario: Un Administrateur retire un droit invalide à un contributeur
+	Étant donné que je suis "administrateur"
+	Quand je modifie un utilisateur avec un pseudo correct "tutu"
+		Et je retire un droit invalide au contributeur "SING"
+	Alors l’entrée de la table utilisateurs n’est pas modifiée
+	
+	Scénario: Un Administrateur ajoute un droit invalide à un contributeur
+	Étant donné que je suis "administrateur"
+	Quand je modifie un utilisateur avec un pseudo correct "tutu"
+		Et j’ajoute un droit invalide au contributeur "SING"
+	Alors l’entrée de la table utilisateurs n’est pas modifiée
+	
 	Scénario: Un Administrateur supprime un contributeur avec un pseudo correct
 	Étant donné que je suis "administrateur"
-	Quand je supprime un contributeur avec un pseudo correct "tutu"
+	Quand je supprime un utilisateur avec un pseudo correct "tutu"
 	Alors l’entrée de la table utilisateurs est supprimée
 
 	Scénario: Un Administrateur essaye de supprimer un contributeur avec un pseudo incorrect
 	Étant donné que je suis "administrateur"
-	Quand je supprime un contributeur avec un pseudo incorrect "tutu"
+	Quand je supprime un utilisateur avec un pseudo incorrect "tutu"
 	Alors l’entrée de la table utilisateurs n’est pas supprimée
 
 	Scénario: Un Administrateur supprime un contributeur avec un e-mail correct
 	Étant donné que je suis "administrateur"
 	Et que un utilisateur existe avec le pseudo "titi" et l’e-mail "titi@facesimplon.com"
-	Quand je supprime un contributeur avec un email correct "titi@facesimplon.com"
+	Quand je supprime un utilisateur avec un email correct "titi@facesimplon.com"
 	Alors l’entrée de la table utilisateurs est supprimée
 
 	Scénario: Un Administrateur essaye de supprimer un contributeur avec un e-mail incorrect
 	Étant donné que je suis "administrateur"
-	Quand je supprime un contributeur avec un email incorrect "titi@facesimplon.com"
+	Quand je supprime un utilisateur avec un email incorrect "titi@facesimplon.com"
 	Alors l’entrée de la table utilisateurs n’est pas supprimée
-
-	Scénario: Un Administrateur modifie un droit de contributeur
-	Étant donné que je suis "administrateur"
-	Quand je modifie un contributeur "id"
-		Et je renseigne un email contributeur correct "email_contributeur"
-		Et je retire un droit valide du contributeur "droit_contributeur"
-	Alors l'entrée de la table est actualisée
-		Et un message de confirmation est affiché
-
-
-	Scénario: Un Administrateur modifie un droit de contributeur
-	Étant donné que je suis "administrateur"
-	Quand je modifie un contributeur "id"
-		Et je renseigne un pseudo contributeur correct "pseudo_contributeur"
-		Et je retire un droit valide du contributeur "droit_contributeur"
-	Alors l'entrée de la table est actualisée
-		Et un message de confirmation est affiché
-
-	Scénario: Un Administrateur modifie un droit de contributeur
-	Étant donné que je suis "administrateur"
-	Quand je modifie un contributeur "id" 
-		Et je renseigne un pseudo contributeur correct "pseudo_contributeur"
-		Et je retire un droit invalide du contributeur "droit_contributeur"
-	Alors un message d’erreur est affiché
-		Et retour à l’interface de gestion des droits
-
-	Scénario: Un Administrateur modifie un droit de contributeur
-	Étant donné que je suis "administrateur"
-	Quand je modifie un contributeur "id" 
-		Et je renseigne un email contributeur correct "email_contributeur"
-		Et je retire un droit invalide du contributeur "droit_contributeur"
-	Alors un message d’erreur est affiché
-		Et retour à l’interface de gestion des droits
-
-
-	Scénario: Un Administrateur ajouter un droit de contributeur
-	Étant donné que je suis "administrateur"
-	Quand je modifie un contributeur "id" 
-		Et je renseigne un email contributeur correct "email_contributeur"
-		Et j'ajoute un droit valide du contributeur "droit_contributeur"
-	Alors l'entrée de la table est actualisée
-		Et un message de confirmation est affiché
-
-
-	Scénario: Un Administrateur ajouter un droit de contributeur
-	Étant donné que je suis "administrateur"
-	Quand je modifie un contributeur "id" 
-		Et je renseigne un pseudo contributeur correct "pseudo_contributeur"
-		Et j'ajoute un droit valide du contributeur "droit_contributeur"
-	Alors l'entrée de la table est actualisée
-		Et un message de confirmation est affiché
-
-	Scénario: Un Administrateur essaye d'ajouter un droit de contributeur
-	Étant donné que je suis "administrateur"
-	Quand je modifie un contributeur "id" 
-		Et je renseigne un pseudo contributeur correct "pseudo_contributeur"
-		Et j'ajoute un droit invalide du contributeur "droit_contributeur"
-	Alors un message d’erreur est affiché
-		Et retour à l’interface de gestion des droits
-
-	Scénario: Un Administrateur essaye d'ajouter un droit de contributeur
-	Étant donné que je suis "administrateur"
-	Quand je modifie un contributeur "id" 
-		Et je renseigne un pseudo contributeur correct "pseudo_contributeur"
-		Et j'ajoute un droit incorrect du contributeur "droit_contributeur"
-	Alors un message d’erreur est affiché
-		Et retour à l’interface de gestion des droits
-
-	Scénario: Un Administrateur essaye d'ajouter un droit de contributeur
-	Étant donné que je suis "administrateur"
-	Quand je modifie un contributeur "id" 
-		Et je renseigne un email contributeur correct "email_contributeur"
-		Et j'ajoute un droit invalide du contributeur "droit_contributeur"
-	Alors un message d’erreur est affiché
-		Et retour à l’interface de gestion des droits
-
-	Scénario: Un Administrateur essaye d'ajouter un droit de contributeur
-	Étant donné que je suis "administrateur"
-	Quand je modifie un contributeur "id" 
-		Et je renseigne un email contributeur correct "email_contributeur"
-		Et j'ajoute un droit incorrect du contributeur "droit_contributeur"
-	Alors un message d’erreur est affiché
-		Et retour à l’interface de gestion des droits
-
-	Scénario: Un Administrateur essaye d'ajouter un droit de contributeur
-	Étant donné que je suis "administrateur"
-	Quand je modifie un contributeur "id" 
-		Et je renseigne un email contributeur incorrect "email_contributeur"
-	Alors un message d’erreur est affiché
-		Et un nouveau email est demandé
-	
-	Scénario: Un Administrateur essaye d'ajouter un droit de contributeur
-	Étant donné que je suis "administrateur"
-	Quand je modifie un contributeur "id" 
-		Et je renseigne un pseudo contributeur incorrect "pseudo_contributeur"
-	Alors un message d’erreur est affiché
-		Et un nouveau pseudo est demandé
-

@@ -5,8 +5,6 @@ use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
-use User;
-use DBSingleton;
 
 /**
  * Defines application features from the specific context.
@@ -100,7 +98,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @When je modifie un utilisateur avec :pseudo_ou_email :arg
+     * @When je modifie/supprime un utilisateur avec un pseudo/email (in)correct :arg
      */
     public function jeModifieUnUtilisateur($arg)
     {
@@ -108,227 +106,39 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Then l’entrée de la table utilisateurs est modifiée
+     * @Then l’entrée de la table utilisateurs (n’)est (pas )modifiée
      */
-    public function lEntreeDeLaTableUtilisateursEstModifiee()
+    public function updateDBUserEntry()
     {
-			$this->current_user->update();
+			if ( isset($this->current_user) ) {
+				$this->current_user->update();
+			}
     }
 
     /**
-     * @Then l’entrée de la table utilisateurs n’est pas modifiée
+     * @Then l’entrée de la table utilisateurs (n’)est (pas )supprimée
      */
-    public function lEntreeDeLaTableUtilisateursNEstPasModifiee()
+    public function deleteDBUserEntry()
     {
-			return true;
+			if ( isset($this->current_user) ) {
+				$this->current_user->delete();
+			}
     }
 
     /**
-     * @When je supprime un contributeur avec un pseudo/email (in)correct :arg
+     * @When je retire un droit (in)valide au contributeur :droit
      */
-    public function jeSupprimeUnContributeur($arg)
+    public function jeRetireUnDroitAuContributeur($droit)
     {
-			$this->current_user = User::select($arg);
+			$this->current_user->removeRight($droit);
     }
 
     /**
-     * @Then l’entrée de la table utilisateurs est supprimée
+     * @When j’ajoute un droit (in)valide au contributeur :droit
      */
-    public function lEntreeDeLaTableUtilisateursEstSupprimee()
+    public function jAjouteUnDroitAuContributeur($droit)
     {
-			User::delete($this->current_user->getID());
-    }
-
-    /**
-     * @Then l’entrée de la table utilisateurs n’est pas supprimée
-     */
-    public function lEntreeDeLaTableUtilisateursNEstPasSupprimee()
-    {
-			return true;
-    }
-
-    /**
-     * @Then un nouveau pseudo est demandé
-     */
-    public function unNouveauPseudoEstDemande()
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then un message d’erreur est affiché :arg1
-     */
-    public function unMessageDErreurEstAffiche($arg1)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then un nouvel e-mail est demandé
-     */
-    public function unNouvelEMailEstDemande()
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @When je modifie un :arg1
-     */
-    public function jeModifieUn($arg1)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @When je renseigne un pseudo contributeur correct :arg1
-     */
-    public function jeRenseigneUnPseudoContributeurCorrect($arg1)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @When je renseigne un nouveau pseudo contributeur valide :arg1
-     */
-    public function jeRenseigneUnNouveauPseudoContributeurValide($arg1)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then l'entrée de la table est actualisée
-     */
-    public function lEntreeDeLaTableEstActualisee()
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @When je renseigne un nouveau pseudo contributeur invalide :arg1
-     */
-    public function jeRenseigneUnNouveauPseudoContributeurInvalide($arg1)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then un nouveau pseudo_contributeur est demandé
-     */
-    public function unNouveauPseudoContributeurEstDemande()
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @When je renseigne un email contributeur correct :arg1
-     */
-    public function jeRenseigneUnEmailContributeurCorrect($arg1)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @When je renseigne un nouveau email contributeur valide :arg1
-     */
-    public function jeRenseigneUnNouveauEmailContributeurValide($arg1)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @When je renseigne un nouveau email contributeur invalide :arg1
-     */
-    public function jeRenseigneUnNouveauEmailContributeurInvalide($arg1)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then un nouveau email_contributeur est demandé
-     */
-    public function unNouveauEmailContributeurEstDemande()
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @When je modifie un contributeur :arg1
-     */
-    public function jeModifieUnContributeur($arg1)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @When je retire un droit valide du contributeur :arg1
-     */
-    public function jeRetireUnDroitValideDuContributeur($arg1)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @When je retire un droit invalide du contributeur :arg1
-     */
-    public function jeRetireUnDroitInvalideDuContributeur($arg1)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then un message d’erreur est affiché
-     */
-    public function unMessageDErreurEstAffiche3()
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then retour à l’interface de gestion des droits
-     */
-    public function retourALInterfaceDeGestionDesDroits()
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @When j'ajoute un droit valide du contributeur :arg1
-     */
-    public function jAjouteUnDroitValideDuContributeur($arg1)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @When j'ajoute un droit invalide du contributeur :arg1
-     */
-    public function jAjouteUnDroitInvalideDuContributeur($arg1)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @When j'ajoute un droit incorrect du contributeur :arg1
-     */
-    public function jAjouteUnDroitIncorrectDuContributeur($arg1)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @When je renseigne un email contributeur incorrect :arg1
-     */
-    public function jeRenseigneUnEmailContributeurIncorrect($arg1)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @When je renseigne un pseudo contributeur incorrect :arg1
-     */
-    public function jeRenseigneUnPseudoContributeurIncorrect($arg1)
-    {
-        throw new PendingException();
+			$this->current_user->addRight($droit);
     }
 
     /**
@@ -941,9 +751,8 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Given je suis visiteur
+     * @When je suis visiteur
      */
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public function jeSuisVisiteur()
     {
         return true;
@@ -955,24 +764,56 @@ class FeatureContext implements Context, SnippetAcceptingContext
     var $blocs_list;
     public function jeFiltreLesBlocParAvecLaValeur($champ, $valeur)
     {
-        //Id Date Titre Format Media
-        if (isset($valeur)){
-            foreach ($this->$blocs_list as $bloc) {
-                if ($bloc['date'] == $valeur){
-                    return $bloc;
-                }
-            }
-            foreach ($this->$blocs_list as $bloc) {
-                if ($bloc['titre'] == $valeur){
-                    return $bloc;
-                }
-            }
-            foreach ($this->$blocs_list as $bloc) {
-                if ($bloc['media'] == $valeur){
-                    return $bloc;
-                }
-            }
-        }        
+			//Id Date Titre Format Media
+			if (isset($valeur)){
+				foreach ($this->$blocs_list as $bloc) {
+					if ($bloc['date'] == $valeur){
+						return $bloc;
+					}
+				}
+				foreach ($this->$blocs_list as $bloc) {
+					if ($bloc['titre'] == $valeur){
+						return $bloc;
+					}
+				}
+				foreach ($this->$blocs_list as $bloc) {
+					if ($bloc['media'] == $valeur){
+						return $bloc;
+					}
+				}
+			}
+		}
+
+    /**
+     * @When aucun bloc existe
+     */
+    public function aucunBlocExiste()
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @Then un message d’erreur est affiché :arg1
+     */
+    public function unMessageDErreurEstAffiche($arg1)
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @When un bloc existe
+     */
+    public function unBlocExiste()
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @Then un sous-ensemble des blocs est retourné
+     */
+    public function unSousEnsembleDesBlocsEstRetourne()
+    {
+        throw new PendingException();
     }
 
     /**
@@ -1008,9 +849,9 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @When j’ai fait moins de :arg1 essais
+     * @When j’ai fait moins de x essais :arg1
      */
-    public function jAiFaitMoinsDeEssais($arg1)
+    public function jAiFaitMoinsDeXEssais($arg1)
     {
         throw new PendingException();
     }
@@ -1032,9 +873,9 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @When j’ai fait au moins :arg1 essais
+     * @When j’ai fait au moins x essais :arg1
      */
-    public function jAiFaitAuMoinsEssais($arg1)
+    public function jAiFaitAuMoinsXEssais($arg1)
     {
         throw new PendingException();
     }
@@ -1067,6 +908,14 @@ class FeatureContext implements Context, SnippetAcceptingContext
      * @When mon couple e-mail\/mot de passe est invalide
      */
     public function monCoupleEMailMotDePasseEstInvalide()
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @When j’ai fait au moins :arg1 essais
+     */
+    public function jAiFaitAuMoinsEssais($arg1)
     {
         throw new PendingException();
     }
@@ -1112,6 +961,14 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
+     * @Then un nouveau pseudo est demandé
+     */
+    public function unNouveauPseudoEstDemande()
+    {
+        throw new PendingException();
+    }
+
+    /**
      * @When je demande la génération d’un nouveau mot de passe pour l’utilisateur avec l’e-mail :arg1
      */
     public function jeDemandeLaGenerationDUnNouveauMotDePassePourLUtilisateurAvecLEMail($arg1)
@@ -1136,41 +993,17 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @When j’ai fait moins de x essais :arg1
+     * @Then un nouvel e-mail est demandé
      */
-    public function jAiFaitMoinsDeXEssais($arg1)
+    public function unNouvelEMailEstDemande()
     {
         throw new PendingException();
     }
 
     /**
-     * @When j’ai fait au moins x essais :arg1
+     * @When je filtre les bloc par :arg1 avec la valeur :arg2
      */
-    public function jAiFaitAuMoinsXEssais($arg1)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then un message de confirmation est affiché
-     */
-    public function unMessageDeConfirmationEstAffiche()
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then un message d'erreur est affiché
-     */
-    public function unMessageDErreurEstAffiche2()
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then un nouveau email est demandé
-     */
-    public function unNouveauEmailEstDemande()
+    public function jeFiltreLesBlocParAvecLaValeur2($arg1, $arg2)
     {
         throw new PendingException();
     }

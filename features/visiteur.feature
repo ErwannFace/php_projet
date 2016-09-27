@@ -6,23 +6,12 @@ Fonctionnalité: Opérations d’un visiteur
 		Et un bloc existe avec la valeur "Réunion publique" pour le champ "titre"
 		Et un bloc existe avec la valeur "img+snd" pour le champ "type de media"
 
-	Scénario: Un Visiteur cherche des blocs publiés à une date donnée, et aucun bloc ne remplit ce critère
-	Étant donné que je suis visiteur
-	Quand je filtre les bloc par "date" avec la valeur "1 janvier 1970"
-		Et aucun bloc existe
-	Alors un message d’erreur est affiché "texte du message"
 
 	Scénario: Un Visiteur cherche des blocs publiés à une date donnée, et au moins un bloc remplit ce critère
 	Étant donné que je suis visiteur
 	Quand je filtre les bloc par "date" avec la valeur "1 janvier 1970"
-		Et un bloc existe 
+		Et un bloc existe
 	Alors un sous-ensemble des blocs est retourné
-
-	Scénario: Un Visiteur cherche des blocs avec un titre donné, et aucun bloc ne remplit ce critère
-	Étant donné que je suis visiteur
-	Quand je filtre les bloc par "titre" avec la valeur "Conseil d’Administration"
-		Et aucun bloc existe
-	Alors un message d’erreur est affiché "texte du message"
 
 	Scénario: Un Visiteur cherche des blocs avec un titre donné, et au moins un bloc remplit ce critère
 	Étant donné que je suis visiteur

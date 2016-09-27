@@ -99,7 +99,31 @@ audio/mp3
 			$format_valide = true;
 		}
 
-		
+
+	}
+
+	public static filtre($champ, $valeur) {
+		//Id Date Titre Format Media
+		if (isset($valeur)){
+				$blocs_list = "SELECT `date`, `titre`, `media` FROM `blocs`";
+				// var_dump($bloc['media']);
+
+				foreach ($this->$blocs_list as $bloc) {
+						if ($bloc['date'] == $valeur){
+								return $bloc;
+						}
+				}
+				foreach ($this->$blocs_list as $bloc) {
+						if ($bloc['titre'] == $valeur){
+								return $bloc;
+						}
+				}
+				foreach ($this->$blocs_list as $bloc) {
+						if ($bloc['media'] == $valeur){
+								return $bloc;
+						}
+				}
+		}
 	}
 }
 

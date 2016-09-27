@@ -20,7 +20,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     private $operator;
 		private $current_user;
-		
+
     public function __construct()
     {
 
@@ -72,7 +72,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
     {
 			$this->current_user->setEmail($email);
 		}
-    
+
     /**
      * @Then un mot de passe est généré automatiquement
      */
@@ -144,7 +144,6 @@ class FeatureContext implements Context, SnippetAcceptingContext
     /**
      * @When je suis sur la page modal de connection
      */
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public function jeSuisSurLaPageModalDeConnection()
     {
         throw new PendingException();
@@ -813,7 +812,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function unSousEnsembleDesBlocsEstRetourne()
     {
-        throw new PendingException();
+      $this->blocs_list = Bloc::filtre($champ, $valeur);
     }
 
     /**
@@ -821,7 +820,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function jeMeConnecteAvecCommePseudoEtCommeMotDePasse($arg1, $arg2)
     {
-        throw new PendingException();
+			throw new PendingException();
     }
 
     /**

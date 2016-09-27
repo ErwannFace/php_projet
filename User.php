@@ -1,7 +1,7 @@
 <?php
 
 class User{
-	
+
 	private $ID;
 	private $pseudo;
 	private $password;
@@ -10,37 +10,36 @@ class User{
 	private $droits;
 	
 	public function __construct() {}
-	
+
 	// renvoi de l’ID
 	public function getID() {
 		return $this->ID;
 	}
-	
+
 	// renvoi du pseudo
 	public function getPseudo() {
 		return $this->pseudo;
 	}
-	
+
 	// renvoi du mot de passe
 	public function getPassword() {
 		return $this->password;
 	}
-	
+
 	// renvoi de l’e-mail
 	public function getEmail() {
 		return $this->email;
 	}
-	
+
 	// renvoi du rôle
 	public function getRank() {
 		return $this->role;
 	}
-	
 	// renvoi des droits
 	public function getRights() {
 		return $this->droits;
 	}
-	
+
 	// modification de l’ID
 	public function setID($ID) {
 		if (is_numeric($ID)) {
@@ -49,7 +48,7 @@ class User{
 			echo "format de l’ID incorrect";
 		}
 	}
-	
+
 	// modification du pseudo
 	public function setPseudo($pseudo) {
 		$db = DBSingleton::getInstance();
@@ -88,7 +87,7 @@ class User{
 			}
 		}
 	}
-	
+
 	// modification de l’e-mail
 	public function setEmail($email) {
 		$db = DBSingleton::getInstance();
@@ -126,7 +125,7 @@ class User{
 			}
 		}
 	}
-	
+
 	// modification du rôle
 	public function setRank($role) {
 		$db = DBSingleton::getInstance();
@@ -138,7 +137,7 @@ class User{
 		$this->role = $reponse['id'];
 		$this->droits = 7;
 	}
-	
+
 	// génération d’un mot de passe aléatoire
 	public function generatePassword() {
 		$string = array_merge( range('a','z'), range('A','Z'), range('0','9') );
@@ -330,6 +329,15 @@ class User{
 		} else {
 			echo "L’e-mail n’a pas été envoyé.\n";
 		}
+	}
+
+	public static function Connection($arg1, $arg2){
+		$connection_valide = false;
+		$identifiants_list = "SELECT * FROM utilisateurs";
+		// tout users
+		$id = "SELECT * FROM utilisateurs WHERE 'pseudo' = '$arg1'";
+		// user = pseudo
+		print_r($id);
 	}
 }
 

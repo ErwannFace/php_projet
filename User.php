@@ -77,40 +77,34 @@ class User{
 
 	// modification de l’e-mail
 	public function setEmail($email) {
-		$db = DBSingleton::getInstance();
-		$email_valide = true;
 		if (
-			// vérification que l’e-mail a un format correct
+			// vérification de la syntaxe de l’e-mail
 			!preg_match( "/^[a-z0-9\-_.]+@[a-z0-9\-_.]+\.[a-z]+$/i", $email ) ||
-			// vérification que l’e-mail ne fait pas plus de 30 caractères
 			strlen($email) > 30
 		) {
 			echo "Addresse e-mail invalide : erreur de syntaxe.\n";
-			$email_valide = false;
 		} else {
 			// vérification que l’e-mail n’existe pas déjà dans la table 'utilisateurs'
+			$db = DBSingleton::getInstance();
 			$sql = "SELECT * FROM utilisateurs WHERE email = '$email'";
 			$requete = $db->query($sql);
 			$reponse = $requete->fetchAll();
 			if (count($reponse) > 0) {
 				echo "Addresse e-mail invalide : déjà utilisée.\n";
-				$email_valide = false;
-			}
-		}
-		if ($email_valide) {
-			// assigne l’e-mail au nouvel utilisateur s’il est valide
-			if ( isset($this->email) ) {
-				$this->email = $email;
-				echo "L’addresse e-mail de l’utilisateur $this->pseudo a été modifiée pour $this->email\n";
 			} else {
+				// assigne l’e-mail au nouvel utilisateur s’il est valide
+				if ( isset($this->email) ) {
+					echo "L’addresse e-mail de l’utilisateur $this->pseudo a été modifiée pour $email\n";
+				}
 				$this->email = $email;
-			}
-		} else {
-			// affiche un message d’erreur si l’e-mail est invalide
-			if ( isset($this->email) ) {
-				echo "L’addresse e-mail de l’utilisateur $this->pseudo n’a pas été modifiée.\n";
+				return true;
 			}
 		}
+		// affiche un message d’erreur si l’e-mail est invalide
+		if ( isset($this->email) ) {
+			echo "L’addresse e-mail de l’utilisateur $this->pseudo n’a pas été modifiée.\n";
+		}
+		return false;
 	}
 
 	// modification du rôle

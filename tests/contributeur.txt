@@ -1,0 +1,179 @@
+
+GIVEN : je suis contributeur
+	AND je suis sur la page modal de connection
+WHEN : je saisis un pseudo valide
+	AND je saisis un mot de passe valide
+	AND je clique sur se connecter
+THEN : ma connection est validée
+	AND j’arrive sur la page accueil
+	
+je suis contributeur
+	AND je suis sur la page modal de connection
+WHEN : je saisis un email valide
+	AND je saisis un mot de passe valide
+	AND je clique sur se connecter
+THEN : ma connection est validée
+	AND j’arrive sur la page accueil
+
+
+GIVEN : je suis contributeur
+	AND je suis sur la page modal de connection
+WHEN : je saisis un mot de passe valide
+	AND je saisis un pseudo non valide
+THEN : un modal d’errreur apparaît
+	AND je suis renvoyé sur la modal de connection vierge
+	
+GIVEN : je suis contributeur
+	AND je suis sur la page modal de connection
+WHEN : je saisis un email valide
+	AND je saisis un mot de passe valide
+	AND je clique sur se connecter
+THEN : ma connection est validée
+	AND j’arrive sur la page accueil
+
+
+GIVEN : je suis contributeur
+	AND je suis sur la page modal de connection
+WHEN : je saisis un mot de passe valide
+	AND je saisis un email non valide
+THEN : un modal d’errreur apparaît
+	AND je suis renvoyé sur la modal de connection vierge
+	
+GIVEN : je suis contributeur
+	AND je suis sur la page modal de connection
+WHEN : je saisis un mot de passe  non valide
+	AND je saisis un pseudo  valide
+THEN : un modal d’errreur apparaît
+	AND je suis renvoyé sur la modal de connection vierge
+
+GIVEN : je suis contributeur
+	AND je suis sur la page modal de connection
+WHEN : je saisis un mot de passe valide
+	AND je saisis un pseudo non valide
+THEN : un modal d’errreur apparaît
+	AND je suis renvoyé sur la modal de connection vierge
+
+GIVEN : je suis contributeur
+	AND je suis sur la page modal de connection
+WHEN : je saisis un mot de passe  non valide
+	AND je saisis un email  valide
+THEN : un modal d’errreur apparaît
+	AND je suis renvoyé sur la modal de connection vierge
+
+GIVEN : je suis contributeur
+	AND je suis sur le modal de connection
+	AND j’ai déjà saisis mes identifiants non valide X fois
+THEN : un modal d’erreur apparaît 
+	AND mon compte est bloqué pendant X temps
+
+GIVEN : je suis contributeur
+	AND je suis sur la page modal de connection
+	AND j’ai oublié mes idientifiants
+WHEN : je clique sur « réinitialiser le mot de passe »
+THEN : apparaît une modal box de réinitialisation
+
+
+GIVEN : je suis contributeur
+	AND je clique sur « ajouter un article »
+THEN : une modal s’ouvre
+
+GIVEN : je suis contributeur
+	AND je suis sur la modal « ajouter un article »
+	AND que j’ai rentré un titre AND un format
+	AND  un média compatibleon
+WHEN : je confirme l’ajout de l’article
+THEN : j’arrive sur la page accueil avec un bloc supplémentaire
+
+
+
+
+
+
+GIVEN : je suis contributeur
+	AND je suis sur la modal « ajouter un article »
+	AND que j’ai oublie de rentrer de rentrer un titre 
+	AND j’ai rentré un format
+	AND  j’ai rentré un média compatible
+WHEN : le bouton de confirmation d’ajout de l’article n’est 		pas cliquable
+THEN : je rentre mon titre
+
+GIVEN : je suis contributeur
+	AND je suis sur la modal « ajouter un article »
+	AND que j’ai  rentrer de rentrer un titre 
+	AND j’ai oublié de rentré un format 
+	AND  j’ai rentré un média compatible
+WHEN : je clique sur ajouter l’article
+THEN : mon format est defini par defaut
+
+GIVEN : je suis contributeur
+	AND je suis sur la modal « ajouter un article »
+	AND : j’ai rentrer un titre 
+	AND j’ai rentré un format un format
+	AND  j’ai rentré un média incompatible
+WHEN : une modal d’erreur apparait
+THEN : je dois ajouter un media pour confirmer l’ajout d’article
+
+GIVEN : je suis contributeur
+	AND que je veux modifier un artcile
+	AND je suis sur la modal «modifier un article»
+	AND que j’ai rentrer un titre 
+	AND j’ai rentré un format un format
+	AND  j’ai rentré un média incompatible
+WHEN : une modal d’erreur apparait
+THEN : je dois ajouter un media valide pour confirmer l’ajout d’article
+
+GIVEN : je suis contributeur
+	AND que je veux modifier un artcile
+	AND je suis sur la modal «modifier un article»
+	AND  je n’ai pas rentrer un titre 
+	AND j’ai rentré un format 
+	AND  j’ai rentré un média compatible
+WHEN : une modal d’erreur apparait
+THEN : je dois ajouter un media valide pour confirmer l’ajout d’article
+
+GIVEN : je suis contributeur
+	AND que je veux modifier un artcile
+	AND je suis sur la modal «modifier un article»
+	AND que j’ai rentrer un titre 
+	AND j’ai rentré un format un format
+	AND  j’ai rentré un média compatible
+WHEN : J’ai cliqué sur « valider »
+THEN : une modal de confirmation apparaît
+
+
+GIVEN : je suis contributeur
+	AND que je veux modifier un article
+	AND  j’ai bien modifier l’article
+WHEN : J’ai cliqué sur « valider » dans la modal de confirmation
+THEN : je suis sur accueil AND mon article est modifie
+
+GIVEN : je suis contributeur
+	AND que je veux modifier un artcile
+	AND  j’ai bien modifier l’article
+WHEN : cet article a été modifier/supprimer entre-temps
+THEN : une fenetre de confirmation de creation d’article apparaît
+
+GIVEN : je suis contributeur
+    AND que je veux modifier un artcile
+    AND j’ai bien modifier l’article
+WHEN cette article a été modifier/supprimer entre-temps
+ALORS une fenetre de confirmation de creation d’article apparaît
+
+GIVEN : je suis contributeur
+    AND que je veux supprimer un post
+WHEN que j’ai cliquer sur « supprime rle post »
+ALORS un message de confirmation apparaît
+
+GIVEN : je suis contributeur
+    AND je veux supprimer un post
+    ANDj’ai cliquer sur « supprimer le post »
+    AND un message de confirmation apparaît
+WHEN je clique sur « confirmer »
+ALORS je retourne sur accueil avec un post en moins.
+
+GIVEN : je suis contributeur
+    AND je veux supprimer un post
+    AND j’ai cliquer sur « supprimer le post »
+    AND un message de confirmation apparaît
+WHEN je clique sur « annuler»
+ALORS je retourne sur accueil .

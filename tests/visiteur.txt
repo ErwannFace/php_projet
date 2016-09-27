@@ -1,0 +1,57 @@
+== Filtrer la page d'accueil ==
+
+Contexte:
+	Étant donné que un bloc existe avec comme date "1er janvier 1970"
+	Et un bloc existe avec comme titre "Réunion publique"
+	Et un bloc existe avec comme type de media "img+snd"
+
+ÉTANT DONNÉ QUE: je suis visiteur
+QUAND: je filtre les bloc par "date" avec la valeur "22 décembre 1972"
+	ET: aucun bloc existe
+ALORS: un message d’erreur est affiché "texte du message"
+
+ÉTANT DONNÉ QUE: je suis visiteur
+QUAND: je filtre les bloc par "date" avec la valeur "1er janvier 1970"
+	ET: un bloc existe 
+ALORS: un sous-ensemble des blocs est retourné
+
+ÉTANT DONNÉ QUE: je suis visiteur 
+QUAND: je filtre les bloc par "titre" avec la valeur "Conseil d’Administration"
+	ET: aucun bloc existe
+ALORS: un message d’erreur est affiché "texte du message"
+
+ÉTANT DONNÉ QUE: je suis visiteur 
+QUAND: je filtre les bloc par "titre" avec la valeur "Réunion publique"
+	ET: un bloc existe
+ALORS: un sous-ensemble des blocs est retourné
+
+ÉTANT DONNÉ QUE: je suis visiteur 
+QUAND: je filtre les bloc par "type de media" avec la valeur "vid"
+	ET: aucun bloc existe
+ALORS: un message d’erreur est affiché "texte du message"
+
+ÉTANT DONNÉ QUE: je suis visiteur 
+QUAND: je filtre les bloc par "type de media" avec la valeur "img+snd"
+	ET: un bloc existe
+ALORS: un sous-ensemble des blocs est retourné
+
+== Connexion ==
+
+ÉTANT DONNÉ QUE: je suis visiteur
+QUAND: je me connecte
+	ET: mon couple pseudo/mot de passe est valide
+ALORS: je suis connecté
+
+ÉTANT DONNÉ QUE: je suis visiteur
+QUAND: je me connecte
+	ET: mon couple pseudo/mot de passe est invalide
+	ET: j’ai fait moins de 3 essais
+ALORS: un message d’erreur est affiché "texte du message"
+	ET: un nouveau couple pseudo/mot de passe est demandé
+
+ÉTANT DONNÉ QUE: je suis visiteur
+QUAND: je me connecte
+	ET: mon couple pseudo/mot de passe est invalide
+	ET: j’ai fait au moins 3 essais
+ALORS: un message d’erreur est affiché "texte du message"
+	ET: le compte associé au pseudo est bloqué

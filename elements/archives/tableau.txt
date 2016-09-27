@@ -1,0 +1,39 @@
+      │ array(2) {
+      │   [0]=>
+      │   array(8) {
+      │     ["ID"]=>
+      │     string(1) "1"
+      │     [0]=>
+      │     string(1) "1"
+      │     ["pseudo"]=>
+      │     string(4) "toto"
+      │     [1]=>
+      │     string(4) "toto"
+      │     ["password"]=>
+      │     string(6) "coucou"
+      │     [2]=>
+      │     string(6) "coucou"
+      │     ["email"]=>
+      │     string(16) "coucou@gmail.com"
+      │     [3]=>
+      │     string(16) "coucou@gmail.com"
+      │   }
+      │   [1]=>
+      │   array(8) {
+      │     ["ID"]=>
+      │     string(1) "2"
+      │     [0]=>
+      │     string(1) "2"
+      │     ["pseudo"]=>
+      │     string(4) "titi"
+      │     [1]=>
+      │     string(4) "titi"
+      │     ["password"]=>
+      │     string(6) "youyou"
+      │     [2]=>
+      │     string(6) "youyou"
+      │     ["email"]=>
+      │     string(16) "youyou@gmail.com"
+      │     [3]=>
+      │     string(16) "youyou@gmail.com"
+      │   }

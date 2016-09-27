@@ -143,29 +143,29 @@ class User{
 		// vérification que la modification est valide
 		if (
 			$action == 'add' && (
-				$droit == 'READ' && $this->droits == Rights::WRITE ||
-				$droit == 'READ' && $this->droits == Rights::DELETE ||
-				$droit == 'READ' && $this->droits == Rights::WRITE + Rights::DELETE ||
-				$droit == 'WRITE' && $this->droits == Rights::READ ||
-				$droit == 'WRITE' && $this->droits == Rights::DELETE ||
-				$droit == 'WRITE' && $this->droits == Rights::READ + Rights::DELETE ||
-				$droit == 'DELETE' && $this->droits == Rights::READ ||
-				$droit == 'DELETE' && $this->droits == Rights::WRITE ||
-				$droit == 'DELETE' && $this->droits == Rights::READ + Rights::WRITE
+				$droit == 'USERS' && $this->droits == Rights::BLOCS ||
+				$droit == 'USERS' && $this->droits == Rights::THEME ||
+				$droit == 'USERS' && $this->droits == Rights::BLOCS + Rights::THEME ||
+				$droit == 'BLOCS' && $this->droits == Rights::USERS ||
+				$droit == 'BLOCS' && $this->droits == Rights::THEME ||
+				$droit == 'BLOCS' && $this->droits == Rights::USERS + Rights::THEME ||
+				$droit == 'THEME' && $this->droits == Rights::USERS ||
+				$droit == 'THEME' && $this->droits == Rights::BLOCS ||
+				$droit == 'THEME' && $this->droits == Rights::USERS + Rights::BLOCS
 			) ||
 			$action == 'remove' && (
-				$droit == 'READ' && $this->droits == Rights::READ ||
-				$droit == 'READ' && $this->droits == Rights::READ + Rights::WRITE ||
-				$droit == 'READ' && $this->droits == Rights::READ + Rights::DELETE ||
-				$droit == 'READ' && $this->droits == Rights::READ + Rights::WRITE + Rights::DELETE ||
-				$droit == 'WRITE' && $this->droits == Rights::WRITE ||
-				$droit == 'WRITE' && $this->droits == Rights::WRITE + Rights::READ ||
-				$droit == 'WRITE' && $this->droits == Rights::WRITE + Rights::DELETE ||
-				$droit == 'WRITE' && $this->droits == Rights::WRITE + Rights::READ + Rights::DELETE ||
-				$droit == 'DELETE' && $this->droits == Rights::DELETE ||
-				$droit == 'DELETE' && $this->droits == Rights::DELETE + Rights::READ ||
-				$droit == 'DELETE' && $this->droits == Rights::DELETE + Rights::WRITE ||
-				$droit == 'DELETE' && $this->droits == Rights::DELETE + Rights::READ + Rights::WRITE
+				$droit == 'USERS' && $this->droits == Rights::USERS ||
+				$droit == 'USERS' && $this->droits == Rights::USERS + Rights::BLOCS ||
+				$droit == 'USERS' && $this->droits == Rights::USERS + Rights::THEME ||
+				$droit == 'USERS' && $this->droits == Rights::USERS + Rights::BLOCS + Rights::THEME ||
+				$droit == 'BLOCS' && $this->droits == Rights::BLOCS ||
+				$droit == 'BLOCS' && $this->droits == Rights::BLOCS + Rights::USERS ||
+				$droit == 'BLOCS' && $this->droits == Rights::BLOCS + Rights::THEME ||
+				$droit == 'BLOCS' && $this->droits == Rights::BLOCS + Rights::USERS + Rights::THEME ||
+				$droit == 'THEME' && $this->droits == Rights::THEME ||
+				$droit == 'THEME' && $this->droits == Rights::THEME + Rights::USERS ||
+				$droit == 'THEME' && $this->droits == Rights::THEME + Rights::BLOCS ||
+				$droit == 'THEME' && $this->droits == Rights::THEME + Rights::USERS + Rights::BLOCS
 			)
 		) {
 			// modification des droits

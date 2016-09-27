@@ -1,9 +1,9 @@
 <?php
 
 class Rights {
-	const READ = 4;
-	const WRITE = 2;
-	const DELETE = 1;
+	const USERS = 4;
+	const BLOCS = 2;
+	const THEME = 1;
 }
 
 ?>

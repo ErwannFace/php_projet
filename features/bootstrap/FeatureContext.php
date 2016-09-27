@@ -131,7 +131,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function jeRetireUnDroitAuContributeur($droit)
     {
-			$this->current_user->removeRight($droit);
+			$this->current_user->setRight('remove', $droit);
     }
 
     /**
@@ -139,7 +139,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function jAjouteUnDroitAuContributeur($droit)
     {
-			$this->current_user->addRight($droit);
+			$this->current_user->setRight('add', $droit);
     }
 
     /**

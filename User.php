@@ -128,8 +128,12 @@ class User{
 		$this->password = substr(implode($string), 0, 9);
 	}
 	
-	// suppression d’un droit
-	public function removeRight($droit) {
+	// modification d’un droit
+	public function setRight($action, $droit) {
+		if ( $action != 'add' && $action != 'remove' ) {
+			echo "Action \"$action\" invalide.\n";
+			return false;
+		}
 		$const = "Rights::".$droit;
 		// vérification que le droit est valide
 		if ( !defined($const) ) {
@@ -137,57 +141,37 @@ class User{
 			return false;
 		}
 		// vérification que la modification est valide
-		$validity = false;
 		if (
-			$droit == 'READ' && $this->droits == Rights::READ ||
-			$droit == 'READ' && $this->droits == Rights::READ + Rights::WRITE ||
-			$droit == 'READ' && $this->droits == Rights::READ + Rights::DELETE ||
-			$droit == 'READ' && $this->droits == Rights::READ + Rights::WRITE + Rights::DELETE ||
-			$droit == 'WRITE' && $this->droits == Rights::WRITE ||
-			$droit == 'WRITE' && $this->droits == Rights::WRITE + Rights::READ ||
-			$droit == 'WRITE' && $this->droits == Rights::WRITE + Rights::DELETE ||
-			$droit == 'WRITE' && $this->droits == Rights::WRITE + Rights::READ + Rights::DELETE ||
-			$droit == 'DELETE' && $this->droits == Rights::DELETE ||
-			$droit == 'DELETE' && $this->droits == Rights::DELETE + Rights::READ ||
-			$droit == 'DELETE' && $this->droits == Rights::DELETE + Rights::WRITE ||
-			$droit == 'DELETE' && $this->droits == Rights::DELETE + Rights::READ + Rights::WRITE
-		) { $validity = true; }
-		if ( $validity == true ) {
+			$action == 'add' && (
+				$droit == 'READ' && $this->droits == Rights::WRITE ||
+				$droit == 'READ' && $this->droits == Rights::DELETE ||
+				$droit == 'READ' && $this->droits == Rights::WRITE + Rights::DELETE ||
+				$droit == 'WRITE' && $this->droits == Rights::READ ||
+				$droit == 'WRITE' && $this->droits == Rights::DELETE ||
+				$droit == 'WRITE' && $this->droits == Rights::READ + Rights::DELETE ||
+				$droit == 'DELETE' && $this->droits == Rights::READ ||
+				$droit == 'DELETE' && $this->droits == Rights::WRITE ||
+				$droit == 'DELETE' && $this->droits == Rights::READ + Rights::WRITE
+			) ||
+			$action == 'remove' && (
+				$droit == 'READ' && $this->droits == Rights::READ ||
+				$droit == 'READ' && $this->droits == Rights::READ + Rights::WRITE ||
+				$droit == 'READ' && $this->droits == Rights::READ + Rights::DELETE ||
+				$droit == 'READ' && $this->droits == Rights::READ + Rights::WRITE + Rights::DELETE ||
+				$droit == 'WRITE' && $this->droits == Rights::WRITE ||
+				$droit == 'WRITE' && $this->droits == Rights::WRITE + Rights::READ ||
+				$droit == 'WRITE' && $this->droits == Rights::WRITE + Rights::DELETE ||
+				$droit == 'WRITE' && $this->droits == Rights::WRITE + Rights::READ + Rights::DELETE ||
+				$droit == 'DELETE' && $this->droits == Rights::DELETE ||
+				$droit == 'DELETE' && $this->droits == Rights::DELETE + Rights::READ ||
+				$droit == 'DELETE' && $this->droits == Rights::DELETE + Rights::WRITE ||
+				$droit == 'DELETE' && $this->droits == Rights::DELETE + Rights::READ + Rights::WRITE
+			)
+		) {
 			// modification des droits
-			$this->droits -= eval("return $const;");
-			echo "Les droits de l’utilisateur $this->pseudo ont été modifiés.\n";
-			return true;
-		} else {
-			// conservation des droits
-			echo "Les droits de l’utilisateur $this->pseudo n’ont pas été modifiés.\n";
-			return false;
-		}
-	}
-	
-	// ajout d’un droit
-	public function addRight($droit) {
-		$const = "Rights::".$droit;
-		// vérification que le droit est valide
-		if ( !defined($const) ) {
-			echo "Le droit $droit est inconnu.\n";
-			return false;
-		}
-		// vérification que la modification est valide
-		$validity = false;
-		if (
-			$droit == 'READ' && $this->droits == Rights::WRITE ||
-			$droit == 'READ' && $this->droits == Rights::DELETE ||
-			$droit == 'READ' && $this->droits == Rights::WRITE + Rights::DELETE ||
-			$droit == 'WRITE' && $this->droits == Rights::READ ||
-			$droit == 'WRITE' && $this->droits == Rights::DELETE ||
-			$droit == 'WRITE' && $this->droits == Rights::READ + Rights::DELETE ||
-			$droit == 'DELETE' && $this->droits == Rights::READ ||
-			$droit == 'DELETE' && $this->droits == Rights::WRITE ||
-			$droit == 'DELETE' && $this->droits == Rights::READ + Rights::WRITE
-		) { $validity = true; }
-		if ( $validity == true ) {
-			// modification des droits
-			$this->droits += eval("return $const;");
+			$this->droits = ($action == 'add')?
+				$this->droits += eval("return $const;"):
+				$this->droits -= eval("return $const;");
 			echo "Les droits de l’utilisateur $this->pseudo ont été modifiés.\n";
 			return true;
 		} else {

@@ -170,9 +170,9 @@ class User{
 
 	// suppression d’un droit
 	public function removeRight($droit) {
-		var_dump(constant('Rights::'.$droit));
+		$const = eval('return Rights::'.$droit.';');
 		// vérification que le droit est valide
-		if ( !defined('Rights::'.$droit) ) {
+		if ( $const == null ) {
 			echo "Le droit $droit est inconnu.\n";
 			return false;
 		}
@@ -194,9 +194,8 @@ class User{
 		) { $validity = true; }
 		if ( $validity == true ) {
 			// modification des droits
-			$this->droits -= Rights::$droit;
+			$this->droits -= $const;
 			echo "Les droits de l’utilisateur $this->pseudo ont été modifiés.\n";
-			echo "DEBUG: nouveaux droits = $this->droits\n";
 			return true;
 		} else {
 			// conservation des droits
@@ -207,30 +206,33 @@ class User{
 
 	// ajout d’un droit
 	public function addRight($droit) {
+		$const = eval('return Rights::'.$droit.';');
 		// vérification que le droit est valide
-		if ( !isset(Rights::$droit) ) {
+		if ( $const == null ) {
 			echo "Le droit $droit est inconnu.\n";
 			return false;
 		}
 		// vérification que la modification est valide
 		$validity = false;
-		if ( $valeur == 1 && $this->droits % 2 == 0 && $this->droits < 7 ) { $validity = true; }
-		if ( $valeur == 2 && 
-			$this->droits != 2 &&
-			$this->droits != 3 &&
-			$this->droits < 6
+		if (
+			$droit == 'READ' && $this->droits == Rights::WRITE ||
+			$droit == 'READ' && $this->droits == Rights::DELETE ||
+			$droit == 'READ' && $this->droits == Rights::WRITE + Rights::DELETE ||
+			$droit == 'WRITE' && $this->droits == Rights::READ ||
+			$droit == 'WRITE' && $this->droits == Rights::DELETE ||
+			$droit == 'WRITE' && $this->droits == Rights::READ + Rights::DELETE ||
+			$droit == 'DELETE' && $this->droits == Rights::READ ||
+			$droit == 'DELETE' && $this->droits == Rights::WRITE ||
+			$droit == 'DELETE' && $this->droits == Rights::READ + Rights::WRITE
 		) { $validity = true; }
-		if ( $valeur == 4 && $this->droits < 4 ) { $validity = true; }
-		$pseudo = $this->pseudo;
 		if ( $validity == true ) {
 			// modification des droits
-			$nouveaux_droits = $this->droits + $valeur;
-			$this->droits = $nouveaux_droits;
-			echo "Les droits de l’utilisateur $pseudo ont été modifiés.\n";
+			$this->droits += $const;
+			echo "Les droits de l’utilisateur $this->pseudo ont été modifiés.\n";
 			return true;
 		} else {
 			// conservation des droits
-			echo "Les droits de l’utilisateur $pseudo n’ont pas été modifiés.\n";
+			echo "Les droits de l’utilisateur $this->pseudo n’ont pas été modifiés.\n";
 			return false;
 		}
 	}

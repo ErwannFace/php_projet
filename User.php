@@ -145,61 +145,22 @@ class User{
 		$this->password = substr(implode($string), 0, 9);
 	}
 
-	public function isPseudoValid($arg1){
-		$pseudo_valide = true;
-
-        if(
-            isset($arg1) &&
-            preg_match("/^[a-z0-9]+$/i", $arg1) &&
-            strlen($arg1)<=30
-            )
-        {
-            foreach ($this->user_list as $user) {
-                if ($user['pseudo'] == $arg1){
-                    $pseudo_valide = false;
-                    break;
-                }
-            }
-
-        }else{
-            $pseudo_valide = false;
-        }
-        if($pseudo_valide == false){
-            echo "pseudo ou et mot de passe invalides";
-        }
-        return $pseudo_valide;
-	}
 	//
 	public static function Connection($pseudo_ou_email, $mdp){
-		$_SESSION['number_of_tries']++;
+		$_SESSION['number_of_tries'] = 1;
+		if(isset($_SESSION['number_of_tries']) && $_SESSION['number_of_tries'] <3){
 		$user = self::select($pseudo_ou_email);
 		if ($user->getPassword() == $mdp){
 			$_SESSION['number_of_tries'] = 0;
 			$_SESSION['user_id'] = $user->getID();
 			$_SESSION['user_role'] = $user->getRank();
 		}
+	}
 		else{
 			echo "pseudo ou et mot de passe invalides";
-    if (
-		  isset($arg1) &&
-		  preg_match("/^[a-z0-9]+$/i", $arg1) &&
-		  strlen($arg1) <= 30 
-    ) 
-    {
-			foreach ($this->user_list as $user) {
-				if ($user['pseudo'] == $arg1){
-					$pseudo_valide = false;
-					break;
-				}
-	    }
-    } else {
-			$pseudo_valide = false;            
+			$_SESSION['number_of_tries'] =+ 1;
+		}
     }
-    if	($pseudo_valide == false) {
-			echo "pseudo ou et mot de passe invalides";
-    }
-    return $pseudo_valide;
-   }
    //
 
 	// suppression d’un droit
@@ -345,7 +306,7 @@ class User{
 			echo "L’utilisateur $pseudo a été supprimé.\n";
 		} else {
 			echo "L’utilisateur $pseudo est introuvable.\n";
-//
+
 		}
 	}
 	
@@ -365,15 +326,7 @@ class User{
 			echo "L’e-mail n’a pas été envoyé.\n";
 		}
 	}
-
-	public static function Connection($arg1, $arg2){
-		$connection_valide = false;
-		$identifiants_list = "SELECT * FROM utilisateurs";
-		// tout users
-		$id = "SELECT * FROM utilisateurs WHERE 'pseudo' = '$arg1'";
-		// user = pseudo
-		print_r($id);
-	}
 }
+
 
 ?>

@@ -144,18 +144,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
 			$this->current_user->addRight($droit);
     }
 
-    /**
-//
-
-     * @Given je suis visiteur
-     */
-    public function jeSuisVisiteur()
-    {
-        return true;
-    }
-
-    /**
-//
+/*
      * @When je filtre les bloc par :champ avec la valeur :valeur
      */
     var $blocs_list;

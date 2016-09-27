@@ -1,13 +1,13 @@
 # language: fr
 Fonctionnalité: Opérations d’un visiteur
 
-<<<<<<< HEAD
-=======
+
+
 	Contexte:
 		Étant donné que un bloc existe avec la date "1 janvier 1970" et le titre "Réunion publique" et le type de média "img+snd"
 
 
->>>>>>> contributeur
+
 	Scénario: Un Visiteur cherche des blocs publiés à une date donnée, et au moins un bloc remplit ce critère
 	Étant donné que je suis visiteur
 		Et que un bloc existe avec la valeur "1 janvier 1970" pour le champ "date"

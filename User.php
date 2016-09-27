@@ -153,9 +153,9 @@ class User{
 
 	// suppression d’un droit
 	public function removeRight($droit) {
-		$const = eval('return (defined("Rights::'.$droit.'"))?Rights::'.$droit.':null;');
+		$const = "Rights::".$droit;
 		// vérification que le droit est valide
-		if ( $const == null ) {
+		if ( !defined($const) ) {
 			echo "Le droit $droit est inconnu.\n";
 			return false;
 		}
@@ -177,7 +177,7 @@ class User{
 		) { $validity = true; }
 		if ( $validity == true ) {
 			// modification des droits
-			$this->droits -= $const;
+			$this->droits -= eval("return $const;");
 			echo "Les droits de l’utilisateur $this->pseudo ont été modifiés.\n";
 			return true;
 		} else {
@@ -189,9 +189,9 @@ class User{
 
 	// ajout d’un droit
 	public function addRight($droit) {
-		$const = eval('return (defined("Rights::'.$droit.'"))?Rights::'.$droit.':null;');
+		$const = "Rights::".$droit;
 		// vérification que le droit est valide
-		if ( $const == null ) {
+		if ( !defined($const) ) {
 			echo "Le droit $droit est inconnu.\n";
 			return false;
 		}
@@ -210,7 +210,7 @@ class User{
 		) { $validity = true; }
 		if ( $validity == true ) {
 			// modification des droits
-			$this->droits += $const;
+			$this->droits += eval("return $const;");
 			echo "Les droits de l’utilisateur $this->pseudo ont été modifiés.\n";
 			return true;
 		} else {

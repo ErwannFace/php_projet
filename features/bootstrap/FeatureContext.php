@@ -328,11 +328,11 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @When je me connecte
+     * @When je me connecte avec comme pseudo/email :pseudo et comme mot de passe :mdp
      */
-    public function jeMeConnecte()
+    public function jeMeConnecte($pseudo, $mdp)
     {
-        throw new PendingException();
+        $this->try_connect = User::Connection($pseudo, $mdp);
     }
 
     /**

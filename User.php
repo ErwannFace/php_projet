@@ -229,16 +229,24 @@ class User{
         }
         return $pseudo_valide;
 	}
-
-	public static Connection($arg1, $arg2){
+	$tentative_connection = 0;
+	public static function Connection($pseudo_ou_email, $mdp){
 		$connection_valide = false;
-
-		if (isset($arg1) && isset($arg2)) {
-				$identifiants_list = "SELECT * FROM `utilisateurs'";
+			/*$identifiants_list = "SELECT * FROM `utilisateurs'";
 				// tout users
-				$id = "SELECT * FROM utilisateurs WHERE 'pseudo' == $arg1";
+				$id = "SELECT * FROM utilisateurs WHERE 'pseudo' = '$arg1'";
 				// user = pseudo
-				print_r('$id');
+				// comparer pseudo a id et id a mdp
+		print_r($id);*/
+		$user = self::select($pseudo_ou_email);
+		$user_id = self::getID($user);
+		$user_pseudo = self::getPseudo($user);
+		$user_pwd = self::getPassword($user);
+		if ($user_pwd = $mdp){
+			$connection_valide = true;
+			//enregistrer id et rang dans variable session
+		} else{
+			$tentative_connection ++;
 		}
 	}
 }

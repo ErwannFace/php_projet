@@ -23,7 +23,7 @@ Fonctionnalité: Opérations d’un visiteur
 	Étant donné que je suis visiteur
 	Quand je filtre les bloc par "type de media" avec la valeur "vid"
 		Et aucun bloc existe
-	Alors un message d’erreur est affiché "texte du message"
+	Alors aucun bloc n'est retourné
 
 	Scénario: Un Visiteur cherche des blocs contenant un type de média donné, et au moins un bloc remplit ce critère
 	Étant donné que je suis visiteur
@@ -33,49 +33,44 @@ Fonctionnalité: Opérations d’un visiteur
 
 	Scénario: Un Visiteur demande à se connecter avec des identifiants valides
 	Étant donné que je suis visiteur
-	Quand je me connecte avec comme pseudo "pseudo" et comme mot de passe "pwd"
+	Quand je me connecte avec comme pseudo "toto" et comme mot de passe "coucou"
 		Et mon couple pseudo/mot de passe est valide
 	Alors je suis connecté en tant que "id"
 
 	Scénario: Un Visiteur demande à se connecter avec des identifiants invalides, et a fait moins de x essais "x"
 	Étant donné que je suis visiteur
-	Quand je me connecte avec comme pseudo "pseudo" et comme mot de passe "pwd"
+	Quand je me connecte avec comme pseudo "toto" et comme mot de passe "coucou"
 		Et mon couple pseudo/mot de passe est invalide
-		Et j’ai fait moins de x essais "x"
-	Alors un message d’erreur est affiché "texte du message"
-		Et mon nombre d’essais est augmenté de un
-		Et un nouveau couple d’identifiants est demandé
+		Et j’ai fait moins de x essais "3"
+	Alors mon nombre d’essais est augmenté de un
+		Et je ne suis pas connecté
 
 	Scénario: Un Visiteur demande à se connecter avec des identifiants invalides, et a déjà fait x essais "x"
 	Étant donné que je suis visiteur
-	Quand je me connecte avec comme pseudo "pseudo" et comme mot de passe "pwd"
+	Quand je me connecte avec comme pseudo "toto" et comme mot de passe "coucou"
 		Et mon couple pseudo/mot de passe est invalide
-		Et j’ai fait au moins x essais "x"
-	Alors un message d’erreur est affiché "texte du message"
-		Et le compte associé au pseudo est bloqué "id"
+		Et j’ai fait au moins x essais "3"
+	Alors le compte associé au pseudo est bloqué "id"
 
 	Scénario: Un Visiteur demande à se connecter avec des identifiants valides
 	Étant donné que je suis visiteur
-	Quand je me connecte avec comme e-mail "e-mail" et comme mot de passe "pwd"
+	Quand je me connecte avec comme e-mail "coucou@gmail.com" et comme mot de passe "coucou"
 		Et mon couple e-mail/mot de passe est valide
 	Alors je suis connecté en tant que "id"
 
 	Scénario: Un Visiteur demande à se connecter avec des identifiants invalides, et a fait moins de x essais "x"
 	Étant donné que je suis visiteur
-	Quand je me connecte avec comme e-mail "e-mail" et comme mot de passe "pwd"
+	Quand je me connecte avec comme e-mail "coucou@gmail.com" et comme mot de passe "coucou"
 		Et mon couple e-mail/mot de passe est invalide
-		Et j’ai fait moins de x essais "x"
-	Alors un message d’erreur est affiché "texte du message"
-		Et mon nombre d’essais est augmenté de un
-		Et un nouveau couple d’identifiants est demandé
+		Et j’ai fait moins de x essais "3"
+	Alors mon nombre d’essais est augmenté de un
 
 	Scénario: Un Visiteur demande à se connecter avec des identifiants invalides, et a déjà fait 3 essais
 	Étant donné que je suis visiteur
-	Quand je me connecte avec comme e-mail "e-mail" et comme mot de passe "pwd"
+	Quand je me connecte avec comme e-mail "coucou@gmail.com" et comme mot de passe "coucou"
 		Et mon couple e-mail/mot de passe est invalide
 		Et j’ai fait au moins 3 essais
-	Alors un message d’erreur est affiché "texte du message"
-		Et le compte associé au e-mail est bloqué "id"
+	Alors le compte associé au e-mail est bloqué "id"
 
 	Scénario: Un Visiteur demande la génération d’un nouveau mot de passe, et fournit un pseudo valide
 	Étant donné que je suis visiteur
@@ -87,8 +82,7 @@ Fonctionnalité: Opérations d’un visiteur
 	Étant donné que je suis visiteur
 	Quand je demande la génération d’un nouveau mot de passe pour l’utilisateur avec le pseudo "pseudo"
 		Et mon pseudo est incorrect
-	Alors un message d’erreur est affiché "texte du message"
-		Et un nouveau pseudo est demandé
+	Alors je ne reçois pas d'e-mail
 
 	Scénario: Un Visiteur demande la génération d’un nouveau mot de passe, et fournit un e-mail valide
 	Étant donné que je suis visiteur
@@ -100,5 +94,4 @@ Fonctionnalité: Opérations d’un visiteur
 	Étant donné que je suis visiteur
 	Quand je demande la génération d’un nouveau mot de passe pour l’utilisateur avec l’e-mail "e-mail"
 		Et mon e-mail est incorrect
-	Alors un message d’erreur est affiché "texte du message"
-		Et un nouvel e-mail est demandé
+	Alors je ne reçois pas d'e-mail

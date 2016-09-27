@@ -143,6 +143,56 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
+     * @Given je suis visiteur
+     */
+    public function jeSuisVisiteur()
+    {
+        return true;
+    }
+
+    /**
+     * @When je filtre les bloc par :champ avec la valeur :valeur
+     */
+    var $blocs_list;
+    public function jeFiltreLesBlocParAvecLaValeur($champ, $valeur)
+    {
+			//Id Date Titre Format Media
+			if (isset($valeur)){
+				foreach ($this->$blocs_list as $bloc) {
+					if ($bloc['date'] == $valeur){
+						return $bloc;
+					}
+				}
+				foreach ($this->$blocs_list as $bloc) {
+					if ($bloc['titre'] == $valeur){
+						return $bloc;
+					}
+				}
+				foreach ($this->$blocs_list as $bloc) {
+					if ($bloc['media'] == $valeur){
+						return $bloc;
+					}
+				}
+			}
+		}
+
+    /**
+     * @Then un sous-ensemble des blocs est retourné
+     */
+    public function unSousEnsembleDesBlocsEstRetourne()
+    {
+      $this->blocs_list = Bloc::filtre($champ, $valeur);
+    }
+
+    /**
+     * @Given un bloc existe avec la date :date et le titre :titre et le type de média :type
+     */
+    public function unBlocExisteAvecLaDateEtLeTitreEtLeTypeDeMedia($date, $titre, $type)
+    {
+        $this->current_bloc = new Bloc($date, $titre, $type);
+    }
+
+    /**
      * @When je suis sur la page modal de connection
      */
     public function jeSuisSurLaPageModalDeConnection()
@@ -743,46 +793,20 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Given un bloc existe avec la valeur :arg1 pour le champ :arg2
+     * @When je filtre les bloc par :arg1 avec la valeur :arg2
      */
-    public function unBlocExisteAvecLaValeurPourLeChamp($arg1, $arg2)
+    public function jeFiltreLesBlocParAvecLaValeur2($arg1, $arg2)
     {
         throw new PendingException();
     }
 
     /**
-     * @Given je suis visiteur
+     * @When un bloc existe
      */
-    public function jeSuisVisiteur()
+    public function unBlocExiste()
     {
-        return true;
+        throw new PendingException();
     }
-
-    /**
-     * @When je filtre les bloc par :champ avec la valeur :valeur
-     */
-    var $blocs_list;
-    public function jeFiltreLesBlocParAvecLaValeur($champ, $valeur)
-    {
-			//Id Date Titre Format Media
-			if (isset($valeur)){
-				foreach ($this->$blocs_list as $bloc) {
-					if ($bloc['date'] == $valeur){
-						return $bloc;
-					}
-				}
-				foreach ($this->$blocs_list as $bloc) {
-					if ($bloc['titre'] == $valeur){
-						return $bloc;
-					}
-				}
-				foreach ($this->$blocs_list as $bloc) {
-					if ($bloc['media'] == $valeur){
-						return $bloc;
-					}
-				}
-			}
-		}
 
     /**
      * @When aucun bloc existe
@@ -801,27 +825,11 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @When un bloc existe
-     */
-    public function unBlocExiste()
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then un sous-ensemble des blocs est retourné
-     */
-    public function unSousEnsembleDesBlocsEstRetourne()
-    {
-      $this->blocs_list = Bloc::filtre($champ, $valeur);
-    }
-
-    /**
      * @When je me connecte avec comme pseudo :arg1 et comme mot de passe :arg2
      */
     public function jeMeConnecteAvecCommePseudoEtCommeMotDePasse($arg1, $arg2)
     {
-			throw new PendingException();
+        throw new PendingException();
     }
 
     /**
@@ -998,21 +1006,5 @@ class FeatureContext implements Context, SnippetAcceptingContext
     public function unNouvelEMailEstDemande()
     {
         throw new PendingException();
-    }
-
-    /**
-     * @When je filtre les bloc par :arg1 avec la valeur :arg2
-     */
-    public function jeFiltreLesBlocParAvecLaValeur2($arg1, $arg2)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Given un bloc existe avec la date :date et le titre :titre et le type de média :type
-     */
-    public function unBlocExisteAvecLaDateEtLeTitreEtLeTypeDeMedia($date, $titre, $type)
-    {
-        $this->current_bloc = new Bloc($date, $titre, $type);
     }
 }

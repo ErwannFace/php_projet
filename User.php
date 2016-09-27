@@ -1,197 +1,178 @@
 <?php
 
 class User{
-
+	
 	private $ID;
 	private $pseudo;
 	private $password;
 	private $email;
-	private $role;	
+	private $role;
 	private $droits;
 	
 	public function __construct() {}
-
-	// renvoi de l’ID
-	public function getID() {
-		return $this->ID;
-	}
-
-	// renvoi du pseudo
-	public function getPseudo() {
-		return $this->pseudo;
-	}
-
-	// renvoi du mot de passe
-	public function getPassword() {
-		return $this->password;
-	}
-
-	// renvoi de l’e-mail
-	public function getEmail() {
-		return $this->email;
-	}
-
-	// renvoi du rôle
-	public function getRank() {
-		return $this->role;
-	}
-	// renvoi des droits
-	public function getRights() {
-		return $this->droits;
-	}
-
+	
+	// renvoi des attributs de l’objet
+	public function getID() { return $this->ID; }
+	public function getPseudo() { return $this->pseudo; }
+	public function getPassword() { return $this->password; }
+	public function getEmail() { return $this->email; }
+	public function getRank() { return $this->role; }
+	public function getRights() { return $this->droits; }
+	
 	// modification de l’ID
 	public function setID($ID) {
-		if (is_numeric($ID)) {
-			$this->ID = $ID;
+		if ( !is_numeric($ID) ) {
+			echo "Le format de l’ID est incorrect.\n";
+			return false;
 		} else {
-			echo "format de l’ID incorrect";
+			$db = DBSingleton::getInstance();
+			$sql = "SELECT * FROM utilisateurs WHERE ID = '$ID'";
+			$requete = $db->query($sql);
+			$reponse = $requete->fetchAll();
+			if (count($reponse) > 0) {
+				echo "ID invalide : déjà utilisé.\n";
+				return false;
+			} else {
+				$this->ID = $ID;
+				return true;
+			}
 		}
 	}
-
+	
 	// modification du pseudo
 	public function setPseudo($pseudo) {
-		$db = DBSingleton::getInstance();
-		$pseudo_valide = true;
 		if (
-			// vérification que le pseudo est composé uniquement de caractères alpha-numériques
+			// vérification de la syntaxe du pseudo
 			!preg_match( "/^[a-z0-9]+$/i", $pseudo ) ||
-			// vérification que le pseudo ne fait pas plus de 30 caractères
 			strlen($pseudo) > 30
 		) {
-			echo "Pseudo invalide : erreur de syntaxe.\n";
-			$pseudo_valide = false;
+			echo "Pseudo invalide : erreur de syntaxe.\n";
 		} else {
 			// vérification que le pseudo n’existe pas déjà dans la table 'utilisateurs'
+			$db = DBSingleton::getInstance();
 			$sql = "SELECT * FROM utilisateurs WHERE pseudo = '$pseudo'";
 			$requete = $db->query($sql);
 			$reponse = $requete->fetchAll();
 			if (count($reponse) > 0) {
-				echo "Pseudo invalide : déjà utilisé.\n";
-				$pseudo_valide = false;
-			}
-		}
-		if ($pseudo_valide) {
-			// assigne le pseudo à l’utilisateur s’il est valide
-			if ( isset($this->pseudo) ) {
-				echo "Le pseudo de l’utilisateur $this->pseudo";
-				$this->pseudo = $pseudo;
-				echo " a été modifié pour \"$this->pseudo\".\n";
+				echo "Pseudo invalide : déjà utilisé.\n";
 			} else {
+				// assigne le pseudo à l’utilisateur s’il est valide
+				if ( isset($this->pseudo) ) {
+					echo "Le pseudo de l’utilisateur $this->pseudo a été modifié pour \"$pseudo\".\n";
+				}
 				$this->pseudo = $pseudo;
-			}
-		} else {
-			// affiche un message d’erreur si le pseudo est invalide
-			if ( isset($this->pseudo) ) {
-				echo "Le pseudo de l’utilisateur $this->pseudo n’a pas été modifié.\n";
+				return true;
 			}
 		}
+		// affiche un message d’erreur si le pseudo est invalide
+		if ( isset($this->pseudo) ) {
+			echo "Le pseudo de l’utilisateur $this->pseudo n’a pas été modifié.\n";
+		}
+		return false;
 	}
-
+	
 	// modification de l’e-mail
 	public function setEmail($email) {
-		$db = DBSingleton::getInstance();
-		$email_valide = true;
 		if (
-			// vérification que l’e-mail a un format correct
+			// vérification de la syntaxe de l’e-mail
 			!preg_match( "/^[a-z0-9\-_.]+@[a-z0-9\-_.]+\.[a-z]+$/i", $email ) ||
-			// vérification que l’e-mail ne fait pas plus de 30 caractères
 			strlen($email) > 30
 		) {
-			echo "Addresse e-mail invalide : erreur de syntaxe.\n";
-			$email_valide = false;
+			echo "Addresse e-mail invalide : erreur de syntaxe.\n";
 		} else {
 			// vérification que l’e-mail n’existe pas déjà dans la table 'utilisateurs'
+			$db = DBSingleton::getInstance();
 			$sql = "SELECT * FROM utilisateurs WHERE email = '$email'";
 			$requete = $db->query($sql);
 			$reponse = $requete->fetchAll();
 			if (count($reponse) > 0) {
-				echo "Addresse e-mail invalide : déjà utilisée.\n";
-				$email_valide = false;
-			}
-		}
-		if ($email_valide) {
-			// assigne l’e-mail au nouvel utilisateur s’il est valide
-			if ( isset($this->email) ) {
-				$this->email = $email;
-				echo "L’addresse e-mail de l’utilisateur $this->pseudo a été modifiée pour $this->email\n";
+				echo "Addresse e-mail invalide : déjà utilisée.\n";
 			} else {
+				// assigne l’e-mail au nouvel utilisateur s’il est valide
+				if ( isset($this->email) ) {
+					echo "L’addresse e-mail de l’utilisateur $this->pseudo a été modifiée pour $email\n";
+				}
 				$this->email = $email;
-			}
-		} else {
-			// affiche un message d’erreur si l’e-mail est invalide
-			if ( isset($this->email) ) {
-				echo "L’addresse e-mail de l’utilisateur $this->pseudo n’a pas été modifiée.\n";
+				return true;
 			}
 		}
+		// affiche un message d’erreur si l’e-mail est invalide
+		if ( isset($this->email) ) {
+			echo "L’addresse e-mail de l’utilisateur $this->pseudo n’a pas été modifiée.\n";
+		}
+		return false;
 	}
-
+	
 	// modification du rôle
 	public function setRank($role) {
-		$db = DBSingleton::getInstance();
 		// récupération de l’ID du rôle dans la table 'roles'
+		$db = DBSingleton::getInstance();
 		$sql = "SELECT * FROM roles WHERE nom = '$role'";
 		$requete = $db->query($sql);
 		$reponse = $requete->fetch();
-		// définition du rôle
-		$this->role = $reponse['id'];
-		$this->droits = 7;
+		if ( count($reponse) == 0 ) {
+			echo "Le rôle \"$role\" est inconnu.\n";
+			return false;
+		} else {
+			// définition du rôle et des droits par défaut
+			$this->role = $reponse['id'];
+			$this->droits = 7;
+			return true;
+		}
 	}
-
+	
 	// génération d’un mot de passe aléatoire
 	public function generatePassword() {
 		$string = array_merge( range('a','z'), range('A','Z'), range('0','9') );
 		shuffle ($string);
 		$this->password = substr(implode($string), 0, 9);
 	}
-
-	//
-	public static function Connection($pseudo_ou_email, $mdp){
-		$_SESSION['number_of_tries'] = 1;
-		if(isset($_SESSION['number_of_tries']) && $_SESSION['number_of_tries'] <3){
-		$user = self::select($pseudo_ou_email);
-		if ($user->getPassword() == $mdp){
-			$_SESSION['number_of_tries'] = 0;
-			$_SESSION['user_id'] = $user->getID();
-			$_SESSION['user_role'] = $user->getRank();
+	
+	// modification d’un droit
+	public function setRight($action, $droit) {
+		if ( $action != 'add' && $action != 'remove' ) {
+			echo "Action \"$action\" invalide.\n";
+			return false;
 		}
-	}
-		else{
-			echo "pseudo ou et mot de passe invalides";
-			$_SESSION['number_of_tries'] =+ 1;
-		}
-    }
-   //
-
-	// suppression d’un droit
-	public function removeRight($droit) {
-		var_dump(constant('Rights::'.$droit));
+		$const = "Rights::".$droit;
 		// vérification que le droit est valide
-		if ( !defined('Rights::'.$droit) ) {
+		if ( !defined($const) ) {
 			echo "Le droit $droit est inconnu.\n";
 			return false;
 		}
 		// vérification que la modification est valide
-		$validity = false;
 		if (
-			$droit == 'READ' && $this->droits == Rights::READ ||
-			$droit == 'READ' && $this->droits == Rights::READ + Rights::WRITE ||
-			$droit == 'READ' && $this->droits == Rights::READ + Rights::DELETE ||
-			$droit == 'READ' && $this->droits == Rights::READ + Rights::WRITE + Rights::DELETE ||
-			$droit == 'WRITE' && $this->droits == Rights::WRITE ||
-			$droit == 'WRITE' && $this->droits == Rights::WRITE + Rights::READ ||
-			$droit == 'WRITE' && $this->droits == Rights::WRITE + Rights::DELETE ||
-			$droit == 'WRITE' && $this->droits == Rights::WRITE + Rights::READ + Rights::DELETE ||
-			$droit == 'DELETE' && $this->droits == Rights::DELETE ||
-			$droit == 'DELETE' && $this->droits == Rights::DELETE + Rights::READ ||
-			$droit == 'DELETE' && $this->droits == Rights::DELETE + Rights::WRITE ||
-			$droit == 'DELETE' && $this->droits == Rights::DELETE + Rights::READ + Rights::WRITE
-		) { $validity = true; }
-		if ( $validity == true ) {
+			$action == 'add' && (
+				$droit == 'READ' && $this->droits == Rights::WRITE ||
+				$droit == 'READ' && $this->droits == Rights::DELETE ||
+				$droit == 'READ' && $this->droits == Rights::WRITE + Rights::DELETE ||
+				$droit == 'WRITE' && $this->droits == Rights::READ ||
+				$droit == 'WRITE' && $this->droits == Rights::DELETE ||
+				$droit == 'WRITE' && $this->droits == Rights::READ + Rights::DELETE ||
+				$droit == 'DELETE' && $this->droits == Rights::READ ||
+				$droit == 'DELETE' && $this->droits == Rights::WRITE ||
+				$droit == 'DELETE' && $this->droits == Rights::READ + Rights::WRITE
+			) ||
+			$action == 'remove' && (
+				$droit == 'READ' && $this->droits == Rights::READ ||
+				$droit == 'READ' && $this->droits == Rights::READ + Rights::WRITE ||
+				$droit == 'READ' && $this->droits == Rights::READ + Rights::DELETE ||
+				$droit == 'READ' && $this->droits == Rights::READ + Rights::WRITE + Rights::DELETE ||
+				$droit == 'WRITE' && $this->droits == Rights::WRITE ||
+				$droit == 'WRITE' && $this->droits == Rights::WRITE + Rights::READ ||
+				$droit == 'WRITE' && $this->droits == Rights::WRITE + Rights::DELETE ||
+				$droit == 'WRITE' && $this->droits == Rights::WRITE + Rights::READ + Rights::DELETE ||
+				$droit == 'DELETE' && $this->droits == Rights::DELETE ||
+				$droit == 'DELETE' && $this->droits == Rights::DELETE + Rights::READ ||
+				$droit == 'DELETE' && $this->droits == Rights::DELETE + Rights::WRITE ||
+				$droit == 'DELETE' && $this->droits == Rights::DELETE + Rights::READ + Rights::WRITE
+			)
+		) {
 			// modification des droits
-			$this->droits -= Rights::$droit;
+			$this->droits = ($action == 'add')?
+				$this->droits += eval("return $const;"):
+				$this->droits -= eval("return $const;");
 			echo "Les droits de l’utilisateur $this->pseudo ont été modifiés.\n";
-			echo "DEBUG: nouveaux droits = $this->droits\n";
 			return true;
 		} else {
 			// conservation des droits
@@ -199,58 +180,26 @@ class User{
 			return false;
 		}
 	}
-
-	// ajout d’un droit
-	public function addRight($droit) {
-		// vérification que le droit est valide
-		if ( !isset(Rights::$droit) ) {
-			echo "Le droit $droit est inconnu.\n";
-			return false;
-		}
-		// vérification que la modification est valide
-		$validity = false;
-		if ( $valeur == 1 && $this->droits % 2 == 0 && $this->droits < 7 ) { $validity = true; }
-		if ( $valeur == 2 && 
-			$this->droits != 2 &&
-			$this->droits != 3 &&
-			$this->droits < 6
-		) { $validity = true; }
-		if ( $valeur == 4 && $this->droits < 4 ) { $validity = true; }
-		$pseudo = $this->pseudo;
-		if ( $validity == true ) {
-			// modification des droits
-			$nouveaux_droits = $this->droits + $valeur;
-			$this->droits = $nouveaux_droits;
-			echo "Les droits de l’utilisateur $pseudo ont été modifiés.\n";
-			return true;
-		} else {
-			// conservation des droits
-			echo "Les droits de l’utilisateur $pseudo n’ont pas été modifiés.\n";
-			return false;
-		}
-	}
-
+	
 	// retourne un utilisateur depuis son pseudo ou son e-mail
 	public static function select($string) {
-		$db = DBSingleton::getInstance();
-		
 		if ( preg_match('/@/', $string) ) {
 			$sql = "SELECT * FROM utilisateurs WHERE email = '$string'";
 		} else {
 			$sql = "SELECT * FROM utilisateurs WHERE pseudo = '$string'";
 		}
-		
+		$db = DBSingleton::getInstance();
 		$reponse = $db->query($sql);
 		$reponse->setFetchMode(PDO::FETCH_CLASS, 'User');
 		$user = $reponse->fetch();
-
 		if ($user) {
 			return $user;
 		} else {
 			echo "L’utilisateur identifié par \"$string\" est introuvable.\n";
+			return null;
 		}
 	}
-
+	
 	// création de l’entrée dans la table utilisateurs
 	public function create() {
 		$success = false;
@@ -260,7 +209,7 @@ class User{
 			null !== $this->email &&
 			null !== $this->password &&
 			null !== $this->role &&
-			null !== $this->droits 
+			null !== $this->droits
 		) {
 			$db = DBSingleton::getInstance();
 			// insertion de l’utilisateur dans la table utilisateurs
@@ -292,13 +241,11 @@ class User{
 	
 	// suppression d’une entrée de la base utilisateurs
 	public function delete() {
-		$db = DBSingleton::getInstance();
-		
 		// vérification qu’un utilisateur existe avec l’ID de l’objet courant
+		$db = DBSingleton::getInstance();
 		$sql = "SELECT * FROM utilisateurs WHERE ID = '$this->ID'";
 		$reponse = $db->query($sql);
 		$user = $reponse->fetch();
-
 		if ($user) {
 			$sql = "DELETE FROM utilisateurs WHERE ID = '$this->ID'";
 			$db->query($sql);
@@ -326,6 +273,27 @@ class User{
 			echo "L’e-mail n’a pas été envoyé.\n";
 		}
 	}
+	
+	public static function Connection($pseudo_ou_email, $mdp){
+		if ( isset($_SESSION['number_of_tries']) ) {
+			$_SESSION['number_of_tries']++;
+		} else {
+			$_SESSION['number_of_tries'] = 1;
+		}
+		if ( $_SESSION['number_of_tries'] <= 3) {
+			$user = self::select($pseudo_ou_email);
+			if ( $user !== null && $user->getPassword() == $mdp ) {
+				$_SESSION['number_of_tries'] = 0;
+				$_SESSION['user_id'] = $user->getID();
+				$_SESSION['user_role'] = $user->getRank();
+			} else {
+				echo "pseudo ou et mot de passe invalides";
+				$_SESSION['number_of_tries']++;
+			}
+		} else {
+			echo "TODO: plus de 3 essais de connexion effectués.\n";
+		}
+  }
 }
 
 

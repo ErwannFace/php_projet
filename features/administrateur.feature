@@ -58,7 +58,6 @@ Fonctionnalité: Opérations d’un Administrateur
 
 	Scénario: Un Administrateur retire un droit valide à un contributeur identifié par un pseudo correct
 	Étant donné que je suis "administrateur"
-		Et que un utilisateur existe avec le pseudo "tutu" et l’e-mail "tutu@facesimplon.com"
 	Quand je modifie un utilisateur avec un pseudo correct "tutu"
 		Et je retire un droit valide au contributeur "READ"
 	Alors l’entrée de la table utilisateurs est modifiée

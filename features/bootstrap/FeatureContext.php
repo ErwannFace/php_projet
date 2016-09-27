@@ -18,13 +18,14 @@ class FeatureContext implements Context, SnippetAcceptingContext
      * You can also pass arbitrary arguments to the
      * context constructor through behat.yml.
      */
+
     private $operator;
 		private $current_user;
-
-    public function __construct()
-    {
-
-    }
+    private $user;
+    private $user_list;
+    private $current_bloc;
+    
+    public function __construct() {}
 
     /**
      * @Given un utilisateur existe avec le pseudo :pseudo et l’e-mail :email
@@ -750,7 +751,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @When je suis visiteur
+     * @Given je suis visiteur
      */
     public function jeSuisVisiteur()
     {
@@ -1005,5 +1006,13 @@ class FeatureContext implements Context, SnippetAcceptingContext
     public function jeFiltreLesBlocParAvecLaValeur2($arg1, $arg2)
     {
         throw new PendingException();
+    }
+
+    /**
+     * @Given un bloc existe avec la date :date et le titre :titre et le type de média :type
+     */
+    public function unBlocExisteAvecLaDateEtLeTitreEtLeTypeDeMedia($date, $titre, $type)
+    {
+        $this->current_bloc = new Bloc($date, $titre, $type);
     }
 }

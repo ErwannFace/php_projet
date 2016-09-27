@@ -7,9 +7,11 @@ class Bloc{
 	private $format;
 	private $media;
 
-	public function __construct(){
-
-	}
+	public function __construct($date, $titre, $format){
+		$this->date = $date;
+		$this->titre = $titre;
+		$this->format = $format;
+  }
 
 	public function getId(){
 		return $this->id;
@@ -30,10 +32,6 @@ class Bloc{
 	public function getMedia(){
 		return $this->media;
 	}
-
-video/mpeg
-audio/mp3
-
 
 	public function setTitre($titre) {
 

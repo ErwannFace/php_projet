@@ -1,14 +1,11 @@
 # language: fr
 Fonctionnalité: Opérations d’un visiteur
 
-	Contexte:
-		Étant donné que un bloc existe avec la valeur "1 janvier 1970" pour le champ "date"
-		Et un bloc existe avec la valeur "Réunion publique" pour le champ "titre"
-		Et un bloc existe avec la valeur "img+snd" pour le champ "type de media"
-
-
 	Scénario: Un Visiteur cherche des blocs publiés à une date donnée, et au moins un bloc remplit ce critère
 	Étant donné que je suis visiteur
+		Et que un bloc existe avec la valeur "1 janvier 1970" pour le champ "date"
+		Et un bloc existe avec la valeur "Réunion publique" pour le champ "titre"
+		Et un bloc existe avec la valeur "img+snd" pour le champ "type de media"
 	Quand je filtre les bloc par "date" avec la valeur "1 janvier 1970"
 		Et un bloc existe
 	Alors un sous-ensemble des blocs est retourné
@@ -37,6 +34,12 @@ Fonctionnalité: Opérations d’un visiteur
 		Et mon couple pseudo/mot de passe est valide
 	Alors je suis connecté en tant que "id"
 
+Scénario: Un Visiteur demande à se connecter avec des identifiants invalides
+	Étant donné que je suis visiteur
+	Quand je me connecte avec comme pseudo "toto" et comme mot de passe "toto"
+		Et mon couple pseudo/mot de passe est valide
+	Alors je suis connecté en tant que "id"
+
 	Scénario: Un Visiteur demande à se connecter avec des identifiants invalides, et a fait moins de x essais "x"
 	Étant donné que je suis visiteur
 	Quand je me connecte avec comme pseudo "toto" et comme mot de passe "coucou"
@@ -54,20 +57,20 @@ Fonctionnalité: Opérations d’un visiteur
 
 	Scénario: Un Visiteur demande à se connecter avec des identifiants valides
 	Étant donné que je suis visiteur
-	Quand je me connecte avec comme e-mail "coucou@gmail.com" et comme mot de passe "coucou"
+	Quand je me connecte avec comme email "coucou@gmail.com" et comme mot de passe "coucou"
 		Et mon couple e-mail/mot de passe est valide
 	Alors je suis connecté en tant que "id"
 
 	Scénario: Un Visiteur demande à se connecter avec des identifiants invalides, et a fait moins de x essais "x"
 	Étant donné que je suis visiteur
-	Quand je me connecte avec comme e-mail "coucou@gmail.com" et comme mot de passe "coucou"
+	Quand je me connecte avec comme email "coucou@gmail.com" et comme mot de passe "coucou"
 		Et mon couple e-mail/mot de passe est invalide
 		Et j’ai fait moins de x essais "3"
 	Alors mon nombre d’essais est augmenté de un
 
 	Scénario: Un Visiteur demande à se connecter avec des identifiants invalides, et a déjà fait 3 essais
 	Étant donné que je suis visiteur
-	Quand je me connecte avec comme e-mail "coucou@gmail.com" et comme mot de passe "coucou"
+	Quand je me connecte avec comme email "coucou@gmail.com" et comme mot de passe "coucou"
 		Et mon couple e-mail/mot de passe est invalide
 		Et j’ai fait au moins 3 essais
 	Alors le compte associé au e-mail est bloqué "id"

@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
@@ -46,8 +46,10 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function jeSuis($role)
     {
-			$this->operator = new User();
+		if ($role != 'visiteur') {
+            $this->operator = new User();
 			$this->operator->setRank($role);
+        }
     }
 
     /**
@@ -148,15 +150,6 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
   
-
-    /**
-     * @Given je suis visiteur
-     */
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public function jeSuisVisiteur()
-    {
-        return true;
-    }
 
     /**
      * @When je filtre les bloc par :champ avec la valeur :valeur
@@ -332,7 +325,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function jeMeConnecte($pseudo, $mdp)
     {
-        $this->try_connect = User::Connection($pseudo, $mdp);
+        User::Connection($pseudo, $mdp);
     }
 
     /**
@@ -895,15 +888,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
         throw new PendingException();
     }
 
-    /**
-     * @When je me connecte avec comme pseudo :arg1 et comme mot de passe :arg2
-     */
-    public function jeMeConnecteAvecCommePseudoEtCommeMotDePasse($arg1, $arg2)
-    {
-        throw new PendingException();
-    }
-
-    /**
+     /**
      * @When mon couple pseudo\/mot de passe est valide
      */
     public function monCouplePseudoMotDePasseEstValide()
@@ -967,14 +952,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
         throw new PendingException();
     }
 
-    /**
-     * @When je me connecte avec comme e-mail :arg1 et comme mot de passe :arg2
-     */
-    public function jeMeConnecteAvecCommeEMailEtCommeMotDePasse($arg1, $arg2)
-    {
-        throw new PendingException();
-    }
-
+ 
     /**
      * @When mon couple e-mail\/mot de passe est valide
      */
@@ -1067,6 +1045,30 @@ class FeatureContext implements Context, SnippetAcceptingContext
      * @Then un nouvel e-mail est demandé
      */
     public function unNouvelEMailEstDemande()
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @When je me connecte
+     */
+    public function jeMeConnecte2()
+    {
+        User::Connection($pseudo, $mdp);
+    }
+
+    /**
+     * @Then aucun bloc n'est retourné
+     */
+    public function aucunBlocNEstRetourne()
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @Then je ne reçois pas d'e-mail
+     */
+    public function jeNeRecoisPasDEMail()
     {
         throw new PendingException();
     }

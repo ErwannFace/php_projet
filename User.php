@@ -105,14 +105,20 @@ class User{
 
 	// modification du rôle
 	public function setRank($role) {
-		$db = DBSingleton::getInstance();
 		// récupération de l’ID du rôle dans la table 'roles'
+		$db = DBSingleton::getInstance();
 		$sql = "SELECT * FROM roles WHERE nom = '$role'";
 		$requete = $db->query($sql);
 		$reponse = $requete->fetch();
-		// définition du rôle
-		$this->role = $reponse['id'];
-		$this->droits = 7;
+		if ( count($reponse) == 0 ) {
+			echo "Le rôle \"$role\" est inconnu.\n";
+			return false;
+		} else {
+			// définition du rôle et des droits par défaut
+			$this->role = $reponse['id'];
+			$this->droits = 7;
+			return true;
+		}
 	}
 
 	// génération d’un mot de passe aléatoire

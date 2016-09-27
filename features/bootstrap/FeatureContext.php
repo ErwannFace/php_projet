@@ -5,8 +5,6 @@ use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
-use User;
-use DBSingleton;
 
 /**
  * Defines application features from the specific context.
@@ -20,13 +18,14 @@ class FeatureContext implements Context, SnippetAcceptingContext
      * You can also pass arbitrary arguments to the
      * context constructor through behat.yml.
      */
+
     private $operator;
 		private $current_user;
-
-    public function __construct()
-    {
-
-    }
+    private $user;
+    private $user_list;
+    private $current_bloc;
+    
+    public function __construct() {}
 
     /**
      * @Given un utilisateur existe avec le pseudo :pseudo et l’e-mail :email
@@ -102,7 +101,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @When je modifie un utilisateur avec :pseudo_ou_email :arg
+     * @When je modifie/supprime un utilisateur avec un pseudo/email (in)correct :arg
      */
     public function jeModifieUnUtilisateur($arg)
     {
@@ -110,182 +109,92 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Then l’entrée de la table utilisateurs est modifiée
+     * @Then l’entrée de la table utilisateurs (n’)est (pas )modifiée
      */
-    public function lEntreeDeLaTableUtilisateursEstModifiee()
+    public function updateDBUserEntry()
     {
-			$this->current_user->update();
+			if ( isset($this->current_user) ) {
+				$this->current_user->update();
+			}
     }
 
     /**
-     * @Then l’entrée de la table utilisateurs n’est pas modifiée
+     * @Then l’entrée de la table utilisateurs (n’)est (pas )supprimée
      */
-    public function lEntreeDeLaTableUtilisateursNEstPasModifiee()
+    public function deleteDBUserEntry()
     {
-			return true;
+			if ( isset($this->current_user) ) {
+				$this->current_user->delete();
+			}
     }
 
     /**
-     * @When je supprime un contributeur avec un pseudo/email (in)correct :arg
+     * @When je retire un droit (in)valide au contributeur :droit
      */
-    public function jeSupprimeUnContributeur($arg)
+    public function jeRetireUnDroitAuContributeur($droit)
     {
-			$this->current_user = User::select($arg);
+			$this->current_user->removeRight($droit);
     }
 
     /**
-     * @Then l’entrée de la table utilisateurs est supprimée
+     * @When j’ajoute un droit (in)valide au contributeur :droit
      */
-    public function lEntreeDeLaTableUtilisateursEstSupprimee()
+    public function jAjouteUnDroitAuContributeur($droit)
     {
-			User::delete($this->current_user->getID());
+			$this->current_user->addRight($droit);
     }
 
     /**
-     * @Then l’entrée de la table utilisateurs n’est pas supprimée
+//
+
+     * @Given je suis visiteur
      */
-    public function lEntreeDeLaTableUtilisateursNEstPasSupprimee()
+    public function jeSuisVisiteur()
     {
-			return true;
+        return true;
     }
 
-  
-
     /**
+//
      * @When je filtre les bloc par :champ avec la valeur :valeur
      */
     var $blocs_list;
     public function jeFiltreLesBlocParAvecLaValeur($champ, $valeur)
     {
+			//Id Date Titre Format Media
+			if (isset($valeur)){
+				foreach ($this->$blocs_list as $bloc) {
+					if ($bloc['date'] == $valeur){
+						return $bloc;
+					}
+				}
+				foreach ($this->$blocs_list as $bloc) {
+					if ($bloc['titre'] == $valeur){
+						return $bloc;
+					}
+				}
+				foreach ($this->$blocs_list as $bloc) {
+					if ($bloc['media'] == $valeur){
+						return $bloc;
+					}
+				}
+			}
+		}
+
+    /**
+     * @Then un sous-ensemble des blocs est retourné
+     */
+    public function unSousEnsembleDesBlocsEstRetourne()
+    {
       $this->blocs_list = Bloc::filtre($champ, $valeur);
     }
 
     /**
-     * @When je modifie un contributeur :arg1
+     * @Given un bloc existe avec la date :date et le titre :titre et le type de média :type
      */
-    public function jeModifieUnContributeur($arg1)
+    public function unBlocExisteAvecLaDateEtLeTitreEtLeTypeDeMedia($date, $titre, $type)
     {
-        throw new PendingException();
-    }
-
-    /**
-     * @When je renseigne un email contributeur correct :arg1
-     */
-    public function jeRenseigneUnEmailContributeurCorrect($arg1)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @When je retire un droit valide du contributeur :arg1
-     */
-    public function jeRetireUnDroitValideDuContributeur($arg1)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then l'entrée de la table est actualisée
-     */
-    public function lEntreeDeLaTableEstActualisee()
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then un message de confirmation est affiché
-     */
-    public function unMessageDeConfirmationEstAffiche()
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @When je renseigne un pseudo contributeur correct :arg1
-     */
-    public function jeRenseigneUnPseudoContributeurCorrect($arg1)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @When je retire un droit invalide du contributeur :arg1
-     */
-    public function jeRetireUnDroitInvalideDuContributeur($arg1)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then un message d’erreur est affiché
-     */
-    public function unMessageDErreurEstAffiche()
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then retour à l’interface de gestion des droits
-     */
-    public function retourALInterfaceDeGestionDesDroits()
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @When j'ajoute un droit valide du contributeur :arg1
-     */
-    public function jAjouteUnDroitValideDuContributeur($arg1)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @When j'ajoute un droit invalide du contributeur :arg1
-     */
-    public function jAjouteUnDroitInvalideDuContributeur($arg1)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @When j'ajoute un droit incorrect du contributeur :arg1
-     */
-    public function jAjouteUnDroitIncorrectDuContributeur($arg1)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @When je renseigne un email contributeur incorrect :arg1
-     */
-    public function jeRenseigneUnEmailContributeurIncorrect($arg1)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then un nouveau email est demandé
-     */
-    public function unNouveauEmailEstDemande()
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @When je renseigne un pseudo contributeur incorrect :arg1
-     */
-    public function jeRenseigneUnPseudoContributeurIncorrect($arg1)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then un nouveau pseudo est demandé
-     */
-    public function unNouveauPseudoEstDemande()
-    {
-        throw new PendingException();
+        $this->current_bloc = new Bloc($date, $titre, $type);
     }
 
     /**
@@ -841,14 +750,6 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Given un bloc existe avec la valeur :arg1 pour le champ :arg2
-     */
-    public function unBlocExisteAvecLaValeurPourLeChamp($arg1, $arg2)
-    {
-        throw new PendingException();
-    }
-
-    /**
      * @When je filtre les bloc par :arg1 avec la valeur :arg2
      */
     public function jeFiltreLesBlocParAvecLaValeur2($arg1, $arg2)
@@ -865,14 +766,6 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Then un sous-ensemble des blocs est retourné
-     */
-    public function unSousEnsembleDesBlocsEstRetourne()
-    {
-        throw new PendingException();
-    }
-
-    /**
      * @When aucun bloc existe
      */
     public function aucunBlocExiste()
@@ -883,7 +776,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
     /**
      * @Then un message d’erreur est affiché :arg1
      */
-    public function unMessageDErreurEstAffiche2($arg1)
+    public function unMessageDErreurEstAffiche($arg1)
     {
         throw new PendingException();
     }
@@ -1013,6 +906,14 @@ class FeatureContext implements Context, SnippetAcceptingContext
      * @When mon pseudo est incorrect
      */
     public function monPseudoEstIncorrect()
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @Then un nouveau pseudo est demandé
+     */
+    public function unNouveauPseudoEstDemande()
     {
         throw new PendingException();
     }

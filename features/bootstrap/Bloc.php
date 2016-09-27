@@ -7,9 +7,11 @@ class Bloc{
 	private $format;
 	private $media;
 
-	public function __construct(){
-
-	}
+	public function __construct($date, $titre, $format){
+		$this->date = $date;
+		$this->titre = $titre;
+		$this->format = $format;
+  }
 
 	public function getId(){
 		return $this->id;
@@ -30,10 +32,6 @@ class Bloc{
 	public function getMedia(){
 		return $this->media;
 	}
-
-video/mpeg
-audio/mp3
-
 
 	public function setTitre($titre) {
 
@@ -81,8 +79,8 @@ audio/mp3
 		$format_valide = false;
 
 		$format_autorisee = array(
-			('jpg','png','gif'),
-			('mov','mpeg','mpeg2','flv','mp4','avi','wmv','mkv','mp3')
+			array('jpg','png','gif'),
+			array('mov','mpeg','mpeg2','flv','mp4','avi','wmv','mkv','mp3')
 		);
 		$format_uploaded;
 		$format = strtolower(substr(strrchr($_FILES[''], '.'), 1) );
@@ -102,7 +100,7 @@ audio/mp3
 
 	}
 
-	public static filtre($champ, $valeur) {
+	public static function filtre($champ, $valeur) {
 		//Id Date Titre Format Media
 		if (isset($valeur)){
 				$blocs_list = "SELECT `date`, `titre`, `media` FROM `blocs`";

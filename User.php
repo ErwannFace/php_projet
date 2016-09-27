@@ -41,41 +41,38 @@ class User{
 
 	// modification du pseudo
 	public function setPseudo($pseudo) {
-		$db = DBSingleton::getInstance();
-		$pseudo_valide = true;
 		if (
-			// vérification que le pseudo est composé uniquement de caractères alpha-numériques
+			// vérification de la syntaxe du pseudo
 			!preg_match( "/^[a-z0-9]+$/i", $pseudo ) ||
-			// vérification que le pseudo ne fait pas plus de 30 caractères
 			strlen($pseudo) > 30
 		) {
 			echo "Pseudo invalide : erreur de syntaxe.\n";
-			$pseudo_valide = false;
 		} else {
 			// vérification que le pseudo n’existe pas déjà dans la table 'utilisateurs'
+			$db = DBSingleton::getInstance();
 			$sql = "SELECT * FROM utilisateurs WHERE pseudo = '$pseudo'";
 			$requete = $db->query($sql);
 			$reponse = $requete->fetchAll();
 			if (count($reponse) > 0) {
 				echo "Pseudo invalide : déjà utilisé.\n";
-				$pseudo_valide = false;
-			}
-		}
-		if ($pseudo_valide) {
-			// assigne le pseudo à l’utilisateur s’il est valide
-			if ( isset($this->pseudo) ) {
-				echo "Le pseudo de l’utilisateur $this->pseudo";
-				$this->pseudo = $pseudo;
-				echo " a été modifié pour \"$this->pseudo\".\n";
 			} else {
-				$this->pseudo = $pseudo;
-			}
-		} else {
-			// affiche un message d’erreur si le pseudo est invalide
-			if ( isset($this->pseudo) ) {
-				echo "Le pseudo de l’utilisateur $this->pseudo n’a pas été modifié.\n";
+				// assigne le pseudo à l’utilisateur s’il est valide
+				if ( isset($this->pseudo) ) {
+					echo "Le pseudo de l’utilisateur $this->pseudo";
+					$this->pseudo = $pseudo;
+					echo " a été modifié pour \"$this->pseudo\".\n";
+					return true;
+				} else {
+					$this->pseudo = $pseudo;
+					return true;
+				}
 			}
 		}
+		// affiche un message d’erreur si le pseudo est invalide
+		if ( isset($this->pseudo) ) {
+			echo "Le pseudo de l’utilisateur $this->pseudo n’a pas été modifié.\n";
+		}
+		return false;
 	}
 
 	// modification de l’e-mail

@@ -21,10 +21,21 @@ class User{
 
 	// modification de l’ID
 	public function setID($ID) {
-		if (is_numeric($ID)) {
-			$this->ID = $ID;
+		if ( !is_numeric($ID) ) {
+			echo "Le format de l’ID est incorrect.\n";
+			return false;
 		} else {
-			echo "format de l’ID incorrect";
+			$db = DBSingleton::getInstance();
+			$sql = "SELECT * FROM utilisateurs WHERE ID = '$ID'";
+			$requete = $db->query($sql);
+			$reponse = $requete->fetchAll();
+			if (count($reponse) > 0) {
+				echo "ID invalide : déjà utilisé.\n";
+				return false;
+			} else {
+				$this->ID = $ID;
+				return true;
+			}
 		}
 	}
 
